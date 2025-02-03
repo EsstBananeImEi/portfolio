@@ -22,8 +22,11 @@
                         background: '#F8F8F8',
                         neutral: '#333333',
                         gray: '#E5E5E5'
+                    },
+                    inset: {
+                        'custom': '-5px',
                     }
-                }
+                },
             }
         }
     </script>
@@ -33,19 +36,63 @@
        background-size: cover;">
 
     <!-- Navigation -->
-    <nav class="bg-white/80 shadow-md py-4 relative z-50">
-        <div class="container mx-auto flex items-center justify-between px-4">
-            <img src="{{ url_for('static', filename='images/LOGONEU.png') }}" alt="Logo von Sebastian Meine"
-                class="w-32 h-auto rounded-full absolute bottom-[-5rem] left-1/2 transform -translate-x-1/2 z-10">
-            <div>
-                <a class="px-3 text-base hover:text-accent" href="#projects">Projekte</a>
-                <a class="px-3 text-base hover:text-accent" href="#github-projects">GitHub</a>
-                <a class="px-3 text-base hover:text-accent" href="#about">Über mich</a>
-                <a class="px-3 text-base hover:text-accent" href="#skills">Skills</a>
-                <a class="px-3 text-base hover:text-accent" href="#contact">Kontakt</a>
+    <!-- Navigation -->
+    <nav x-data="{ open: false }" class="bg-white/80 shadow-md py-4 relative z-50">
+        <!-- Desktop Navigation -->
+        <div class="hidden md:block relative">
+            <div class="container mx-auto px-4">
+                <!-- Aufteilung der Links in zwei Gruppen, damit das Logo mittig platziert werden kann -->
+                <div class="flex justify-between items-center">
+                    <!-- Link-Gruppe links -->
+
+                    <!-- Logo absolut zentriert -->
+                    <div class="absolute left-1/2 top-custom transform -translate-x-1/2">
+                        <img src="{{ url_for('static', filename='images/LOGONEU.png') }}" alt="Logo von Sebastian Meine"
+                            class="w-32 h-auto rounded-full ">
+                    </div>
+
+                    <!-- Link-Gruppe rechts -->
+                    <div class="flex space-x-4">
+                        <a class="px-3 text-base hover:text-accent" href="#projects">Projekte</a>
+                        <a class="px-3 text-base hover:text-accent" href="#github-projects">GitHub</a>
+
+                        <a class="px-3 text-base hover:text-accent" href="#about">Über mich</a>
+                        <a class="px-3 text-base hover:text-accent" href="#skills">Skills</a>
+                        <a class="px-3 text-base hover:text-accent" href="#contact">Kontakt</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="md:hidden">
+            <div class="container mx-auto px-4 flex justify-between items-center">
+                <!-- Hier ist das Logo links – es kann auch zentriert sein, falls gewünscht,
+             aber so wirkt es kompakter zusammen mit dem Hamburger-Button rechts -->
+                <img src="{{ url_for('static', filename='images/LOGONEU.png') }}" alt="Logo von Sebastian Meine"
+                    class="w-20 h-auto rounded-full">
+                <!-- Hamburger Button -->
+                <button @click="open = !open" class="text-neutral focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Mobile Dropdown-Menü -->
+            <div x-show="open" class="container mx-auto px-4">
+                <div class="pt-2 pb-3 space-y-1">
+                    <a class="block px-3 py-2 rounded-md text-base hover:bg-gray-200" href="#projects">Projekte</a>
+                    <a class="block px-3 py-2 rounded-md text-base hover:bg-gray-200" href="#github-projects">GitHub</a>
+                    <a class="block px-3 py-2 rounded-md text-base hover:bg-gray-200" href="#about">Über mich</a>
+                    <a class="block px-3 py-2 rounded-md text-base hover:bg-gray-200" href="#skills">Skills</a>
+                    <a class="block px-3 py-2 rounded-md text-base hover:bg-gray-200" href="#contact">Kontakt</a>
+                </div>
             </div>
         </div>
     </nav>
+
 
     <!-- Hero Section -->
     <header id="hero" class="py-12 bg-white/30">

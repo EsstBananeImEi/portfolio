@@ -178,4 +178,4 @@ Unternehmen durch innovative Technologien effizienter und zukunftssicher zu mach
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
