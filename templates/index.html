@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ about.name }} – Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Tailwind CSS via CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Eigene Tailwind-Konfiguration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2F3C7E',   /* Tiefes Blau */
+                        accent: '#F96167',    /* Sanftes Korallenrot */
+                        background: '#F8F8F8',
+                        neutral: '#333333'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-background text-neutral">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md py-4 relative z-50">
+        <div class="container mx-auto flex items-center justify-between px-4">
+            <a class="text-xl font-bold text-primary" href="#">{{ about.name }}</a>
+            <div>
+                <a class="px-3 text-base hover:text-accent" href="#projects">Projekte</a>
+                <a class="px-3 text-base hover:text-accent" href="#github-projects">GitHub</a>
+                <a class="px-3 text-base hover:text-accent" href="#about">Über mich</a>
+                <a class="px-3 text-base hover:text-accent" href="#skills">Skills</a>
+                <a class="px-3 text-base hover:text-accent" href="#contact">Kontakt</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="hero" class="bg-primary text-white min-h-[60vh] flex items-center justify-center"
+        style="background-image: url('{{ url_for('static', filename='images/hero-bg.jpg') }}'); background-size: cover; background-position: center;">
+        <div class="bg-black bg-opacity-50 p-6 rounded flex flex-col md:flex-row items-center gap-4 max-w-4xl mx-auto">
+            <!-- Profilbild -->
+            <div class="flex-shrink-0">
+                <img src="{{ about.profile_image }}" alt="Profilbild von {{ about.name }}"
+                    class="rounded-full w-32 h-32 md:w-48 md:h-48 object-cover">
+            </div>
+            <!-- Textbereich -->
+            <div class="text-center md:text-left">
+                <h1 class="text-3xl md:text-4xl font-bold mb-2">{{ about.greeting }}</h1>
+                <p class="text-xl mb-2">{{ about.role }}</p>
+                <blockquote class="text-lg md:text-xl italic font-light border-l-4 pl-4 border-accent">
+                    {{ about.bio }}
+                </blockquote>
+            </div>
+        </div>
+    </header>
+
+    <!-- Projekte Section -->
+    <section id="projects" class="py-12">
+        <div class="container mx-auto px-4">
+            <h2
+                class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
+                Meine Projekte
+                <span class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2"></span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {% for project in projects %}
+                <div
+                    class="bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105 min-h-[360px] flex flex-col justify-between">
+                    <div class="p-6">
+                        <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
+                            alt="Logo von {{ project.title }}"
+                            class="w-auto max-w-full h-12 object-contain mx-auto mb-4">
+                        <h3 class="text-xl font-bold mb-2 text-primary">{{ project.title }}</h3>
+                        <p class="mb-4 min-h-[72px]">{{ project.description }}</p>
+                        <p class="text-sm text-neutral mb-4 min-h-[40px]"><strong>Technologien:</strong> {{
+                            project.technologies }}</p>
+                        {% if project.link %}
+                        <a href="{{ project.link }}" target="_blank"
+                            class="inline-block bg-accent text-white py-2 px-4 rounded hover:bg-opacity-90">Mehr
+                            erfahren</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- GitHub Projekte Section -->
+    <section id="github-projects" class="py-12 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2
+                class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
+                Meine GitHub-Projekte
+                <span class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2"></span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {% for project in github_projects %}
+                <div
+                    class="bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105 min-h-[320px] flex flex-col justify-between">
+                    <div class="p-6">
+                        <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
+                            alt="Logo von {{ project.title }}"
+                            class="w-auto max-w-full h-12 object-contain mx-auto mb-4">
+                        <h3 class="text-xl font-bold mb-2 text-primary">{{ project.title }}</h3>
+                        <p class="mb-4 min-h-[72px]">{{ project.description }}</p>
+                        <p class="text-sm text-neutral mb-4"><strong>Technologien:</strong> {{ project.technologies }}
+                        </p>
+                        {% if project.link %}
+                        <a href="{{ project.link }}" target="_blank"
+                            class="inline-block bg-accent text-white py-2 px-4 rounded hover:bg-opacity-90">Code
+                            ansehen</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2
+                class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
+                Meine Skills
+                <span class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2"></span>
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 text-center">
+                {% for skill in skills %}
+                <div class="bg-gray-100 rounded-lg shadow-lg p-6 flex flex-col items-center min-h-[180px]">
+                    <i class="{{ skill.icon }} colored text-6xl mb-4"></i>
+                    <h3 class="text-xl font-bold text-primary">{{ skill.name }}</h3>
+                    <p class="text-sm text-neutral mt-2">{{ skill.level }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Kontakt Section -->
+    <section id="contact" class="py-12">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6">Kontakt</h2>
+            <ul class="space-y-2">
+                <li><strong>Email:</strong> <a class="text-accent hover:underline" href="mailto:{{ contact.email }}">{{
+                        contact.email }}</a></li>
+                <li><strong>Telefon:</strong> {{ contact.phone }}</li>
+                <li><strong>LinkedIn:</strong> <a class="text-accent hover:underline" href="{{ contact.linkedin }}"
+                        target="_blank">{{ contact.linkedin }}</a></li>
+                <li><strong>GitHub:</strong> <a class="text-accent hover:underline" href="{{ contact.github }}"
+                        target="_blank">{{ contact.github }}</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-neutral text-white py-4">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; {{ now.year }} {{ about.name }}. Alle Rechte vorbehalten.</p>
+        </div>
+    </footer>
+
+    <!-- Optional: Alpine.js für Interaktionen -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</body>
+
+</html>
