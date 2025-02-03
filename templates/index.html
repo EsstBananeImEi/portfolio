@@ -7,9 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{ url_for('static', filename='images/icon.webp') }}" type="image/svg+xml">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
-
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Eigene Tailwind-Konfiguration -->
     <script>
@@ -30,32 +28,37 @@
             }
         }
     </script>
+    <!-- Zusätzliche CSS-Regeln: .active sorgt für den Hover-Effekt -->
+    <style>
+        .project-tile {
+            transform: scale(1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Im Desktopmodus wird der normale Hover genutzt (Tailwind: hover:scale-105) */
+        .project-tile.active {
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 
-<body class="bg-background text-neutral relative" style="background: url('{{ url_for('static', filename='images/hero-bg.jpg') }}') no-repeat center center fixed; 
-       background-size: cover;">
+<body class="bg-background text-neutral relative"
+    style="background: url('{{ url_for('static', filename='images/hero-bg.jpg') }}') no-repeat center center fixed; background-size: cover;">
 
-    <!-- Navigation -->
     <!-- Navigation -->
     <nav x-data="{ open: false }" class="bg-white/80 shadow-md py-4 relative z-50">
         <!-- Desktop Navigation -->
         <div class="hidden md:block relative">
             <div class="container mx-auto px-4">
-                <!-- Aufteilung der Links in zwei Gruppen, damit das Logo mittig platziert werden kann -->
                 <div class="flex justify-between items-center">
-                    <!-- Link-Gruppe links -->
-
                     <!-- Logo absolut zentriert -->
                     <div class="absolute left-1/2 top-custom transform -translate-x-1/2">
                         <img src="{{ url_for('static', filename='images/LOGONEU.png') }}" alt="Logo von Sebastian Meine"
-                            class="w-32 h-auto rounded-full ">
+                            class="w-32 h-auto rounded-full">
                     </div>
-
-                    <!-- Link-Gruppe rechts -->
                     <div class="flex space-x-4">
                         <a class="px-3 text-base hover:text-accent" href="#projects">Projekte</a>
                         <a class="px-3 text-base hover:text-accent" href="#github-projects">GitHub</a>
-
                         <a class="px-3 text-base hover:text-accent" href="#about">Über mich</a>
                         <a class="px-3 text-base hover:text-accent" href="#skills">Skills</a>
                         <a class="px-3 text-base hover:text-accent" href="#contact">Kontakt</a>
@@ -65,38 +68,56 @@
         </div>
 
         <!-- Mobile Navigation -->
-        <div class="md:hidden">
-            <div class="container mx-auto px-4 flex justify-between items-center">
-                <!-- Hier ist das Logo links – es kann auch zentriert sein, falls gewünscht,
-             aber so wirkt es kompakter zusammen mit dem Hamburger-Button rechts -->
-                <img src="{{ url_for('static', filename='images/LOGONEU.png') }}" alt="Logo von Sebastian Meine"
-                    class="w-20 h-auto rounded-full">
-                <!-- Hamburger Button -->
-                <button @click="open = !open" class="text-neutral focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
+        <div class="md:hidden relative" x-data="{ open: false }">
+            <div class="container mx-auto px-4 flex justify-between items-center" style="height: 30px;">
+                <!-- Burger-Menü (links) -->
+                <button @click="open = !open"
+                    class="relative z-50 flex flex-col h-6 w-8 justify-between items-start focus:outline-none">
+                    <!-- obere Linie -->
+                    <span :class="{'rotate-45 translate-y-2': open}"
+                        class="block h-1 w-full bg-neutral transition-transform duration-300 ease-in-out"></span>
+                    <!-- mittlere Linie -->
+                    <span :class="{'opacity-0': open}"
+                        class="block h-1 w-full bg-neutral transition-opacity duration-300 ease-in-out"></span>
+                    <!-- untere Linie -->
+                    <span :class="{'-rotate-45 -translate-y-2': open}"
+                        class="block h-1 w-full bg-neutral transition-transform duration-300 ease-in-out"></span>
                 </button>
             </div>
-            <!-- Mobile Dropdown-Menü -->
-            <div x-show="open" class="container mx-auto px-4">
-                <div class="pt-2 pb-3 space-y-1">
-                    <a class="block px-3 py-2 rounded-md text-base hover:bg-gray-200" href="#projects">Projekte</a>
-                    <a class="block px-3 py-2 rounded-md text-base hover:bg-gray-200" href="#github-projects">GitHub</a>
-                    <a class="block px-3 py-2 rounded-md text-base hover:bg-gray-200" href="#about">Über mich</a>
-                    <a class="block px-3 py-2 rounded-md text-base hover:bg-gray-200" href="#skills">Skills</a>
-                    <a class="block px-3 py-2 rounded-md text-base hover:bg-gray-200" href="#contact">Kontakt</a>
+
+            <!-- Absolut positioniertes Logo (rechts) -->
+            <a href="#hero">
+                <img src="{{ url_for('static', filename='images/LOGONEU.png') }}" alt="Logo von Sebastian Meine"
+                    class="absolute right-4 w-20 h-auto rounded-full" style="bottom: 0; transform: translateY(70%);">
+            </a>
+
+            <!-- Dropdown-Menü -->
+            <div x-show="open" @click.away="open = false" x-transition:enter="transition duration-300 ease-out"
+                x-transition:enter-start="opacity-0 transform -translate-y-2"
+                x-transition:enter-end="opacity-100 transform translate-y-0"
+                x-transition:leave="transition duration-200 ease-in"
+                x-transition:leave-start="opacity-100 transform translate-y-0"
+                x-transition:leave-end="opacity-0 transform -translate-y-2"
+                class="absolute top-full left-0 w-full bg-white z-40 border-t border-gray-200">
+                <div class="pt-2 pb-3 space-y-1 text-left px-4">
+                    <a @click="setTimeout(() => { open = false }, 100)" href="#projects"
+                        class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">Projekte</a>
+                    <a @click="setTimeout(() => { open = false }, 100)" href="#github-projects"
+                        class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">GitHub</a>
+                    <a @click="setTimeout(() => { open = false }, 100)" href="#about"
+                        class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">Über mich</a>
+                    <a @click="setTimeout(() => { open = false }, 100)" href="#skills"
+                        class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">Skills</a>
+                    <a @click="setTimeout(() => { open = false }, 100)" href="#contact"
+                        class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">Kontakt</a>
                 </div>
             </div>
         </div>
     </nav>
 
-
     <!-- Hero Section -->
     <header id="hero" class="py-12 bg-white/30">
-        <div class="bg-black bg-opacity-50 p-10 rounded flex flex-col md:flex-row items-center gap-4  mx-auto">
+        <div class="bg-black bg-opacity-50 p-10 rounded flex flex-col md:flex-row items-center gap-4 mx-auto">
             <!-- Profilbild -->
             <div class="flex-shrink-0">
                 <img src="{{ about.profile_image }}" alt="Profilbild von {{ about.name }}"
@@ -123,8 +144,9 @@
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {% for project in projects %}
+                <!-- Hier wurde "hover:scale-105" hinzugefügt -->
                 <div
-                    class="bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105 min-h-[360px] flex flex-col justify-between">
+                    class="project-tile bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105 min-h-[360px] flex flex-col justify-between">
                     <div class="p-6">
                         <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
                             alt="Logo von {{ project.title }}"
@@ -146,7 +168,7 @@
     </section>
 
     <!-- GitHub Projekte Section -->
-    <section id="github-projects" class="py-12 bg-white/30 ">
+    <section id="github-projects" class="py-12 bg-white/30">
         <div class="container mx-auto px-4">
             <h2
                 class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
@@ -160,7 +182,7 @@
                     <div class="p-6">
                         <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
                             alt="Logo von {{ project.title }}"
-                            class="w-auto max-w-full h-24 object-contain mx-auto mb-4 ">
+                            class="w-auto max-w-full h-24 object-contain mx-auto mb-4">
                         <h3 class="text-xl font-bold mb-2 text-primary">{{ project.title }}</h3>
                         <p class="mb-4 min-h-[72px]">{{ project.description }}</p>
                         <p class="text-sm text-neutral mb-4"><strong>Technologien:</strong> {{ project.technologies }}
@@ -201,7 +223,6 @@
                 </div>
                 {% endfor %}
             </div>
-
         </div>
     </section>
 
@@ -217,13 +238,11 @@
                     class="flex flex-col items-center space-y-2 text-accent hover:text-primary">
                     <span class="material-symbols-outlined" style="font-size: 42px;">mail</span>
                 </a>
-
                 <!-- LinkedIn -->
                 <a href="{{ contact.linkedin }}" target="_blank"
                     class="flex flex-col items-center space-y-2 text-accent hover:text-primary">
                     <i class="devicon-linkedin-plain text-4xl"></i>
                 </a>
-
                 <!-- GitHub -->
                 <a href="{{ contact.github }}" target="_blank"
                     class="flex flex-col items-center space-y-2 text-accent hover:text-primary">
@@ -240,8 +259,48 @@
         </div>
     </footer>
 
-    <!-- Optional: Alpine.js für Interaktionen -->
+    <!-- Alpine.js (optional für Interaktionen) -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <!-- Scroll-basierte Ermittlung der mittleren Kachel (nur im mobilen Modus) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tiles = Array.from(document.querySelectorAll('.project-tile'));
+
+            function updateActiveTile() {
+                // Falls Desktopmodus (>=768px): entferne alle "active" und beende die Funktion
+                if (window.innerWidth >= 768) {
+                    tiles.forEach(tile => tile.classList.remove('active'));
+                    return;
+                }
+
+                const viewportCenter = window.innerHeight / 2;
+                let closestTile = null;
+                let minDistance = Infinity;
+
+                tiles.forEach(tile => {
+                    const rect = tile.getBoundingClientRect();
+                    const tileCenter = rect.top + rect.height / 2;
+                    const distance = Math.abs(tileCenter - viewportCenter);
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        closestTile = tile;
+                    }
+                });
+
+                // Setze die "active"-Klasse nur für die Kachel, die am nächsten zur Mitte liegt
+                tiles.forEach(tile => tile.classList.remove('active'));
+                if (closestTile) {
+                    closestTile.classList.add('active');
+                }
+            }
+
+            // Initialer Aufruf und Aktualisierung bei Scroll und Resize
+            updateActiveTile();
+            window.addEventListener('scroll', updateActiveTile);
+            window.addEventListener('resize', updateActiveTile);
+        });
+    </script>
 </body>
 
 </html>

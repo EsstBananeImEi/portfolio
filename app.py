@@ -175,3 +175,7 @@ Unternehmen durch innovative Technologien effizienter und zukunftssicher zu mach
         skills=skills,
         now=datetime.now(),
     )
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
