@@ -1,0 +1,9 @@
+<!-- icon.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Hintergrundkreis in Primärfarbe -->
+  <circle cx="50" cy="50" r="45" fill="#2F3C7E"/>
+  <!-- Initialen in Weiß -->
+  <text x="50%" y="55%" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="32" text-anchor="middle" dominant-baseline="middle">
+    SM
+  </text>
+</svg>

@@ -5,8 +5,11 @@
     <meta charset="UTF-8">
     <title>{{ about.name }} – Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Tailwind CSS via CDN -->
+    <link rel="icon" href="{{ url_for('static', filename='images/icon.webp') }}" type="image/svg+xml">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Eigene Tailwind-Konfiguration -->
     <script>
@@ -27,9 +30,11 @@
 
 <body class="bg-background text-neutral">
     <!-- Navigation -->
-    <nav class="bg-white shadow-md py-4 relative z-50">
+    <nav class="bg-white shadow-md py-4 relative z-50" style="position: relative;">
         <div class="container mx-auto flex items-center justify-between px-4">
-            <a class="text-xl font-bold text-primary" href="#">{{ about.name }}</a>
+            <img src="{{ url_for('static', filename='images/LOGONEU.png') }}" alt="Logo von Sebastian Meine"
+                class="w-32 h-auto rounded-full"
+                style="position: absolute; bottom: -5rem; left: 50%; transform: translateX(-50%); z-index: 10;">
             <div>
                 <a class="px-3 text-base hover:text-accent" href="#projects">Projekte</a>
                 <a class="px-3 text-base hover:text-accent" href="#github-projects">GitHub</a>
@@ -107,7 +112,7 @@
                     <div class="p-6">
                         <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
                             alt="Logo von {{ project.title }}"
-                            class="w-auto max-w-full h-12 object-contain mx-auto mb-4">
+                            class="w-auto max-w-full h-24 object-contain mx-auto mb-4 ">
                         <h3 class="text-xl font-bold mb-2 text-primary">{{ project.title }}</h3>
                         <p class="mb-4 min-h-[72px]">{{ project.description }}</p>
                         <p class="text-sm text-neutral mb-4"><strong>Technologien:</strong> {{ project.technologies }}
@@ -148,15 +153,25 @@
     <section id="contact" class="py-12">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-3xl font-bold mb-6">Kontakt</h2>
-            <ul class="space-y-2">
-                <li><strong>Email:</strong> <a class="text-accent hover:underline" href="mailto:{{ contact.email }}">{{
-                        contact.email }}</a></li>
-                <li><strong>Telefon:</strong> {{ contact.phone }}</li>
-                <li><strong>LinkedIn:</strong> <a class="text-accent hover:underline" href="{{ contact.linkedin }}"
-                        target="_blank">{{ contact.linkedin }}</a></li>
-                <li><strong>GitHub:</strong> <a class="text-accent hover:underline" href="{{ contact.github }}"
-                        target="_blank">{{ contact.github }}</a></li>
-            </ul>
+            <div class="flex justify-center space-x-6">
+                <!-- Email -->
+                <a href="mailto:{{ contact.email }}"
+                    class="flex flex-col items-center space-y-2 text-accent hover:text-primary">
+                    <span class="material-symbols-outlined" style="font-size: 42px;">mail</span>
+                </a>
+
+                <!-- LinkedIn -->
+                <a href="{{ contact.linkedin }}" target="_blank"
+                    class="flex flex-col items-center space-y-2 text-accent hover:text-primary">
+                    <i class="devicon-linkedin-plain text-4xl"></i>
+                </a>
+
+                <!-- GitHub -->
+                <a href="{{ contact.github }}" target="_blank"
+                    class="flex flex-col items-center space-y-2 text-accent hover:text-primary">
+                    <i class="devicon-github-original text-4xl"></i>
+                </a>
+            </div>
         </div>
     </section>
 

@@ -6,12 +6,11 @@ app = Flask(__name__)
 
 # Kontaktobjekt
 class Contact:
-    def __init__(self, vorname, nachname, role, email, phone, linkedin, github):
+    def __init__(self, vorname, nachname, role, email, linkedin, github):
         self.vorname = vorname
         self.nachname = nachname
         self.role = role
         self.email = email
-        self.phone = phone
         self.linkedin = linkedin
         self.github = github
 
@@ -22,7 +21,6 @@ my_contact = Contact(
     nachname="Meine",
     role="Microsoft Dynamics 365 Professional",
     email="sebastian.meine@gmx.net",
-    phone="+49 176 436 857 18",
     linkedin="https://www.linkedin.com/in/sebastianmeine1985/",
     github="https://github.com/EsstBananeImEi",
 )
@@ -111,21 +109,21 @@ def index():
             "description": "Kursmaterialien und Beispielcode für meinen Python-Kurs auf Udemy.",
             "link": "https://github.com/EsstBananeImEi/python-kurs",
             "technologies": "Python",
-            "logo": "./static/images/python.png",
+            "logo": f"./static/images/kurs-bild.jpg",
         },
         {
             "title": "Flask-Portfolio",
             "description": "Ein schlankes Portfolio-Template für Flask.",
-            "link": "https://github.com/EsstBananeImEi/flask-portfolio",
+            "link": "https://github.com/EsstBananeImEi/portfolio",
             "technologies": "Python, Flask",
-            "logo": "./static/images/flask.png",
+            "logo": "./static/images/LOGONEU.png",
         },
         {
-            "title": "React-Dashboard",
-            "description": "Ein interaktives Dashboard mit React und TypeScript.",
-            "link": "https://github.com/EsstBananeImEi/react-dashboard",
+            "title": "Prepper App",
+            "description": "Eine einfache Web-App zur Vorratsplanung. Ideal für Prepper und Krisenvorsorger.",
+            "link": "https://github.com/EsstBananeImEi/prepper-app",
             "technologies": "React, TypeScript",
-            "logo": "./static/images/react.png",
+            "logo": "./static/images/prepper-app.svg",
         },
     ]
 
@@ -145,6 +143,8 @@ Unternehmen durch innovative Technologien effizienter und zukunftssicher zu mach
 
     skills = [
         {"name": "Python", "level": "Expert", "icon": "devicon-python-plain"},
+        {"name": "Flask", "level": "Advanced", "icon": "devicon-flask-original"},
+        {"name": "HTML5", "level": "Advanced", "icon": "devicon-html5-plain"},
         {"name": "JavaScript", "level": "Advanced", "icon": "devicon-javascript-plain"},
         {"name": "React", "level": "Advanced", "icon": "devicon-react-original"},
         {"name": "Node.js", "level": "Intermediate", "icon": "devicon-nodejs-plain"},
