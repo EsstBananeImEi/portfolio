@@ -143,16 +143,27 @@ Unternehmen durch innovative Technologien effizienter und zukunftssicher zu mach
 
     skills = [
         {"name": "Python", "level": "Expert", "icon": "devicon-python-plain"},
-        {"name": "Flask", "level": "Advanced", "icon": "devicon-flask-original"},
+        {"name": "Flask", "level": "Intermediate", "icon": "devicon-flask-original"},
         {"name": "HTML5", "level": "Advanced", "icon": "devicon-html5-plain"},
         {"name": "JavaScript", "level": "Advanced", "icon": "devicon-javascript-plain"},
         {"name": "React", "level": "Advanced", "icon": "devicon-react-original"},
         {"name": "Node.js", "level": "Intermediate", "icon": "devicon-nodejs-plain"},
         {"name": "C#", "level": "Advanced", "icon": "devicon-csharp-plain"},
         {"name": "Docker", "level": "Intermediate", "icon": "devicon-docker-plain"},
-        {"name": "Git", "level": "Expert", "icon": "devicon-git-plain"},
+        {"name": "Git", "level": "Advanced", "icon": "devicon-git-plain"},
         {"name": "Linux", "level": "Advanced", "icon": "devicon-linux-plain"},
-        {"name": "MySQL", "level": "Advanced", "icon": "devicon-mysql-plain"},
+        {"name": "MySQL", "level": "Intermediate", "icon": "devicon-mysql-plain"},
+        {
+            "name": "PostgreSQL",
+            "level": "Intermediate",
+            "icon": "devicon-postgresql-plain",
+        },
+        {"name": "SQLite", "level": "Advanced", "icon": "devicon-sqlite-plain"},
+        {
+            "name": "Dynamics 365",
+            "level": "Expert",
+            "icon": "static/images/dynamics.png",
+        },
     ]
 
     return render_template(

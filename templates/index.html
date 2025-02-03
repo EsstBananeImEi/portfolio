@@ -20,7 +20,8 @@
                         primary: '#2F3C7E',   /* Tiefes Blau */
                         accent: '#F96167',    /* Sanftes Korallenrot */
                         background: '#F8F8F8',
-                        neutral: '#333333'
+                        neutral: '#333333',
+                        gray: '#E5E5E5'
                     }
                 }
             }
@@ -28,13 +29,14 @@
     </script>
 </head>
 
-<body class="bg-background text-neutral">
+<body class="bg-background text-neutral relative" style="background: url('{{ url_for('static', filename='images/hero-bg.jpg') }}') no-repeat center center fixed; 
+       background-size: cover;">
+
     <!-- Navigation -->
-    <nav class="bg-white shadow-md py-4 relative z-50" style="position: relative;">
+    <nav class="bg-white/80 shadow-md py-4 relative z-50">
         <div class="container mx-auto flex items-center justify-between px-4">
             <img src="{{ url_for('static', filename='images/LOGONEU.png') }}" alt="Logo von Sebastian Meine"
-                class="w-32 h-auto rounded-full"
-                style="position: absolute; bottom: -5rem; left: 50%; transform: translateX(-50%); z-index: 10;">
+                class="w-32 h-auto rounded-full absolute bottom-[-5rem] left-1/2 transform -translate-x-1/2 z-10">
             <div>
                 <a class="px-3 text-base hover:text-accent" href="#projects">Projekte</a>
                 <a class="px-3 text-base hover:text-accent" href="#github-projects">GitHub</a>
@@ -46,9 +48,8 @@
     </nav>
 
     <!-- Hero Section -->
-    <header id="hero" class="bg-primary text-white min-h-[60vh] flex items-center justify-center"
-        style="background-image: url('{{ url_for('static', filename='images/hero-bg.jpg') }}'); background-size: cover; background-position: center;">
-        <div class="bg-black bg-opacity-50 p-6 rounded flex flex-col md:flex-row items-center gap-4 max-w-4xl mx-auto">
+    <header id="hero" class="py-12 bg-white/30">
+        <div class="bg-black bg-opacity-50 p-10 rounded flex flex-col md:flex-row items-center gap-4  mx-auto">
             <!-- Profilbild -->
             <div class="flex-shrink-0">
                 <img src="{{ about.profile_image }}" alt="Profilbild von {{ about.name }}"
@@ -56,9 +57,9 @@
             </div>
             <!-- Textbereich -->
             <div class="text-center md:text-left">
-                <h1 class="text-3xl md:text-4xl font-bold mb-2">{{ about.greeting }}</h1>
-                <p class="text-xl mb-2">{{ about.role }}</p>
-                <blockquote class="text-lg md:text-xl italic font-light border-l-4 pl-4 border-accent">
+                <h1 class="text-3xl md:text-4xl font-bold mb-2 text-gray">{{ about.greeting }}</h1>
+                <p class="text-xl mb-2 text-gray">{{ about.role }}</p>
+                <blockquote class="text-lg text-gray md:text-xl italic font-light border-l-4 pl-4 border-accent">
                     {{ about.bio }}
                 </blockquote>
             </div>
@@ -66,10 +67,10 @@
     </header>
 
     <!-- Projekte Section -->
-    <section id="projects" class="py-12">
+    <section id="projects" class="py-12 bg-white/80">
         <div class="container mx-auto px-4">
             <h2
-                class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
+                class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
                 Meine Projekte
                 <span class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2"></span>
             </h2>
@@ -98,10 +99,10 @@
     </section>
 
     <!-- GitHub Projekte Section -->
-    <section id="github-projects" class="py-12 bg-gray-100">
+    <section id="github-projects" class="py-12 bg-white/30 ">
         <div class="container mx-auto px-4">
             <h2
-                class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
+                class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
                 Meine GitHub-Projekte
                 <span class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2"></span>
             </h2>
@@ -130,29 +131,39 @@
     </section>
 
     <!-- Skills Section -->
-    <section id="skills" class="py-12 bg-white">
+    <section id="skills" class="py-12 bg-white/80">
         <div class="container mx-auto px-4">
             <h2
-                class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
+                class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
                 Meine Skills
                 <span class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2"></span>
             </h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 text-center">
+            <div class="grid grid-cols-2 md:grid-cols-8 lg:grid-cols-6 gap-8 text-center">
                 {% for skill in skills %}
-                <div class="bg-gray-100 rounded-lg shadow-lg p-6 flex flex-col items-center min-h-[180px]">
-                    <i class="{{ skill.icon }} colored text-6xl mb-4"></i>
+                <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center min-h-[180px]">
+                    {% if skill.icon.startswith("static") %}
+                    <!-- Verwende das Bild aus static -->
+                    <img src="{{ url_for('static', filename=skill.icon.replace('static/', '')) }}"
+                        alt="{{ skill.name }} Icon" class="w-15 h-15 mb-4 object-contain">
+                    {% else %}
+                    <!-- Verwende Devicon -->
+                    <i class="{{ skill.icon }} text-6xl mb-4 text-accent"></i>
+                    {% endif %}
                     <h3 class="text-xl font-bold text-primary">{{ skill.name }}</h3>
                     <p class="text-sm text-neutral mt-2">{{ skill.level }}</p>
                 </div>
                 {% endfor %}
             </div>
+
         </div>
     </section>
 
     <!-- Kontakt Section -->
     <section id="contact" class="py-12">
         <div class="container mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold mb-6">Kontakt</h2>
+            <h2
+                class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent text-center mb-5 relative">
+                Kontakt</h2>
             <div class="flex justify-center space-x-6">
                 <!-- Email -->
                 <a href="mailto:{{ contact.email }}"
