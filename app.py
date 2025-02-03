@@ -52,20 +52,6 @@ def index():
             "logo": "./static/images/hochhuth.png",
         },
         {
-            "title": "Marktreife Einführung des HMI-Prototyps",
-            "description": "Führt einen HMI-Prototyp mittels Microservices in den Markt ein.",
-            "link": "https://www.schottel.de/home",
-            "technologies": "Python, Jenkins, Git, MQTT, ZeroMQ, Microservices, SQLite, Django",
-            "logo": "./static/images/schottel.png",
-        },
-        {
-            "title": "Prototyp-Entwicklung zur Schiffsdaten-Analyse",
-            "description": "Entwicklung eines HMI zur Erfassung und Analyse schiffsbezogener Daten.",
-            "link": "https://www.schottel.de/home",
-            "technologies": "Python, MQTT, ZeroMQ, Django, SQLite, Docker",
-            "logo": "./static/images/schottel.png",
-        },
-        {
             "title": "CRM-Weiterentwicklung",
             "description": "Optimierung von UI, DSGVO-Anforderungen und Asset Management im CRM.",
             "link": "https://www.lufthansa-industry-solutions.com/",
@@ -85,6 +71,20 @@ def index():
             "link": "https://www.meta-trennwandanlagen.de/",
             "technologies": "Python, Jenkins, Git, Prometheus, Grafana, InformixDB, FastAPI, Flask",
             "logo": "./static/images/meta.png",
+        },
+        {
+            "title": "Marktreife Einführung des HMI-Prototyps",
+            "description": "Führt einen HMI-Prototyp mittels Microservices in den Markt ein.",
+            "link": "https://www.schottel.de/home",
+            "technologies": "Python, Jenkins, Git, MQTT, ZeroMQ, Microservices, SQLite, Django",
+            "logo": "./static/images/schottel.png",
+        },
+        {
+            "title": "Prototyp-Entwicklung zur Schiffsdaten-Analyse",
+            "description": "Entwicklung eines HMI zur Erfassung und Analyse schiffsbezogener Daten.",
+            "link": "https://www.schottel.de/home",
+            "technologies": "Python, MQTT, ZeroMQ, Django, SQLite, Docker",
+            "logo": "./static/images/schottel.png",
         },
         {
             "title": "Warehouse Management",
