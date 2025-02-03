@@ -17,7 +17,7 @@ class Contact:
 
 # Kontakt-Objekt erstellen
 my_contact = Contact(
-    vorname="Sebastiaaaan",
+    vorname="Sebastian",
     nachname="Meine",
     role="Microsoft Dynamics 365 Professional",
     email="sebastian.meine@gmx.net",
