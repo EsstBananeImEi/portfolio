@@ -1,0 +1,89 @@
+/* Grundlegende Einstellungen */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #ffffff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.project-tile {
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Im Desktopmodus wird der normale Hover genutzt (Tailwind: hover:scale-105) */
+.project-tile.active {
+    transform: scale(1.05);
+}
+
+/* Navigation */
+.navbar {
+    padding: 1rem 0;
+    font-weight: 600;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+}
+
+/* Hero Section */
+.hero {
+    background: url('../images/hero-bg.jpg') center/cover no-repeat;
+    height: 60vh;
+    color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.hero p.lead {
+    font-size: 1.25rem;
+}
+
+/* Projekte Section */
+#projects .card {
+    border: none;
+    transition: transform 0.3s ease;
+    background-color: #f7f7f7;
+}
+
+#projects .card:hover {
+    transform: translateY(-5px);
+}
+
+#projects .card-title {
+    font-weight: 700;
+}
+
+/* Section Überschriften */
+section h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Über mich */
+#about img {
+    max-width: 200px;
+    margin-bottom: 1rem;
+}
+
+/* Footer */
+footer {
+    font-size: 0.9rem;
+}
+
+/* Responsive Anpassungen */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+}
