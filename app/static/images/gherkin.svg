@@ -1,0 +1,10 @@
+<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+	<!-- Hintergrund: abgerundetes Rechteck, das eine Gurke darstellen soll -->
+	<rect x="5" y="10" width="50" height="40" rx="20" ry="20" fill="#F96167" />
+	<!-- Ein stilisierter Blattansatz oben, der die natürliche Form ergänzt -->
+	<path d="M15,10 C20,0 40,0 45,10" fill="#F96167" />
+	<!-- Text "GH" als Abkürzung für Gherkin, zentriert -->
+	<text x="30" y="36" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#fff" text-anchor="middle">
+		GH
+	</text>
+</svg>

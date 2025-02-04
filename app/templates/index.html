@@ -129,25 +129,70 @@
 
 <!-- Skills Section -->
 <section id="skills" class="py-12 bg-white/80">
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4" x-data="{ openSkill: null }">
         <h2
             class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
             Meine Skills
             <span class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2"></span>
         </h2>
-        <div class="grid grid-cols-2 md:grid-cols-8 lg:grid-cols-6 gap-8 text-center">
+        <div class="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-6 gap-4 text-center">
             {% for skill in skills %}
-            <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center min-h-[180px]">
+            <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col items-center transform transition hover:scale-105 cursor-pointer"
+                @click="openSkill = (openSkill === {{ loop.index }} ? null : {{ loop.index }})">
                 {% if skill.icon.startswith("static") %}
                 <img src="{{ url_for('static', filename=skill.icon.replace('static/', '')) }}"
-                    alt="{{ skill.name }} Icon" class="w-15 h-15 mb-4 object-contain">
+                    alt="{{ skill.name }} Icon" class="w-10 h-10 md:w-16 md:h-16 mb-2 object-contain">
                 {% else %}
-                <i class="{{ skill.icon }} text-6xl mb-4 text-accent"></i>
+                <i class="{{ skill.icon }} text-3xl md:text-6xl mb-2 text-accent"></i>
                 {% endif %}
-                <h3 class="text-xl font-bold text-primary">{{ skill.name }}</h3>
-                <p class="text-sm text-neutral mt-2">{{ skill.level }}</p>
+                <!-- Auf mobilen Geräten nur Icon, ab md Text -->
+                <div class="hidden md:block">
+                    <h3 class="text-lg font-bold text-primary">{{ skill.name }}</h3>
+                    <p class="text-xs text-neutral mt-1">{{ skill.level }}</p>
+                </div>
             </div>
             {% endfor %}
+        </div>
+
+        <!-- Modal-Overlay für Skill-Details -->
+        <div x-show="openSkill !== null" x-cloak x-transition.opacity.duration.300ms
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+            @click="openSkill = null">
+            <!-- Modal-Inhalt (ohne @click.stop, sodass auch Klicks im Modal das Schließen auslösen) -->
+            <div class="bg-white p-6 rounded-lg max-w-md w-full relative">
+                {% for skill in skills %}
+                <div x-show="openSkill === {{ loop.index }}" x-transition.duration.300ms>
+                    {% if skill.icon.startswith("static") %}
+                    <img src="{{ url_for('static', filename=skill.icon.replace('static/', '')) }}"
+                        alt="{{ skill.name }} Icon" class="w-16 h-16 mx-auto mb-4 object-contain">
+                    {% else %}
+                    <i class="{{ skill.icon }} text-6xl mx-auto mb-4 text-accent"></i>
+                    {% endif %}
+                    <h3 class="text-2xl font-bold text-primary text-center">{{ skill.name }}</h3>
+                    <p class="text-center text-neutral mt-1">Level: {{ skill.level }}</p>
+                    <!-- Erweiterte Informationen -->
+                    <div class="mt-4 text-center">
+                        <p class="text-sm text-gray-600">{{ skill.info }}</p>
+                        {% if skill.description %}
+                        <div class="mt-2">
+                            <strong>Beschreibung:</strong>
+                            <p class="text-sm text-gray-600">{{ skill.description }}</p>
+                        </div>
+                        {% endif %}
+                        {% if skill.link %}
+                        <div class="mt-2">
+                            <a href="{{ skill.link }}" target="_blank"
+                                class="inline-block bg-primary text-white py-1 px-3 rounded hover:bg-opacity-90">
+                                Mehr erfahren
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                <!-- Schließen-Button -->
+                <button class="absolute top-2 right-2 text-2xl leading-none" @click="openSkill = null">&times;</button>
+            </div>
         </div>
     </div>
 </section>
