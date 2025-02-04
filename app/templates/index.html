@@ -145,8 +145,8 @@
                 {% else %}
                 <i class="{{ skill.icon }} text-3xl md:text-6xl mb-2 text-accent"></i>
                 {% endif %}
-                <!-- Auf mobilen Geräten nur Icon, ab md Text -->
-                <div class="hidden md:block">
+                <!-- Dieser Block wird nur oberhalb von 1025px angezeigt -->
+                <div class="skill-text">
                     <h3 class="text-lg font-bold text-primary">{{ skill.name }}</h3>
                     <p class="text-xs text-neutral mt-1">{{ skill.level }}</p>
                 </div>
@@ -158,7 +158,6 @@
         <div x-show="openSkill !== null" x-cloak x-transition.opacity.duration.300ms
             class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
             @click="openSkill = null">
-            <!-- Modal-Inhalt (ohne @click.stop, sodass auch Klicks im Modal das Schließen auslösen) -->
             <div class="bg-white p-6 rounded-lg max-w-md w-full relative">
                 {% for skill in skills %}
                 <div x-show="openSkill === {{ loop.index }}" x-transition.duration.300ms>

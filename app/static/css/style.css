@@ -88,6 +88,12 @@ footer {
     }
 }
 
+@media (max-width: 1024px) {
+    .skill-text {
+        display: none !important;
+    }
+}
+
 [x-cloak] {
     display: none !important;
 }

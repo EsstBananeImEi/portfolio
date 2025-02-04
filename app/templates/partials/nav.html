@@ -1,13 +1,14 @@
 <nav id="nav" x-data="{ open: false }" class="bg-white/80 shadow-md py-4 relative z-50">
-    <!-- Desktop Navigation -->
-    <div class="hidden md:block relative">
+    <!-- Desktop Navigation Variante für Bildschirme ab 1025px (lg und größer) -->
+    <div class="hidden lg:block relative">
         <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center">
-                <!-- Logo absolut zentriert -->
+            <div class="flex justify-between items-center relative">
+                <!-- Absolut zentriertes Logo -->
                 <div class="absolute left-1/2 top-custom transform -translate-x-1/2">
                     <img src="{{ url_for('static', filename='images/LOGONEU.png') }}" alt="Logo von Sebastian Meine"
                         class="w-32 h-auto rounded-full">
                 </div>
+                <!-- Alle Links als eine Gruppe (oder nach Wunsch angeordnet) -->
                 <div class="flex space-x-4">
                     <a class="px-3 text-base hover:text-accent" href="#projects">Projekte</a>
                     <a class="px-3 text-base hover:text-accent" href="#github-projects">GitHub</a>
@@ -18,7 +19,30 @@
         </div>
     </div>
 
-    <!-- Mobile Navigation -->
+    <!-- Desktop Navigation Variante für Bildschirme unter 1025px (also md bis lg-1) -->
+    <div class="hidden md:block lg:hidden relative">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center relative">
+                <!-- Linke Gruppe -->
+                <div class="flex space-x-4">
+                    <a class="px-3 text-base hover:text-accent" href="#projects">Projekte</a>
+                    <a class="px-3 text-base hover:text-accent" href="#github-projects">GitHub</a>
+                </div>
+                <!-- Logo absolut zentriert -->
+                <div class="absolute left-1/2 top-custom transform -translate-x-1/2">
+                    <img src="{{ url_for('static', filename='images/LOGONEU.png') }}" alt="Logo von Sebastian Meine"
+                        class="w-32 h-auto rounded-full">
+                </div>
+                <!-- Rechte Gruppe -->
+                <div class="flex space-x-4">
+                    <a class="px-3 text-base hover:text-accent" href="#skills">Skills</a>
+                    <a class="px-3 text-base hover:text-accent" href="#contact">Kontakt</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation (für md:hidden) bleibt unverändert -->
     <div class="md:hidden relative" x-data="{ open: false }">
         <div class="container mx-auto px-4 flex justify-between items-center" style="height: 30px;">
             <!-- Burger-Menü (links) -->
@@ -58,7 +82,7 @@
         </div>
     </div>
 
-    <!-- "Back-to-Top"-Button (kann hier belassen oder ebenfalls in ein Partial ausgelagert werden) -->
+    <!-- "Back-to-Top"-Button -->
     <a href="#nav" id="back-to-top"
         class="fixed bottom-4 right-4 bg-accent text-white p-3 md:p-4 rounded-full shadow-lg hover:bg-opacity-90 z-50">
         <span class="material-symbols-outlined text-2xl md:text-5xl">arrow_upward</span>
