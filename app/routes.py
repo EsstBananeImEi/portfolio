@@ -320,7 +320,7 @@ Unternehmen durch innovative Technologien effizienter und zukunftssicher zu mach
             "name": "TypeScript",
             "level": "Advanced",
             "icon": "devicon-typescript-plain",
-        },  # ggf. eigenes Icon, falls verfügbar
+        },
         {"name": "React", "level": "Advanced", "icon": "devicon-react-original"},
         {"name": "Angular", "level": "Advanced", "icon": "devicon-angularjs-plain"},
         {"name": "Node.js", "level": "Intermediate", "icon": "devicon-nodejs-plain"},
@@ -341,7 +341,7 @@ Unternehmen durch innovative Technologien effizienter und zukunftssicher zu mach
             "name": "Jenkins",
             "level": "Intermediate",
             "icon": "devicon-jenkins-plain",
-        },  # falls ein Icon vorhanden ist
+        },
         {
             "name": "Dynamics 365",
             "level": "Expert",
@@ -351,53 +351,53 @@ Unternehmen durch innovative Technologien effizienter und zukunftssicher zu mach
             "name": "Prometheus",
             "level": "Intermediate",
             "icon": "devicon-prometheus-plain",
-        },  # ggf. eigenes Icon
+        },
         {
             "name": "Grafana",
             "level": "Intermediate",
             "icon": "devicon-grafana-plain",
-        },  # ggf. eigenes Icon
+        },
         {
             "name": "Jira",
             "level": "Intermediate",
             "icon": "devicon-jira-plain",
-        },  # falls vorhanden
+        },
         {
             "name": "Confluence",
             "level": "Intermediate",
             "icon": "devicon-confluence-plain",
-        },  # Platzhalter, wenn kein offizielles Icon existiert
+        },
         {"name": "Bootstrap", "level": "Advanced", "icon": "devicon-bootstrap-plain"},
         {
             "name": "Microservices",
             "level": "Advanced",
-            "icon": "devicon-microservices-plain",
-        },  # ggf. eigenes Icon
+            "icon": "static/images/microservice.png",
+        },
         {
             "name": "MQTT",
             "level": "Intermediate",
-            "icon": "devicon-mqtt-plain",
-        },  # ggf. eigenes Icon
+            "icon": "static/images/mqtt.png",
+        },
         {
             "name": "ZeroMQ",
             "level": "Intermediate",
-            "icon": "devicon-zeromq-plain",
-        },  # ggf. eigenes Icon
+            "icon": "static/images/zeromq.png",
+        },
         {
             "name": "Cucumber",
             "level": "Intermediate",
-            "icon": "devicon-cucumber-plain",
-        },  # ggf. eigenes Icon
+            "icon": "static/images/cucumber.png",
+        },
         {
             "name": "Gherkin",
             "level": "Intermediate",
-            "icon": "devicon-gherkin-plain",
-        },  # ggf. eigenes Icon
+            "icon": "static/images/cucumber.png",
+        },
         {
             "name": "TDD",
             "level": "Intermediate",
-            "icon": "devicon-tdd-plain",
-        },  # ggf. eigenes Icon
+            "icon": "static/images/tdd.svg",
+        },
     ]
 
     return render_template(

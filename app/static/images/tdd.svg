@@ -1,0 +1,12 @@
+<svg width="60" height="60" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+	<!-- Hintergrundkreis als Basis -->
+	<circle cx="100" cy="100" r="90" fill="none" stroke="#F96167" stroke-width="5" />
+	<!-- Iterative Linie (gestrichelter Kreis) -->
+	<circle cx="100" cy="100" r="70" fill="none" stroke="#F96167" stroke-width="4" stroke-dasharray="10,5" />
+	<!-- Check-Mark als Symbol für erfolgreich bestandene Tests -->
+	<polyline points="65,100 85,120 135,80" fill="none" stroke="#F96167" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+	<!-- Text "TDD" in der Mitte -->
+	<text x="100" y="155" font-family="Arial, sans-serif" font-size="36" text-anchor="middle" fill="#F96167">
+		TDD
+	</text>
+</svg>
