@@ -20,7 +20,7 @@ my_contact = Contact(
     vorname="Sebastian",
     nachname="Meine",
     role="Microsoft Dynamics 365 Professional",
-    email="sebastian.meine@gmx.net",
+    email="sebastian.meine@meinedevpath.de",
     linkedin="https://www.linkedin.com/in/sebastianmeine1985/",
     github="https://github.com/EsstBananeImEi",
 )
