@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>{{ about.name }} – Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{{ url_for('static', filename='images/icon.webp') }}" type="image/svg+xml">
+    <link rel="icon" href="{{ url_for('static', filename='images/icon.svg') }}" type="image/svg+xml">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -59,7 +59,6 @@
                     <div class="flex space-x-4">
                         <a class="px-3 text-base hover:text-accent" href="#projects">Projekte</a>
                         <a class="px-3 text-base hover:text-accent" href="#github-projects">GitHub</a>
-                        <a class="px-3 text-base hover:text-accent" href="#about">Über mich</a>
                         <a class="px-3 text-base hover:text-accent" href="#skills">Skills</a>
                         <a class="px-3 text-base hover:text-accent" href="#contact">Kontakt</a>
                     </div>
@@ -104,8 +103,6 @@
                         class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">Projekte</a>
                     <a @click="setTimeout(() => { open = false }, 100)" href="#github-projects"
                         class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">GitHub</a>
-                    <a @click="setTimeout(() => { open = false }, 100)" href="#about"
-                        class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">Über mich</a>
                     <a @click="setTimeout(() => { open = false }, 100)" href="#skills"
                         class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">Skills</a>
                     <a @click="setTimeout(() => { open = false }, 100)" href="#contact"
