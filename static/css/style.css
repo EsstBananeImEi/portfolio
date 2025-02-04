@@ -7,6 +7,20 @@ body {
     padding: 0;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+.project-tile {
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Im Desktopmodus wird der normale Hover genutzt (Tailwind: hover:scale-105) */
+.project-tile.active {
+    transform: scale(1.05);
+}
+
 /* Navigation */
 .navbar {
     padding: 1rem 0;
