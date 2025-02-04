@@ -46,7 +46,7 @@
     style="background: url('{{ url_for('static', filename='images/hero-bg.jpg') }}') no-repeat center center fixed; background-size: cover;">
 
     <!-- Navigation -->
-    <nav x-data="{ open: false }" class="bg-white/80 shadow-md py-4 relative z-50">
+    <nav id="nav" x-data="{ open: false }" class="bg-white/80 shadow-md py-4 relative z-50">
         <!-- Desktop Navigation -->
         <div class="hidden md:block relative">
             <div class="container mx-auto px-4">
@@ -263,6 +263,17 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const tiles = Array.from(document.querySelectorAll('.project-tile'));
+            const backToTop = document.getElementById('back-to-top');
+
+            backToTop.style.display = 'none';
+
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 300) { // Zeige den Button, wenn mehr als 300px gescrollt wurde
+                    backToTop.style.display = 'block';
+                } else {
+                    backToTop.style.display = 'none';
+                }
+            });
 
             function updateActiveTile() {
                 // Falls Desktopmodus (>=768px): entferne alle "active" und beende die Funktion
@@ -298,6 +309,10 @@
             window.addEventListener('resize', updateActiveTile);
         });
     </script>
+    <a href="#nav" id="back-to-top"
+        class="fixed bottom-4 right-4 bg-accent text-white p-3 rounded-full shadow-lg hover:bg-opacity-90 z-50">
+        <span class="material-symbols-outlined" style="font-size: 24px;">arrow_upward</span>
+    </a>
 </body>
 
 </html>
