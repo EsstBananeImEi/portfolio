@@ -10,7 +10,7 @@ tailwind.config = {
             },
             inset: {
                 'custom': '-5px',
-            }
+            },
         },
     }
 };

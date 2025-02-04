@@ -30,25 +30,70 @@
             Meine Projekte
             <span class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2"></span>
         </h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {% for project in projects %}
-            <div
-                class="project-tile bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105 min-h-[360px] flex flex-col justify-between">
-                <div class="p-6">
-                    <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
-                        alt="Logo von {{ project.title }}" class="w-auto max-w-full h-12 object-contain mx-auto mb-4">
-                    <h3 class="text-xl font-bold mb-2 text-primary">{{ project.title }}</h3>
-                    <p class="mb-4 min-h-[72px]">{{ project.description }}</p>
-                    <p class="text-sm text-neutral mb-4 min-h-[40px]"><strong>Technologien:</strong> {{
-                        project.technologies }}</p>
-                    {% if project.link %}
-                    <a href="{{ project.link }}" target="_blank"
-                        class="inline-block bg-accent text-white py-2 px-4 rounded hover:bg-opacity-90">Mehr
-                        erfahren</a>
-                    {% endif %}
+        <!-- Alpine.js Container mit x-data -->
+        <div x-data="{ openTile: null }" class="relative">
+            <!-- Grid mit den Projekt-Kacheln -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {% for project in projects %}
+                <div class="project-tile bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105 cursor-pointer"
+                    @click="openTile = (openTile === {{ loop.index }} ? null : {{ loop.index }})">
+                    <div class="p-6">
+                        <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
+                            alt="Logo von {{ project.title }}"
+                            class="w-auto max-w-full h-12 object-contain mx-auto mb-4">
+                        <h3 class="text-xl font-bold mb-2 text-primary">{{ project.title }}</h3>
+                        <!-- Immer die Kurzbeschreibung anzeigen -->
+                        <p class="mb-4 min-h-[72px]">{{ project.shortDescription }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Modal-Overlay: Wird angezeigt, wenn openTile nicht null ist -->
+            <div x-show="openTile !== null" x-cloak x-transition.opacity.duration.300ms
+                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+                @click="openTile = null">
+                <!-- Modal-Inhalt mit maximaler Höhe und Scrollbarkeit -->
+                <div class="bg-white p-6 rounded-lg max-w-3xl w-full relative max-h-[90vh] overflow-y-auto">
+                    {% for project in projects %}
+                    <div x-show="openTile === {{ loop.index }}" x-transition.duration.300ms>
+                        <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
+                            alt="Logo von {{ project.title }}"
+                            class="w-auto max-w-full h-12 object-contain mx-auto mb-4">
+                        <h3 class="text-2xl font-bold mb-4 text-primary">{{ project.title }}</h3>
+                        <!-- Detaillierte Inhalte -->
+                        <div class="mb-4">
+                            <strong>ROLLE:</strong>
+                            <p>{{ project.rolle }}</p>
+                        </div>
+                        <div class="mb-4">
+                            <strong>BESCHREIBUNG:</strong>
+                            <p>{{ project.description }}</p>
+                        </div>
+                        <div class="mb-4">
+                            <strong>AUFGABEN:</strong>
+                            <ul class="list-disc list-inside">
+                                {% for aufgabe in project.aufgaben %}
+                                <li>{{ aufgabe }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="mb-4">
+                            <strong>TECHNOLOGIEN:</strong>
+                            <p>{{ project.technologien }}</p>
+                        </div>
+                        {% if project.link %}
+                        <a href="{{ project.link }}" target="_blank"
+                            class="inline-block mt-4 bg-primary text-white py-2 px-4 rounded hover:bg-opacity-90">
+                            Zur Website</a>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <!-- Schließen-Button -->
+                    <button class="absolute top-2 right-2 text-2xl leading-none z-50"
+                        @click="openTile = null">&times;</button>
                 </div>
             </div>
-            {% endfor %}
         </div>
     </div>
 </section>
