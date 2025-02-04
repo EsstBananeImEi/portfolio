@@ -1,10 +1,3 @@
-Danke für dein Feedback! Ich werde nun detailliert dokumentieren, **wie Projekte festgelegt werden** und **wie die Skills aufgebaut sind und funktionieren**.  
-
-Hier ist die überarbeitete **README.md**, die nun auch diese zusätzlichen Informationen enthält:  
-
----
-
-### **📌 Vollständige `README.md` mit Projektverwaltung & Skills**  
 
 ```markdown
 # Portfolio-Projekt
@@ -72,7 +65,7 @@ projects = [
 ```
 
 📌 **Wie werden neue Projekte hinzugefügt?**  
-- Öffne die Datei **`data.py`**  
+- Öffne die Datei **`router.py`**  
 - Füge ein weiteres Dictionary zur **`projects`**-Liste hinzu  
 - Achte darauf, dass `title`, `description`, `image` und `link` korrekt angegeben sind  
 
@@ -80,7 +73,7 @@ projects = [
 
 ## 📌 **Wie sind die Skills aufgebaut und wie funktionieren sie?**  
 
-Die **Skills** werden ebenfalls in **`data.py`** gespeichert.  
+Die **Skills** werden ebenfalls in **`router.py`** gespeichert.  
 Sie bestehen aus einer **Liste von Kategorien**, wobei jede Kategorie eine Liste von Skills enthält.  
 
 📌 **Beispiel für den Skill-Aufbau in `data.py`**  
@@ -95,7 +88,7 @@ skills = {
 ```
 
 📌 **Wie werden neue Skills hinzugefügt?**  
-- Öffne **`data.py`**  
+- Öffne **`router.py`**  
 - Füge eine neue Kategorie oder einen neuen Skill innerhalb einer vorhandenen Kategorie hinzu  
 
 📌 **Wie werden die Skills auf der Website angezeigt?**  
