@@ -49,4 +49,7 @@
         "django-html"
     ],
     "git.ignoreLimitWarning": true,
+    "css.styleSheets": [
+        "src/**/*.css"
+    ]
 }

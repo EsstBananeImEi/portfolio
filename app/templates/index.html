@@ -1,309 +1,133 @@
-<!DOCTYPE html>
-<html lang="de">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>{{ about.name }} – Portfolio</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{{ url_for('static', filename='images/icon.svg') }}" type="image/svg+xml">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Eigene Tailwind-Konfiguration -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#2F3C7E',   /* Tiefes Blau */
-                        accent: '#F96167',    /* Sanftes Korallenrot */
-                        background: '#F8F8F8',
-                        neutral: '#333333',
-                        gray: '#E5E5E5'
-                    },
-                    inset: {
-                        'custom': '-5px',
-                    }
-                },
-            }
-        }
-    </script>
-    <!-- Zusätzliche CSS-Regeln: .active sorgt für den Hover-Effekt -->
+{% block title %}{{ about.name }} – Portfolio{% endblock %}
 
-</head>
-
-<body class="bg-background text-neutral relative"
-    style="background: url('{{ url_for('static', filename='images/hero-bg.jpg') }}') no-repeat center center fixed; background-size: cover;">
-
-    <!-- Navigation -->
-    <nav id="nav" x-data="{ open: false }" class="bg-white/80 shadow-md py-4 relative z-50">
-        <!-- Desktop Navigation -->
-        <div class="hidden md:block relative">
-            <div class="container mx-auto px-4">
-                <div class="flex justify-between items-center">
-                    <!-- Logo absolut zentriert -->
-                    <div class="absolute left-1/2 top-custom transform -translate-x-1/2">
-                        <img src="{{ url_for('static', filename='images/LOGONEU.png') }}" alt="Logo von Sebastian Meine"
-                            class="w-32 h-auto rounded-full">
-                    </div>
-                    <div class="flex space-x-4">
-                        <a class="px-3 text-base hover:text-accent" href="#projects">Projekte</a>
-                        <a class="px-3 text-base hover:text-accent" href="#github-projects">GitHub</a>
-                        <a class="px-3 text-base hover:text-accent" href="#skills">Skills</a>
-                        <a class="px-3 text-base hover:text-accent" href="#contact">Kontakt</a>
-                    </div>
-                </div>
-            </div>
+{% block content %}
+<!-- Hero Section -->
+<header id="hero" class="py-12 bg-white/30">
+    <div class="bg-black bg-opacity-50 p-10 rounded flex flex-col md:flex-row items-center gap-4 mx-auto">
+        <!-- Profilbild -->
+        <div class="flex-shrink-0">
+            <img src="{{ about.profile_image }}" alt="Profilbild von {{ about.name }}"
+                class="rounded-full w-32 h-32 md:w-48 md:h-48 object-cover">
         </div>
-
-        <!-- Mobile Navigation -->
-        <div class="md:hidden relative" x-data="{ open: false }">
-            <div class="container mx-auto px-4 flex justify-between items-center" style="height: 30px;">
-                <!-- Burger-Menü (links) -->
-                <button @click="open = !open"
-                    class="relative z-50 flex flex-col h-6 w-8 justify-between items-start focus:outline-none">
-                    <!-- obere Linie -->
-                    <span :class="{'rotate-45 translate-y-2': open}"
-                        class="block h-1 w-full bg-neutral transition-transform duration-300 ease-in-out"></span>
-                    <!-- mittlere Linie -->
-                    <span :class="{'opacity-0': open}"
-                        class="block h-1 w-full bg-neutral transition-opacity duration-300 ease-in-out"></span>
-                    <!-- untere Linie -->
-                    <span :class="{'-rotate-45 -translate-y-2': open}"
-                        class="block h-1 w-full bg-neutral transition-transform duration-300 ease-in-out"></span>
-                </button>
-            </div>
-
-            <!-- Absolut positioniertes Logo (rechts) -->
-            <a href="#hero">
-                <img src="{{ url_for('static', filename='images/LOGONEU.png') }}" alt="Logo von Sebastian Meine"
-                    class="absolute right-4 w-20 h-auto rounded-full" style="bottom: 0; transform: translateY(70%);">
-            </a>
-
-            <!-- Dropdown-Menü -->
-            <div x-show="open" @click.away="open = false" x-transition:enter="transition duration-300 ease-out"
-                x-transition:enter-start="opacity-0 transform -translate-y-2"
-                x-transition:enter-end="opacity-100 transform translate-y-0"
-                x-transition:leave="transition duration-200 ease-in"
-                x-transition:leave-start="opacity-100 transform translate-y-0"
-                x-transition:leave-end="opacity-0 transform -translate-y-2"
-                class="absolute top-full left-0 w-full bg-white z-40 border-t border-gray-200">
-                <div class="pt-2 pb-3 space-y-1 text-left px-4">
-                    <a @click="setTimeout(() => { open = false }, 100)" href="#projects"
-                        class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">Projekte</a>
-                    <a @click="setTimeout(() => { open = false }, 100)" href="#github-projects"
-                        class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">GitHub</a>
-                    <a @click="setTimeout(() => { open = false }, 100)" href="#skills"
-                        class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">Skills</a>
-                    <a @click="setTimeout(() => { open = false }, 100)" href="#contact"
-                        class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">Kontakt</a>
-                </div>
-            </div>
+        <!-- Textbereich -->
+        <div class="text-center md:text-left">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2 text-gray">{{ about.greeting }}</h1>
+            <p class="text-xl mb-2 text-gray">{{ about.role }}</p>
+            <blockquote class="text-lg text-gray md:text-xl italic font-light border-l-4 pl-4 border-accent">
+                {{ about.bio }}
+            </blockquote>
         </div>
-    </nav>
+    </div>
+</header>
 
-    <!-- Hero Section -->
-    <header id="hero" class="py-12 bg-white/30">
-        <div class="bg-black bg-opacity-50 p-10 rounded flex flex-col md:flex-row items-center gap-4 mx-auto">
-            <!-- Profilbild -->
-            <div class="flex-shrink-0">
-                <img src="{{ about.profile_image }}" alt="Profilbild von {{ about.name }}"
-                    class="rounded-full w-32 h-32 md:w-48 md:h-48 object-cover">
-            </div>
-            <!-- Textbereich -->
-            <div class="text-center md:text-left">
-                <h1 class="text-3xl md:text-4xl font-bold mb-2 text-gray">{{ about.greeting }}</h1>
-                <p class="text-xl mb-2 text-gray">{{ about.role }}</p>
-                <blockquote class="text-lg text-gray md:text-xl italic font-light border-l-4 pl-4 border-accent">
-                    {{ about.bio }}
-                </blockquote>
-            </div>
-        </div>
-    </header>
-
-    <!-- Projekte Section -->
-    <section id="projects" class="py-12 bg-white/80">
-        <div class="container mx-auto px-4">
-            <h2
-                class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
-                Meine Projekte
-                <span class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2"></span>
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {% for project in projects %}
-                <!-- Hier wurde "hover:scale-105" hinzugefügt -->
-                <div
-                    class="project-tile bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105 min-h-[360px] flex flex-col justify-between">
-                    <div class="p-6">
-                        <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
-                            alt="Logo von {{ project.title }}"
-                            class="w-auto max-w-full h-12 object-contain mx-auto mb-4">
-                        <h3 class="text-xl font-bold mb-2 text-primary">{{ project.title }}</h3>
-                        <p class="mb-4 min-h-[72px]">{{ project.description }}</p>
-                        <p class="text-sm text-neutral mb-4 min-h-[40px]"><strong>Technologien:</strong> {{
-                            project.technologies }}</p>
-                        {% if project.link %}
-                        <a href="{{ project.link }}" target="_blank"
-                            class="inline-block bg-accent text-white py-2 px-4 rounded hover:bg-opacity-90">Mehr
-                            erfahren</a>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    <!-- GitHub Projekte Section -->
-    <section id="github-projects" class="py-12 bg-white/30">
-        <div class="container mx-auto px-4">
-            <h2
-                class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
-                Meine GitHub-Projekte
-                <span class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2"></span>
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {% for project in github_projects %}
-                <div
-                    class="bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105 min-h-[320px] flex flex-col justify-between">
-                    <div class="p-6">
-                        <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
-                            alt="Logo von {{ project.title }}"
-                            class="w-auto max-w-full h-24 object-contain mx-auto mb-4">
-                        <h3 class="text-xl font-bold mb-2 text-primary">{{ project.title }}</h3>
-                        <p class="mb-4 min-h-[72px]">{{ project.description }}</p>
-                        <p class="text-sm text-neutral mb-4"><strong>Technologien:</strong> {{ project.technologies }}
-                        </p>
-                        {% if project.link %}
-                        <a href="{{ project.link }}" target="_blank"
-                            class="inline-block bg-accent text-white py-2 px-4 rounded hover:bg-opacity-90">Code
-                            ansehen</a>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="py-12 bg-white/80">
-        <div class="container mx-auto px-4">
-            <h2
-                class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
-                Meine Skills
-                <span class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2"></span>
-            </h2>
-            <div class="grid grid-cols-2 md:grid-cols-8 lg:grid-cols-6 gap-8 text-center">
-                {% for skill in skills %}
-                <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center min-h-[180px]">
-                    {% if skill.icon.startswith("static") %}
-                    <!-- Verwende das Bild aus static -->
-                    <img src="{{ url_for('static', filename=skill.icon.replace('static/', '')) }}"
-                        alt="{{ skill.name }} Icon" class="w-15 h-15 mb-4 object-contain">
-                    {% else %}
-                    <!-- Verwende Devicon -->
-                    <i class="{{ skill.icon }} text-6xl mb-4 text-accent"></i>
+<!-- Projekte Section -->
+<section id="projects" class="py-12 bg-white/80">
+    <div class="container mx-auto px-4">
+        <h2
+            class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
+            Meine Projekte
+            <span class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2"></span>
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for project in projects %}
+            <div
+                class="project-tile bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105 min-h-[360px] flex flex-col justify-between">
+                <div class="p-6">
+                    <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
+                        alt="Logo von {{ project.title }}" class="w-auto max-w-full h-12 object-contain mx-auto mb-4">
+                    <h3 class="text-xl font-bold mb-2 text-primary">{{ project.title }}</h3>
+                    <p class="mb-4 min-h-[72px]">{{ project.description }}</p>
+                    <p class="text-sm text-neutral mb-4 min-h-[40px]"><strong>Technologien:</strong> {{
+                        project.technologies }}</p>
+                    {% if project.link %}
+                    <a href="{{ project.link }}" target="_blank"
+                        class="inline-block bg-accent text-white py-2 px-4 rounded hover:bg-opacity-90">Mehr
+                        erfahren</a>
                     {% endif %}
-                    <h3 class="text-xl font-bold text-primary">{{ skill.name }}</h3>
-                    <p class="text-sm text-neutral mt-2">{{ skill.level }}</p>
                 </div>
-                {% endfor %}
             </div>
+            {% endfor %}
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Kontakt Section -->
-    <section id="contact" class="py-12">
-        <div class="container mx-auto px-4 text-center">
-            <h2
-                class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent text-center mb-5 relative">
-                Kontakt</h2>
-            <div class="flex justify-center space-x-6">
-                <!-- Email -->
-                <a href="mailto:{{ contact.email }}"
-                    class="flex flex-col items-center space-y-2 text-accent hover:text-primary">
-                    <span class="material-symbols-outlined" style="font-size: 42px;">mail</span>
-                </a>
-                <!-- LinkedIn -->
-                <a href="{{ contact.linkedin }}" target="_blank"
-                    class="flex flex-col items-center space-y-2 text-accent hover:text-primary">
-                    <i class="devicon-linkedin-plain text-4xl"></i>
-                </a>
-                <!-- GitHub -->
-                <a href="{{ contact.github }}" target="_blank"
-                    class="flex flex-col items-center space-y-2 text-accent hover:text-primary">
-                    <i class="devicon-github-original text-4xl"></i>
-                </a>
+<!-- GitHub Projekte Section -->
+<section id="github-projects" class="py-12 bg-white/30">
+    <div class="container mx-auto px-4">
+        <h2
+            class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
+            Meine GitHub-Projekte
+            <span class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2"></span>
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for project in github_projects %}
+            <div
+                class="bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105 min-h-[320px] flex flex-col justify-between">
+                <div class="p-6">
+                    <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
+                        alt="Logo von {{ project.title }}" class="w-auto max-w-full h-24 object-contain mx-auto mb-4">
+                    <h3 class="text-xl font-bold mb-2 text-primary">{{ project.title }}</h3>
+                    <p class="mb-4 min-h-[72px]">{{ project.description }}</p>
+                    <p class="text-sm text-neutral mb-4"><strong>Technologien:</strong> {{ project.technologies }}</p>
+                    {% if project.link %}
+                    <a href="{{ project.link }}" target="_blank"
+                        class="inline-block bg-accent text-white py-2 px-4 rounded hover:bg-opacity-90">Code ansehen</a>
+                    {% endif %}
+                </div>
             </div>
+            {% endfor %}
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Footer -->
-    <footer class="bg-neutral text-white py-4">
-        <div class="container mx-auto px-4 text-center">
-            <p>&copy; {{ now.year }} {{ about.name }}. Alle Rechte vorbehalten.</p>
+<!-- Skills Section -->
+<section id="skills" class="py-12 bg-white/80">
+    <div class="container mx-auto px-4">
+        <h2
+            class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
+            Meine Skills
+            <span class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2"></span>
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-8 lg:grid-cols-6 gap-8 text-center">
+            {% for skill in skills %}
+            <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center min-h-[180px]">
+                {% if skill.icon.startswith("static") %}
+                <img src="{{ url_for('static', filename=skill.icon.replace('static/', '')) }}"
+                    alt="{{ skill.name }} Icon" class="w-15 h-15 mb-4 object-contain">
+                {% else %}
+                <i class="{{ skill.icon }} text-6xl mb-4 text-accent"></i>
+                {% endif %}
+                <h3 class="text-xl font-bold text-primary">{{ skill.name }}</h3>
+                <p class="text-sm text-neutral mt-2">{{ skill.level }}</p>
+            </div>
+            {% endfor %}
         </div>
-    </footer>
+    </div>
+</section>
 
-    <!-- Alpine.js (optional für Interaktionen) -->
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
-    <!-- Scroll-basierte Ermittlung der mittleren Kachel (nur im mobilen Modus) -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const tiles = Array.from(document.querySelectorAll('.project-tile'));
-            const backToTop = document.getElementById('back-to-top');
-
-            backToTop.style.display = 'none';
-
-            window.addEventListener('scroll', function () {
-                if (window.scrollY > 300) { // Zeige den Button, wenn mehr als 300px gescrollt wurde
-                    backToTop.style.display = 'block';
-                } else {
-                    backToTop.style.display = 'none';
-                }
-            });
-
-            function updateActiveTile() {
-                // Falls Desktopmodus (>=768px): entferne alle "active" und beende die Funktion
-                if (window.innerWidth >= 768) {
-                    tiles.forEach(tile => tile.classList.remove('active'));
-                    return;
-                }
-
-                const viewportCenter = window.innerHeight / 2;
-                let closestTile = null;
-                let minDistance = Infinity;
-
-                tiles.forEach(tile => {
-                    const rect = tile.getBoundingClientRect();
-                    const tileCenter = rect.top + rect.height / 2;
-                    const distance = Math.abs(tileCenter - viewportCenter);
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                        closestTile = tile;
-                    }
-                });
-
-                // Setze die "active"-Klasse nur für die Kachel, die am nächsten zur Mitte liegt
-                tiles.forEach(tile => tile.classList.remove('active'));
-                if (closestTile) {
-                    closestTile.classList.add('active');
-                }
-            }
-
-            // Initialer Aufruf und Aktualisierung bei Scroll und Resize
-            updateActiveTile();
-            window.addEventListener('scroll', updateActiveTile);
-            window.addEventListener('resize', updateActiveTile);
-        });
-    </script>
-    <a href="#nav" id="back-to-top"
-        class="fixed bottom-4 right-4 bg-accent text-white p-3 md:p-4 rounded-full shadow-lg hover:bg-opacity-90 z-50">
-        <span class="material-symbols-outlined text-2xl md:text-5xl">arrow_upward</span>
-    </a>
-</body>
-
-</html>
+<!-- Kontakt Section -->
+<section id="contact" class="py-12">
+    <div class="container mx-auto px-4 text-center">
+        <h2
+            class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent text-center mb-5 relative">
+            Kontakt
+        </h2>
+        <div class="flex justify-center space-x-6">
+            <a href="mailto:{{ contact.email }}"
+                class="flex flex-col items-center space-y-2 text-accent hover:text-primary">
+                <span class="material-symbols-outlined" style="font-size: 42px;">mail</span>
+            </a>
+            <a href="{{ contact.linkedin }}" target="_blank"
+                class="flex flex-col items-center space-y-2 text-accent hover:text-primary">
+                <i class="devicon-linkedin-plain text-4xl"></i>
+            </a>
+            <a href="{{ contact.github }}" target="_blank"
+                class="flex flex-col items-center space-y-2 text-accent hover:text-primary">
+                <i class="devicon-github-original text-4xl"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

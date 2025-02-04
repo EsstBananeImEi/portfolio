@@ -1,0 +1,66 @@
+<nav id="nav" x-data="{ open: false }" class="bg-white/80 shadow-md py-4 relative z-50">
+    <!-- Desktop Navigation -->
+    <div class="hidden md:block relative">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo absolut zentriert -->
+                <div class="absolute left-1/2 top-custom transform -translate-x-1/2">
+                    <img src="{{ url_for('static', filename='images/LOGONEU.png') }}" alt="Logo von Sebastian Meine"
+                        class="w-32 h-auto rounded-full">
+                </div>
+                <div class="flex space-x-4">
+                    <a class="px-3 text-base hover:text-accent" href="#projects">Projekte</a>
+                    <a class="px-3 text-base hover:text-accent" href="#github-projects">GitHub</a>
+                    <a class="px-3 text-base hover:text-accent" href="#skills">Skills</a>
+                    <a class="px-3 text-base hover:text-accent" href="#contact">Kontakt</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div class="md:hidden relative" x-data="{ open: false }">
+        <div class="container mx-auto px-4 flex justify-between items-center" style="height: 30px;">
+            <!-- Burger-Menü (links) -->
+            <button @click="open = !open"
+                class="relative z-50 flex flex-col h-6 w-8 justify-between items-start focus:outline-none">
+                <span :class="{'rotate-45 translate-y-2': open}"
+                    class="block h-1 w-full bg-neutral transition-transform duration-300 ease-in-out"></span>
+                <span :class="{'opacity-0': open}"
+                    class="block h-1 w-full bg-neutral transition-opacity duration-300 ease-in-out"></span>
+                <span :class="{'-rotate-45 -translate-y-2': open}"
+                    class="block h-1 w-full bg-neutral transition-transform duration-300 ease-in-out"></span>
+            </button>
+        </div>
+        <!-- Absolut positioniertes Logo (rechts) -->
+        <a href="#hero">
+            <img src="{{ url_for('static', filename='images/LOGONEU.png') }}" alt="Logo von Sebastian Meine"
+                class="absolute right-4 w-20 h-auto rounded-full" style="bottom: 0; transform: translateY(70%);">
+        </a>
+        <!-- Dropdown-Menü -->
+        <div x-show="open" @click.away="open = false" x-transition:enter="transition duration-300 ease-out"
+            x-transition:enter-start="opacity-0 transform -translate-y-2"
+            x-transition:enter-end="opacity-100 transform translate-y-0"
+            x-transition:leave="transition duration-200 ease-in"
+            x-transition:leave-start="opacity-100 transform translate-y-0"
+            x-transition:leave-end="opacity-0 transform -translate-y-2"
+            class="absolute top-full left-0 w-full bg-white z-40 border-t border-gray-200">
+            <div class="pt-2 pb-3 space-y-1 text-left px-4">
+                <a @click="setTimeout(() => { open = false }, 100)" href="#projects"
+                    class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">Projekte</a>
+                <a @click="setTimeout(() => { open = false }, 100)" href="#github-projects"
+                    class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">GitHub</a>
+                <a @click="setTimeout(() => { open = false }, 100)" href="#skills"
+                    class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">Skills</a>
+                <a @click="setTimeout(() => { open = false }, 100)" href="#contact"
+                    class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">Kontakt</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- "Back-to-Top"-Button (kann hier belassen oder ebenfalls in ein Partial ausgelagert werden) -->
+    <a href="#nav" id="back-to-top"
+        class="fixed bottom-4 right-4 bg-accent text-white p-3 md:p-4 rounded-full shadow-lg hover:bg-opacity-90 z-50">
+        <span class="material-symbols-outlined text-2xl md:text-5xl">arrow_upward</span>
+    </a>
+</nav>
