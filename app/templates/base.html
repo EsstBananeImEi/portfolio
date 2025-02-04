@@ -11,26 +11,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Tailwind-Konfiguration (kann auch in eine separate JS-Datei ausgelagert werden) -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#2F3C7E',   /* Tiefes Blau */
-                        accent: '#F96167',    /* Sanftes Korallenrot */
-                        background: '#F8F8F8',
-                        neutral: '#333333',
-                        gray: '#E5E5E5'
-                    },
-                    inset: {
-                        'custom': '-5px',
-                    }
-                },
-            }
-        }
-    </script>
-
     {% block head_extra %}{% endblock %}
 </head>
 
@@ -51,7 +31,7 @@
 
     <!-- Externe Skripte -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <!-- Eigene JS-Datei, z.B. für Scroll-basierte Funktionen -->
+    <script src="{{ url_for('static', filename='js/tailwind-config.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
     {% block scripts %}{% endblock %}
