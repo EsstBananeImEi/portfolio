@@ -203,7 +203,7 @@
             "link": "https://www.schottel.de/home"
         }
     ],
-    "projectsGit": [
+    "gitprojects": [
         {
             "title": "Python-Kurs",
             "description": "Kursmaterialien und Beispielcode für meinen Python-Kurs auf Udemy.",
