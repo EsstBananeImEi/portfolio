@@ -2,7 +2,7 @@
 <p align="center">
     <img src="/app/static/images/LOGONEU.svg" width="256"/>
 </p>
-t
+
 # 🌟 Portfolio Webanwendung  
 
 Diese moderne und interaktive **Portfolio-Webanwendung** wurde mit **Flask** entwickelt und ermöglicht es, persönliche Projekte, Fähigkeiten und Kontaktinformationen ansprechend darzustellen.  
