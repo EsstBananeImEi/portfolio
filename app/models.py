@@ -7,7 +7,7 @@ class PersonBase:
 
 
 @dataclass
-class Contact(PersonBase):
+class Contact:
     vorname: str
     nachname: str
     email: str
