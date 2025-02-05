@@ -2,8 +2,8 @@
 ```markdown
 # Portfolio-Projekt
 
-Dies ist ein Portfolio-Projekt, das eine Webanwendung basierend auf **Flask** und **Tailwind CSS** darstellt.  
-Das Projekt enthält Konfigurationen für `gunicorn` und ist für das Deployment auf **Heroku** vorbereitet.  
+Dies ist ein Portfolio-Projekt, das eine Webanwendung basierend auf ** Flask ** und ** Tailwind CSS ** darstellt.  
+Das Projekt enthält Konfigurationen für `gunicorn` und ist für das Deployment auf ** Heroku ** vorbereitet.  
 
 ---
 
