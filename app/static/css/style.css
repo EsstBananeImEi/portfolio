@@ -14,6 +14,9 @@ html {
 .project-tile {
     transform: scale(1);
     transition: transform 0.3s ease-in-out;
+    position: relative;
+
+    /* Hier nicht unbedingt overflow ändern – je nach Bedarf */
 }
 
 /* Im Desktopmodus wird der normale Hover genutzt (Tailwind: hover:scale-105) */
@@ -94,6 +97,54 @@ footer {
     }
 }
 
+/* WIP-Stempel für Kacheln (Standard oben rechts) */
+.wip-stamp {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 120px;
+    height: 120px;
+    z-index: 10;
+}
+
+.wip-stamp img {
+    width: 100%;
+    height: 100%;
+    transform: rotate(40deg);
+    opacity: 0.75;
+}
+
+/* WIP-Stempel für erweiterte Infos (rechts & links) */
+.wip-stamp-info {
+    position: absolute;
+    top: -30px;
+    width: 140px;
+    height: 140px;
+    z-index: 15;
+}
+
+/* Wenn das WIP-Element links sein soll */
+.wip-left {
+    left: -30px;
+    transform: rotate(-25deg);
+}
+
+/* Wenn das WIP-Element rechts sein soll */
+.wip-right {
+    right: -30px;
+    transform: rotate(25deg);
+}
+
+/* 
+#github-projects .project-tile {
+    overflow: visible !important;
+} */
+
+#github-projects .modal-content {
+    overflow: visible !important;
+}
+
+/* Sicherstellen, dass das WIP-Element sichtbar bleibt */
 [x-cloak] {
     display: none !important;
 }

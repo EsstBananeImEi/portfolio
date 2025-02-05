@@ -112,13 +112,17 @@
                 {% for project in github_projects %}
                 <div class="project-tile bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105 cursor-pointer"
                     @click="openGitTile = (openGitTile === {{ loop.index }} ? null : {{ loop.index }})">
-                    <div class="p-6">
+                    <div class="p-6 relative">
+                        {% if project.wip %}
+                        <div class="wip-stamp">
+                            <img src="{{ url_for('static', filename='images/wip-stamp.svg') }}" alt="Work in Progress">
+                        </div>
+                        {% endif %}
                         <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
                             alt="Logo von {{ project.title }}"
                             class="w-auto max-w-full h-24 object-contain mx-auto mb-4">
                         <h3 class="text-xl font-bold mb-2 text-primary">{{ project.title }}</h3>
                         <p class="mb-4 min-h-[72px]">{{ project.shortDescription }}</p>
-                        </p>
                     </div>
                 </div>
                 {% endfor %}
@@ -131,7 +135,14 @@
                 <!-- Modal-Inhalt (Klicks innerhalb des Modals sollen nicht zum Schließen führen) -->
                 <div class="bg-white p-6 rounded-lg max-w-3xl w-full relative max-h-[90vh] overflow-y-auto">
                     {% for project in github_projects %}
-                    <div x-show="openGitTile === {{ loop.index }}" x-transition.duration.300ms>
+                    <div x-show="openGitTile === {{ loop.index }}" x-transition.duration.300ms
+                        class="relative modal-content overflow-hidden">
+                        {% if project.wip %}
+                        <div class="wip-stamp-info wip-left">
+                            <img src="{{ url_for('static', filename='images/wip-stamp.svg') }}" alt="Work in Progress">
+                        </div>
+                        {% endif %}
+
                         <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
                             alt="Logo von {{ project.title }}"
                             class="w-auto max-w-full h-24 object-contain mx-auto mb-4">

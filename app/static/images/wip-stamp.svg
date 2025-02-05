@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+	<!-- Gruppe mit Rotation für den Stempel-Effekt -->
+	<g transform="rotate(-15 60 60)">
+		<!-- Innerer Kreisrahmen -->
+		<circle cx="60" cy="60" r="40" fill="none" stroke="#e3342f" stroke-width="4" />
+		<!-- Pfad für den kreisförmigen Text -->
+		<path id="textPath" d="M60,15 A45,45 0 1,1 59.9,15" fill="none" />
+		<!-- Work in Progress entlang des Pfads -->
+		<text font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e3342f">
+			<textPath href="#textPath" startOffset="0%">
+				WORK IN PROGRESS • WORK IN PROGRESS • WORK IN PROGRESS •
+			</textPath>
+		</text>
+		<!-- Zentrierter WIP-Text -->
+		<text x="60" y="60" font-family="Arial, sans-serif" font-size="30" font-weight="bold" fill="#e3342f" text-anchor="middle" dominant-baseline="middle">
+			WIP
+		</text>
+	</g>
+</svg>
