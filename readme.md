@@ -1,6 +1,15 @@
-# Portfolio Webanwendung
+# 🌟 Portfolio Webanwendung  
 
-Dies ist eine Portfolio-Webanwendung basierend auf Flask. Die Anwendung zeigt persönliche Projekte, Fähigkeiten und Kontaktinformationen an.
+Diese moderne und interaktive **Portfolio-Webanwendung** wurde mit **Flask** entwickelt und ermöglicht es, persönliche Projekte, Fähigkeiten und Kontaktinformationen ansprechend darzustellen.  
+
+✨ **Highlights:**  
+
+- Entwickelt mit **Flask** und **Jinja2 Templates**  
+- **Responsives Design** mit **Tailwind CSS** und **Alpine.js**  
+- **Einfache Bereitstellung** über **Render** oder **Heroku**  
+- **Kontaktmöglichkeiten** per E-Mail, LinkedIn und GitHub  
+
+🚀 Die Anwendung bietet ein modernes UI-Erlebnis mit interaktiven Komponenten und ist ideal für Entwickler, die ihre Projekte professionell präsentieren möchten.  
 
 ---
 
@@ -13,17 +22,6 @@ Dies ist eine Portfolio-Webanwendung basierend auf Flask. Die Anwendung zeigt pe
 - ✅ Kontaktmöglichkeiten (E-Mail, LinkedIn, GitHub)  
 - ✅ Deployment über [Render](https://render.com/) oder Heroku möglich  
 
----
-
-## 🛠 Technologien
-
-- Flask
-- Jinja2 Templates
-- Tailwind CSS
-- Alpine.js
-- Gunicorn (WSGI-Server)
-- Render / Heroku für Deployment  
-  
 ---
 
 ## 📂 Projektstruktur
