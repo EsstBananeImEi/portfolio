@@ -1,6 +1,9 @@
 from datetime import datetime
 import json
-import os
+from pathlib import Path
+from typing import TypeVar, Type, List
+
+T = TypeVar("T")
 
 
 def parse_date(date_str):
@@ -19,20 +22,17 @@ def parse_date(date_str):
     except ValueError:
         return datetime.min
 
-def group_skills(skills):
-    grouped = {}
-    for skill in skills:
-        # Nutze das "group"-Feld; falls es nicht vorhanden ist, gruppiere unter "Other"
-        group = skill.get("group", "Other")
-        grouped.setdefault(group, []).append(skill)
-    return grouped
 
-def load_projects(filename: str):
-    """
-    Lädt die Projektdaten aus der JSON-Datei und gibt sie als Liste von Dictionaries zurück.
-    Die JSON-Datei wird hier relativ zu diesem Modul erwartet: z.b app/data/projects.json
-    """
-    json_path = os.path.join(os.path.dirname(__file__), "data", filename)
-    with open(json_path, "r", encoding="utf-8") as f:
-        json_data = json.load(f)
-    return json_data
+def load_json(filepath: str) -> dict:
+    with open(Path(filepath), encoding="utf-8") as f:
+        return json.load(f)
+
+
+def load_data(cls: Type[T], filepath: str) -> T:
+    data = load_json(f"app/data/{filepath}")
+    return cls(**data)
+
+
+def load_data_list(cls: Type[T], filepath: str) -> List[T]:
+    data_list = load_json(f"app/data/{filepath}")
+    return [cls(**data) for data in data_list]
