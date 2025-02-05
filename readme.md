@@ -1,7 +1,4 @@
 
-<p align="center">
-    <img src="/app/static/images/LOGONEU.png" width="256"/>
-</p>
 
 # 🌟 Portfolio Webanwendung  
 
