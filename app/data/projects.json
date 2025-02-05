@@ -206,23 +206,26 @@
     "gitprojects": [
         {
             "title": "Python-Kurs",
-            "description": "Kursmaterialien und Beispielcode für meinen Python-Kurs auf Udemy.",
+            "shortDescription": "Kursmaterialien und Beispielcode für meinen Python-Kurs auf Udemy.",
+            "description": "Dieses Projekt dient als Materialsammlung für einen umfassenden Python-Kurs. Es bietet praxisnahe Beispiele, Aufgaben und Lösungen, um Python auf einem modernen und professionellen Niveau zu erlernen. Neben Grundlagen werden auch fortgeschrittene Konzepte wie Clean Code, TDD und Microservices behandelt. Am Ende des Kurses entwickeln die Teilnehmer ein Abschlussprojekt – einen kleinen Blog mit Flask und FastAPI.",
             "link": "https://github.com/EsstBananeImEi/python-kurs",
-            "technologies": "Python",
-            "logo": "./static/images/kurs-bild.jpg"
+            "technologien": "Python, Jupyter Notebook",
+            "logo": "./static/images/pythonkurs.svg"
         },
         {
             "title": "Flask-Portfolio",
-            "description": "Ein schlankes Portfolio-Template für Flask.",
+            "shortDescription": "Ein schlankes Portfolio-Template für Flask.",
+            "description": "Diese moderne und interaktive Portfolio-Webanwendung wurde mit Flask und Jinja2 entwickelt und bietet Entwicklern eine ansprechende Plattform, um Projekte, Fähigkeiten und Kontaktinformationen professionell zu präsentieren. Dank eines responsiven Designs mit Tailwind CSS und interaktiven Komponenten via Alpine.js überzeugt die Anwendung durch ihre klare Struktur und Benutzerfreundlichkeit. Ideal für den Einsatz auf modernen Deployment-Plattformen wie Render oder Heroku, ermöglicht sie eine unkomplizierte Bereitstellung und Wartung",
             "link": "https://github.com/EsstBananeImEi/portfolio",
-            "technologies": "Python, Flask",
-            "logo": "./static/images/LOGONEU.png"
+            "technologien": "Python, Flask",
+            "logo": "./static/images/LOGONEU.svg"
         },
         {
             "title": "Prepper App",
-            "description": "Eine einfache Web-App zur Vorratsplanung. Ideal für Prepper und Krisenvorsorger.",
+            "shortDescription": "Eine einfache Web-App zur Vorratsplanung. Ideal für Prepper und Krisenvorsorger.",
+            "description": "Die PrepperApp ist eine umfassende Anwendung zur Vorbereitung auf Notfälle und Krisensituationen. Sie ermöglicht es, individuelle Checklisten für verschiedene Szenarien zu erstellen, Vorräte zu verwalten und wichtige Informationen jederzeit griffbereit zu haben. Die App richtet sich an Outdoor-Enthusiasten, Prepper, Survival-Experten und alle, die auf unvorhersehbare Ereignisse vorbereitet sein möchten.",
             "link": "https://github.com/EsstBananeImEi/prepper-app",
-            "technologies": "React, TypeScript",
+            "technologien": "React, TypeScript, Material-UI, Flask",
             "logo": "./static/images/prepper-app.svg"
         }
     ]

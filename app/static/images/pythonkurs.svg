@@ -1,0 +1,44 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+	<!-- Definitionsbereich: Filter und Farbverlauf -->
+	<defs>
+		<!-- Drop-Shadow-Filter für subtile Tiefe -->
+		<filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+			<feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur" />
+			<feOffset in="blur" dx="2" dy="2" result="offsetBlur" />
+			<feMerge>
+				<feMergeNode in="offsetBlur" />
+				<feMergeNode in="SourceGraphic" />
+			</feMerge>
+		</filter>
+		<!-- Linearer Farbverlauf in den Python-Farben -->
+		<linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">
+			<stop offset="0%" stop-color="#306998" />
+			<stop offset="100%" stop-color="#FFD43B" />
+		</linearGradient>
+	</defs>
+	<!-- Hintergrund: Großer, dunkelgrauer Kreis -->
+	<circle cx="200" cy="200" r="190" fill="#1a1a1a" />
+	<!-- Zentrales Netzwerk, das Modularität, TDD und Microservices symbolisiert -->
+	<!-- Zentraler Knoten -->
+	<circle cx="200" cy="200" r="20" fill="white" filter="url(#dropShadow)" />
+	<!-- Periphere Knoten (Hauptachsen) -->
+	<circle cx="200" cy="80" r="12" fill="white" filter="url(#dropShadow)" />
+	<circle cx="320" cy="200" r="12" fill="white" filter="url(#dropShadow)" />
+	<circle cx="200" cy="320" r="12" fill="white" filter="url(#dropShadow)" />
+	<circle cx="80" cy="200" r="12" fill="white" filter="url(#dropShadow)" />
+	<!-- Diagonale Knoten für zusätzliche Modularität -->
+	<circle cx="140" cy="140" r="10" fill="white" filter="url(#dropShadow)" />
+	<circle cx="260" cy="140" r="10" fill="white" filter="url(#dropShadow)" />
+	<circle cx="260" cy="260" r="10" fill="white" filter="url(#dropShadow)" />
+	<circle cx="140" cy="260" r="10" fill="white" filter="url(#dropShadow)" />
+	<!-- Verbindende Linien vom zentralen Knoten zu den peripheren Knoten -->
+	<line x1="200" y1="200" x2="200" y2="80" stroke="url(#lineGradient)" stroke-width="4" stroke-linecap="round" />
+	<line x1="200" y1="200" x2="320" y2="200" stroke="url(#lineGradient)" stroke-width="4" stroke-linecap="round" />
+	<line x1="200" y1="200" x2="200" y2="320" stroke="url(#lineGradient)" stroke-width="4" stroke-linecap="round" />
+	<line x1="200" y1="200" x2="80" y2="200" stroke="url(#lineGradient)" stroke-width="4" stroke-linecap="round" />
+	<!-- Verbindende Linien zu den diagonalen Knoten -->
+	<line x1="200" y1="200" x2="140" y2="140" stroke="url(#lineGradient)" stroke-width="4" stroke-linecap="round" />
+	<line x1="200" y1="200" x2="260" y2="140" stroke="url(#lineGradient)" stroke-width="4" stroke-linecap="round" />
+	<line x1="200" y1="200" x2="260" y2="260" stroke="url(#lineGradient)" stroke-width="4" stroke-linecap="round" />
+	<line x1="200" y1="200" x2="140" y2="260" stroke="url(#lineGradient)" stroke-width="4" stroke-linecap="round" />
+</svg>

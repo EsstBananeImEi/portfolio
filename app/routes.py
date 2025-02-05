@@ -33,11 +33,14 @@ def index():
         "name": f"{my_contact.vorname} {my_contact.nachname}",
         "role": my_contact.role,
         "greeting": f"Hallo, ich bin {my_contact.vorname}!",
-        "bio": """„Ich bin ein erfahrener Entwickler und Consultant mit Schwerpunkt auf Microsoft Dynamics 365.
-Ich konzipiere und implementiere individuelle CRM-Lösungen, automatisiere Geschäftsprozesse 
-und optimiere Systemarchitekturen. Neben meiner Arbeit im Dynamics-365-Umfeld entwickle ich 
-moderne Web- und Softwarelösungen mit Python, JavaScript und C#. Mein Ziel ist es, 
-Unternehmen durch innovative Technologien effizienter und zukunftssicher zu machen.“""",
+        "bio": """„Als erfahrener Entwickler und Consultant mit einem Fokus auf Microsoft Dynamics 365 
+spezialisiere ich mich auf die maßgeschneiderte Konzeption und Implementierung komplexer CRM-Lösungen. 
+Ich helfe Unternehmen dabei, ihre Geschäftsprozesse zu automatisieren und ihre Systemarchitekturen nachhaltig zu optimieren. 
+Zusätzlich bringe ich fundierte Expertise in der Entwicklung von modernen Web- und Softwarelösungen mit Python, 
+JavaScript und C# ein. Mit einem klaren Blick auf Effizienzsteigerung und zukunftsfähige Technologien strebe ich stets danach, 
+innovative Lösungen zu entwickeln, die Unternehmen dabei unterstützen, 
+ihre digitalen Transformationsziele zu erreichen und langfristig wettbewerbsfähig zu bleiben.“
+""",
         "profile_image": "./static/images/CRM_Meine_1.jpg",
     }
 

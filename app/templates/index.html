@@ -106,23 +106,61 @@
             Meine GitHub-Projekte
             <span class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2"></span>
         </h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {% for project in github_projects %}
-            <div
-                class="bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105 min-h-[320px] flex flex-col justify-between">
-                <div class="p-6">
-                    <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
-                        alt="Logo von {{ project.title }}" class="w-auto max-w-full h-24 object-contain mx-auto mb-4">
-                    <h3 class="text-xl font-bold mb-2 text-primary">{{ project.title }}</h3>
-                    <p class="mb-4 min-h-[72px]">{{ project.description }}</p>
-                    <p class="text-sm text-neutral mb-4"><strong>Technologien:</strong> {{ project.technologies }}</p>
-                    {% if project.link %}
-                    <a href="{{ project.link }}" target="_blank"
-                        class="inline-block bg-accent text-white py-2 px-4 rounded hover:bg-opacity-90">Code ansehen</a>
-                    {% endif %}
+        <!-- Grid mit den GitHub-Projekt-Kacheln -->
+        <div x-data="{ openGitTile: null }" class="relative">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {% for project in github_projects %}
+                <div class="project-tile bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105 cursor-pointer"
+                    @click="openGitTile = (openGitTile === {{ loop.index }} ? null : {{ loop.index }})">
+                    <div class="p-6">
+                        <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
+                            alt="Logo von {{ project.title }}"
+                            class="w-auto max-w-full h-24 object-contain mx-auto mb-4">
+                        <h3 class="text-xl font-bold mb-2 text-primary">{{ project.title }}</h3>
+                        <p class="mb-4 min-h-[72px]">{{ project.shortDescription }}</p>
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Modal-Overlay: Wird angezeigt, wenn openGitTile nicht null ist -->
+            <div x-show="openGitTile !== null" x-cloak x-transition.opacity.duration.300ms
+                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+                @click="openGitTile = null">
+                <!-- Modal-Inhalt (Klicks innerhalb des Modals sollen nicht zum Schließen führen) -->
+                <div class="bg-white p-6 rounded-lg max-w-3xl w-full relative max-h-[90vh] overflow-y-auto">
+                    {% for project in github_projects %}
+                    <div x-show="openGitTile === {{ loop.index }}" x-transition.duration.300ms>
+                        <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
+                            alt="Logo von {{ project.title }}"
+                            class="w-auto max-w-full h-24 object-contain mx-auto mb-4">
+                        <h3 class="text-2xl font-bold mb-4 text-primary">{{ project.title }}</h3>
+                        <div class="mb-4">
+                            <strong>Technologien:</strong>
+                            <p>{{ project.technologien }}</p>
+                        </div>
+                        <div class="mb-4">
+                            <strong>Kurzbeschreibung:</strong>
+                            <p>{{ project.shortDescription }}</p>
+                        </div>
+                        <div class="mb-4">
+                            <strong>Beschreibung:</strong>
+                            <p>{{ project.description }}</p>
+                        </div>
+                        {% if project.link %}
+                        <a href="{{ project.link }}" target="_blank"
+                            class="inline-block mt-4 bg-accent text-white py-2 px-4 rounded hover:bg-opacity-90">
+                            Code ansehen
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <!-- Schließen-Button -->
+                    <button class="absolute top-2 right-2 text-2xl leading-none"
+                        @click="openGitTile = null">&times;</button>
                 </div>
             </div>
-            {% endfor %}
         </div>
     </div>
 </section>
