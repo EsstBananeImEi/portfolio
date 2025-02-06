@@ -1,0 +1,20 @@
+{# templates/components/contact_components.html #}
+
+{% macro contact_information(contact, openContact) %}
+<div class="container mx-auto px-4 text-center">
+    <div class="flex justify-center space-x-6">
+        <a href="mailto:{{ contact.email }}"
+            class="flex flex-col items-center space-y-2 text-accent hover:text-primary">
+            <span class="material-symbols-outlined" style="font-size: 42px;">mail</span>
+        </a>
+        <a href="{{ contact.linkedin }}" target="_blank"
+            class="flex flex-col items-center space-y-2 text-accent hover:text-primary">
+            <i class="devicon-linkedin-plain text-4xl"></i>
+        </a>
+        <a href="{{ contact.github }}" target="_blank"
+            class="flex flex-col items-center space-y-2 text-accent hover:text-primary">
+            <i class="devicon-github-original text-4xl"></i>
+        </a>
+    </div>
+</div>
+{% endmacro %}

@@ -1,0 +1,64 @@
+{# templates/components/github_components.html #}
+
+<!-- Git project tile Component -->
+{% macro github_tile(project, index, openVariable) %}
+<div class="project-tile bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105 cursor-pointer"
+    @click="{{ openVariable }} = ({{ openVariable }} === {{ index }} ? null : {{ index }})">
+    <div class="p-6 relative">
+        {% if project.wip %}
+        <div class="wip-stamp">
+            <img src="{{ url_for('static', filename='images/wip-stamp.svg') }}" alt="Work in Progress">
+        </div>
+        {% endif %}
+        <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
+            alt="Logo von {{ project.title }}" class="w-auto max-w-full h-24 object-contain mx-auto mb-4">
+        <h3 class="text-xl font-bold mb-2 text-primary">{{ project.title }}</h3>
+        <p class="mb-4 min-h-[72px]">{{ project.shortDescription }}</p>
+    </div>
+</div>
+{% endmacro %}
+
+<!-- Git project extended information component -->
+{% macro github_modal(github_projects, openVariable) %}
+<div x-show="{{ openVariable }} !== null" x-cloak x-transition.opacity.duration.300ms
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+    @click="{{ openVariable }} = null">
+    <!-- Modal-Inhalt (Klicks innerhalb des Modals sollen nicht zum Schließen führen) -->
+    <div class="bg-white p-6 rounded-lg max-w-3xl w-full relative max-h-[90vh] overflow-y-auto">
+        {% for project in github_projects %}
+        <div x-show="{{ openVariable }} === {{ loop.index }}" x-transition.duration.300ms
+            class="relative modal-content overflow-hidden">
+            {% if project.wip %}
+            <div class="wip-stamp-info wip-left">
+                <img src="{{ url_for('static', filename='images/wip-stamp.svg') }}" alt="Work in Progress">
+            </div>
+            {% endif %}
+
+            <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
+                alt="Logo von {{ project.title }}" class="w-auto max-w-full h-24 object-contain mx-auto mb-4">
+            <h3 class="text-2xl font-bold mb-4 text-primary">{{ project.title }}</h3>
+            <div class="mb-4">
+                <strong>Technologien:</strong>
+                <p>{{ project.technologien }}</p>
+            </div>
+            <div class="mb-4">
+                <strong>Kurzbeschreibung:</strong>
+                <p>{{ project.shortDescription }}</p>
+            </div>
+            <div class="mb-4">
+                <strong>Beschreibung:</strong>
+                <p>{{ project.description }}</p>
+            </div>
+            {% if project.link %}
+            <a href="{{ project.link }}" target="_blank"
+                class="inline-block mt-4 bg-accent text-white py-2 px-4 rounded hover:bg-opacity-90">
+                Code ansehen
+            </a>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <!-- Schließen-Button -->
+        <button class="absolute top-2 right-2 text-2xl leading-none" @click="{{ openVariable }} = null">&times;</button>
+    </div>
+</div>
+{% endmacro %}

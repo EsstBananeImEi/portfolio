@@ -1,0 +1,58 @@
+{# templates/components/skills_components.html #}
+
+{% macro skill_tile(skill, index, openSkill) %}
+<div class="bg-white rounded-lg shadow-lg p-4 flex flex-col items-center transform transition hover:scale-105 cursor-pointer"
+    @click="openSkill = (openSkill === {{ index }} ? null : {{ index }})">
+    {% if skill.icon.startswith("static") %}
+    <img src="{{ url_for('static', filename=skill.icon.replace('static/', '')) }}" alt="{{ skill.name }} Icon"
+        class="w-10 h-10 md:w-16 md:h-16 mb-2 object-contain">
+    {% else %}
+    <i class="{{ skill.icon }} text-3xl md:text-6xl mb-2 text-accent"></i>
+    {% endif %}
+    <!-- Dieser Block wird nur oberhalb von 1025px angezeigt -->
+    <div class="skill-text">
+        <h3 class="text-lg font-bold text-primary">{{ skill.name }}</h3>
+        <p class="text-xs text-neutral mt-1">{{ skill.level }}</p>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro skill_modal(skills, openSkill) %}
+<div x-show="openSkill !== null" x-cloak x-transition.opacity.duration.300ms
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" @click="openSkill = null">
+    <div class="bg-white p-6 rounded-lg max-w-md w-full relative">
+        {% for skill in skills %}
+        <div x-show="openSkill === {{ loop.index }}" x-transition.duration.300ms>
+            {% if skill.icon.startswith("static") %}
+            <img src="{{ url_for('static', filename=skill.icon.replace('static/', '')) }}" alt="{{ skill.name }} Icon"
+                class="w-16 h-16 mx-auto mb-4 object-contain">
+            {% else %}
+            <i class="{{ skill.icon }} text-6xl mx-auto mb-4 text-accent"></i>
+            {% endif %}
+            <h3 class="text-2xl font-bold text-primary text-center">{{ skill.name }}</h3>
+            <p class="text-center text-neutral mt-1">Level: {{ skill.level }}</p>
+            <!-- Erweiterte Informationen -->
+            <div class="mt-4 text-center">
+                <p class="text-sm text-gray-600">{{ skill.info }}</p>
+                {% if skill.description %}
+                <div class="mt-2">
+                    <strong>Beschreibung:</strong>
+                    <p class="text-sm text-gray-600">{{ skill.description }}</p>
+                </div>
+                {% endif %}
+                {% if skill.link %}
+                <div class="mt-2">
+                    <a href="{{ skill.link }}" target="_blank"
+                        class="inline-block bg-primary text-white py-1 px-3 rounded hover:bg-opacity-90">
+                        Mehr erfahren
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+        <!-- Schließen-Button -->
+        <button class="absolute top-2 right-2 text-2xl leading-none" @click="openSkill = null">&times;</button>
+    </div>
+</div>
+{% endmacro %}
