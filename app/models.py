@@ -64,6 +64,7 @@ class Skill:
 @dataclass
 class Certification:
     name: str
+    description: str
     date: str
     link: str
     image: str
