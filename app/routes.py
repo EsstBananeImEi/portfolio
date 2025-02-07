@@ -12,12 +12,12 @@ main = Blueprint("main", __name__)
 @main.route("/")
 def index():
 
-    projects = load_data_list(Project, "projects.json")
-    github_projects = load_data_list(GitHubProject, "github_projects.json")
-    skills = load_data_list(Skill, "skills.json")
-    about = load_data(About, "about.json")
-    contact = load_data(Contact, "contact.json")
-    certifications = load_data_list(Certification, "certs.json")
+    projects = Project.query.all()
+    github_projects = GitHubProject.query.all()
+    skills = Skill.query.all()
+    about = About.query.first()
+    contact = Contact.query.first()
+    certifications = Certification.query.all()
 
     certifications = sorted(
         certifications, key=lambda cert: parse_date(cert.date), reverse=True

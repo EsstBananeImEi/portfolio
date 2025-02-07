@@ -37,8 +37,8 @@
             <div class="mb-4">
                 <strong>AUFGABEN:</strong>
                 <ul class="list-disc list-inside">
-                    {% for aufgabe in project.aufgaben %}
-                    <li>{{ aufgabe }}</li>
+                    {% for aufgabe in project.tasks %}
+                    <li>{{ aufgabe.description }}</li>
                     {% endfor %}
                 </ul>
             </div>

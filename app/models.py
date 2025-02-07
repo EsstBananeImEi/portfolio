@@ -1,70 +1,87 @@
-from dataclasses import dataclass
+from app import db
 
 
-@dataclass
-class PersonBase:
-    role: str
+class Contact(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    vorname = db.Column(db.String(255), nullable=False)
+    nachname = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(255), nullable=False)
+    linkedin = db.Column(db.String(255), nullable=False)
+    github = db.Column(db.String(255), nullable=False)
+    profile_image = db.Column(db.String(255), nullable=False)
 
-
-@dataclass
-class Contact:
-    vorname: str
-    nachname: str
-    email: str
-    linkedin: str
-    github: str
-    profile_image: str
-
-    @property
-    def name(self) -> str:
+    def get_full_name(self):
         return f"{self.vorname} {self.nachname}"
 
 
-@dataclass
-class About(PersonBase):
-    greeting: str
-    bio: str
+class About(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    greeting = db.Column(db.String(255), nullable=False)
+    bio = db.Column(db.Text, nullable=False)
+    role = db.Column(db.String(255), nullable=True)
 
 
-@dataclass
-class Project:
-    title: str
-    shortDescription: str
-    rolle: str
-    description: str
-    aufgaben: list[str]
-    technologien: str
-    von: str
-    bis: str
-    logo: str
-    link: str
+class Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String(255), nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey("project.id"), nullable=False)
+
+    def __init__(self, description, project_id) -> None:
+        self.description = description
+        self.project_id = project_id
+        super().__init__()
 
 
-@dataclass
-class GitHubProject:
-    title: str
-    shortDescription: str
-    description: str
-    link: str
-    technologien: str
-    logo: str
-    wip: bool
+class Project(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    shortDescription = db.Column(db.String(255), nullable=False)
+    rolle = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    # Beziehung zu Task; beachte, dass du das Feld hier nicht "aufgaben" nennst,
+    # da du in der JSON die Schlüssel "aufgaben" hast und später eine Konversion vornehmen musst.
+    tasks = db.relationship("Task", backref="project", lazy=True)
+    technologien = db.Column(db.String(255), nullable=False)
+    von = db.Column(db.String(255), nullable=False)
+    bis = db.Column(db.String(255), nullable=False)
+    logo = db.Column(db.String(255), nullable=False)
+    link = db.Column(db.String(255), nullable=True)
+
+    def __init__(self, **kwargs):
+        # Extrahiere den JSON-Schlüssel "aufgaben" aus den kwargs
+        tasks_data = kwargs.pop("aufgaben", None)
+        # Führe den Standard-Konstruktor aus
+        super().__init__(**kwargs)
+        # Falls Aufgaben als Liste von Strings vorliegen, konvertiere sie in Task-Objekte
+        if tasks_data:
+            self.tasks = [Task(description=desc, project_id=id) for desc in tasks_data]
 
 
-@dataclass
-class Skill:
-    name: str
-    level: str
-    icon: str
-    info: str
-    description: str
-    link: str
+class GitHubProject(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    shortDescription = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    link = db.Column(db.String(255), nullable=False)
+    technologien = db.Column(db.String(255), nullable=False)
+    logo = db.Column(db.String(255), nullable=False)
+    wip = db.Column(db.Boolean, nullable=False)
 
 
-@dataclass
-class Certification:
-    name: str
-    description: str
-    date: str
-    link: str
-    image: str
+class Skill(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    level = db.Column(db.String(255), nullable=False)
+    icon = db.Column(db.String(255), nullable=False)
+    info = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.String(255), nullable=False)
+    link = db.Column(db.String(255), nullable=False)
+
+
+class Certification(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.String(255), nullable=False)
+    date = db.Column(db.String(255), nullable=False)
+    link = db.Column(db.String(255), nullable=True)
+    image = db.Column(db.String(255), nullable=False)
