@@ -5,6 +5,7 @@
 {% import "components/contact_components.html" as contact_component %}
 {% import "components/bio_components.html" as bio_component %}
 {% import "components/style_components.html" as style_component %}
+{% import "components/certification_components.html" as certification_component %}
 
 {% block title %}{{ contact.name }} – Portfolio{% endblock %}
 
@@ -47,6 +48,20 @@
     {{ skills_component.skill_modal(skills, 'openSkill') }}
 </div>
 {% endcall %}
+
+<!-- Zertifikate Section -->
+{% if certifications %}
+{% call style_component.section_block('certifications', 'bg-white/30', 'Meine Zertifikate') %}
+<div x-data="{ openCertTile: null }">
+    <div class="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-6 gap-4 text-center">
+        {% for certification in certifications %}
+        {{ certification_component.certification_tile(certification, loop.index, 'openCertTile') }}
+        {% endfor %}
+    </div>
+    {{ certification_component.certification_modal(certifications, 'openCertTile') }}
+</div>
+{% endcall %}
+{% endif %}
 
 <!-- Kontakt Section -->
 {% call style_component.section_block('contact', 'bg-white/30', 'Kontakt') %}

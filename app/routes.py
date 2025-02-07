@@ -2,7 +2,7 @@
 from flask import Blueprint, render_template
 from datetime import datetime
 
-from app.models import Contact, About, Project, GitHubProject, Skill
+from app.models import Certification, Contact, About, Project, GitHubProject, Skill
 from app.data import parse_date, load_data, load_data_list
 
 
@@ -17,6 +17,11 @@ def index():
     skills = load_data_list(Skill, "skills.json")
     about = load_data(About, "about.json")
     contact = load_data(Contact, "contact.json")
+    certifications = load_data_list(Certification, "certs.json")
+
+    certifications = sorted(
+        certifications, key=lambda cert: parse_date(cert.date), reverse=True
+    )
 
     projects = sorted(
         projects, key=lambda project: parse_date(project.bis), reverse=True
@@ -30,5 +35,6 @@ def index():
         about=about,
         contact=contact,
         skills=skills,
+        certifications=certifications,
         now=datetime.now(),
     )

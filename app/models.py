@@ -59,3 +59,11 @@ class Skill:
     info: str
     description: str
     link: str
+
+
+@dataclass
+class Certification:
+    name: str
+    date: str
+    link: str
+    image: str

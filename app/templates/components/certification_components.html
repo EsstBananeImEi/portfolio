@@ -1,0 +1,51 @@
+{# templates/components/certification_components.html #}
+
+<!-- Zertifikat-Tile-Komponente -->
+{% macro certification_tile(certification, index, openCertTile) %}
+<div class="bg-white rounded-lg shadow-lg p-4 flex flex-col items-center transform transition hover:scale-105 cursor-pointer col-span-1 md:col-span-2"
+    @click="openCertTile = (openCertTile === {{ index }} ? null : {{ index }})">
+    <img src="{{ url_for('static', filename=certification.image.replace('static/', '')) }}"
+        alt="{{ certification.name }} Icon" class="w-10 h-10 md:w-16 md:h-16 mb-2 object-contain">
+    <!-- Dieser Block wird nur oberhalb von 1025px angezeigt -->
+    <div class="skill-text">
+        <h3 class="text-lg font-bold text-primary">{{ certification.name }}</h3>
+    </div>
+</div>
+{% endmacro %}
+
+<!-- Zertifikat-Modal-Komponente -->
+{% macro certification_modal(certifications, openCertTile) %}
+<div x-show="openCertTile !== null" x-cloak x-transition.opacity.duration.300ms
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" @click="openCertTile = null">
+    <div class="bg-white p-6 rounded-lg max-w-md w-full relative">
+        {% for certification in certifications %}
+        <div x-show="openCertTile === {{ loop.index }}" x-transition.duration.300ms>
+            <img src="{{ url_for('static', filename=certification.image.replace('static/', '')) }}"
+                alt="{{ certification.name }} Icon" class="w-10 h-10 md:w-16 md:h-16 mb-2 object-contain">
+            <h3 class="text-2xl font-bold text-primary text-center">{{ certification.name }}</h3>
+            <p class="text-center text-neutral mt-1">Datum: {{ certification.date }}</p>
+            <!-- Erweiterte Informationen -->
+            <div class="mt-4 text-center">
+                <p class="text-sm text-gray-600">{{ certification.info }}</p>
+                {% if certification.description %}
+                <div class="mt-2">
+                    <strong>Beschreibung:</strong>
+                    <p class="text-sm text-gray-600">{{ certification.description }}</p>
+                </div>
+                {% endif %}
+                {% if certification.link %}
+                <div class="mt-2">
+                    <a href="{{ certification.link }}" target="_blank"
+                        class="inline-block bg-primary text-white py-1 px-3 rounded hover:bg-opacity-90">
+                        Zum Zertifikat
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+        <!-- Schließen-Button -->
+        <button class="absolute top-2 right-2 text-2xl leading-none" @click="openCertTile = null">&times;</button>
+    </div>
+</div>
+{% endmacro %}
