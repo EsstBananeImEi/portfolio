@@ -38,8 +38,6 @@ class Project(db.Model):
     shortDescription = db.Column(db.String(255), nullable=False)
     rolle = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    # Beziehung zu Task; beachte, dass du das Feld hier nicht "aufgaben" nennst,
-    # da du in der JSON die Schlüssel "aufgaben" hast und später eine Konversion vornehmen musst.
     tasks = db.relationship("Task", backref="project", lazy=True)
     technologien = db.Column(db.String(255), nullable=False)
     von = db.Column(db.String(255), nullable=False)
@@ -48,11 +46,8 @@ class Project(db.Model):
     link = db.Column(db.String(255), nullable=True)
 
     def __init__(self, **kwargs):
-        # Extrahiere den JSON-Schlüssel "aufgaben" aus den kwargs
         tasks_data = kwargs.pop("aufgaben", None)
-        # Führe den Standard-Konstruktor aus
         super().__init__(**kwargs)
-        # Falls Aufgaben als Liste von Strings vorliegen, konvertiere sie in Task-Objekte
         if tasks_data:
             self.tasks = [Task(description=desc, project_id=id) for desc in tasks_data]
 

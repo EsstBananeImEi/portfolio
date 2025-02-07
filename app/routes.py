@@ -3,7 +3,7 @@ from flask import Blueprint, render_template
 from datetime import datetime
 
 from app.models import Certification, Contact, About, Project, GitHubProject, Skill
-from app.data import parse_date, load_data, load_data_list
+from app.data import parse_date
 
 
 main = Blueprint("main", __name__)

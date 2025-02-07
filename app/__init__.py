@@ -1,16 +1,14 @@
-# app/__init__.py
 from flask import Flask
 from .extensions import db
 
 
 def create_app():
     app = Flask(__name__)
+
     app.config.from_object("config.Config")
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///portfolio.db"
 
     db.init_app(app)
-
-    # Konfiguration laden (optional: app.config.from_object('config.Config'))
 
     # Blueprints oder Routen importieren und registrieren
     from app.routes import main  # Beispiel, wenn du Routen in routes.py hast

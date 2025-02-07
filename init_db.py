@@ -1,5 +1,3 @@
-# init_db.py
-import inspect
 from app import create_app, db
 from app.data import load_data, load_data_list
 from app.models import About, Certification, Contact, GitHubProject, Project, Skill

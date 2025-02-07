@@ -1,4 +1,3 @@
-# run.py
 from app import create_app
 from config import Config
 
