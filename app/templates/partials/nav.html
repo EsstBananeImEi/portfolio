@@ -1,83 +1,234 @@
-<nav id="nav" x-data="{ open: false }" class="bg-white/80 shadow-md py-4 relative z-50">
-    <!-- Desktop Navigation Variante für Bildschirme ab 1025px (lg und größer) -->
+<nav id="nav" class="bg-white/80 shadow-md py-4 relative z-50">
+    <!-- Desktop-Navigation (ab 1024px) -->
     <div class="hidden lg:block relative">
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center relative">
                 <!-- Absolut zentriertes Logo -->
                 <div class="absolute left-1/2 top-custom transform -translate-x-1/2">
-                    <img src="{{ url_for('static', filename='images/LOGONEU.svg') }}" alt="Logo von Sebastian Meine"
+                    <img src="{{ url_for('static', filename='images/LOGONEU.svg') }}" alt="Logo"
                         class="w-32 h-auto rounded-full">
                 </div>
-                <!-- Alle Links als eine Gruppe (oder nach Wunsch angeordnet) -->
-                <div class="flex space-x-4">
-                    <a class="px-3 text-base hover:text-accent" href="#projects">Projekte</a>
-                    <a class="px-3 text-base hover:text-accent" href="#github-projects">GitHub</a>
-                    <a class="px-3 text-base hover:text-accent" href="#skills">Skills</a>
-                    <a class="px-3 text-base hover:text-accent" href="#contact">Kontakt</a>
+                <!-- Linke Navigations-Gruppe (nur ab 1024px sichtbar) -->
+                <div class="hidden md:flex space-x-4">
+                    <a class="px-3 text-base hover:text-accent"
+                        href="{% if request.endpoint == 'main.index' %}#projects{% else %}{{ url_for('main.index', _anchor='projects') }}{% endif %}">
+                        Projekte
+                    </a>
+                    <a class="px-3 text-base hover:text-accent"
+                        href="{% if request.endpoint == 'main.index' %}#github-projects{% else %}{{ url_for('main.index', _anchor='github-projects') }}{% endif %}">
+                        GitHub
+                    </a>
+                    <a class="px-3 text-base hover:text-accent"
+                        href="{% if request.endpoint == 'main.index' %}#skills{% else %}{{ url_for('main.index', _anchor='skills') }}{% endif %}">
+                        Skills
+                    </a>
+                    <a class="px-3 text-base hover:text-accent"
+                        href="{% if request.endpoint == 'main.index' %}#certifications{% else %}{{ url_for('main.index', _anchor='certifications') }}{% endif %}">
+                        Zertifikate
+                    </a>
+                </div>
+                <!-- Rechte Gruppe (immer sichtbar) -->
+                <div class="flex space-x-4 items-center">
+                    <a class="px-3 text-base hover:text-accent"
+                        href="{% if request.endpoint == 'main.index' %}#contact{% else %}{{ url_for('main.index', _anchor='contact') }}{% endif %}">
+                        Kontakt
+                    </a>
+                    <a class="px-3 text-base hover:text-accent"
+                        href="{% if request.endpoint == 'main.index' %}#hero{% else %}{{ url_for('main.index', _anchor='hero') }}{% endif %}">
+                        About
+                    </a>
+                    {% if current_user.is_authenticated %}
+                    <div class="relative" x-data="{ open: false }">
+                        <button @click="open = !open" type="button"
+                            class="px-4 py-2 text-base font-semibold text-white bg-accent rounded-lg hover:bg-opacity-90 transition focus:outline-none">
+                            Menü
+                            <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <!-- Dropdown: Mit x-cloak, damit es nicht beim Laden kurz sichtbar wird -->
+                        <div x-show="open" x-cloak @click.away="open = false" x-transition
+                            class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                            <div class="py-1">
+                                <a href="{{ url_for('admin.edit_about') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    Bio bearbeiten
+                                </a>
+                                <a href="{{ url_for('auth.logout') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="ml-auto">
+                        <a class="px-4 py-2 text-base font-semibold text-white bg-accent rounded-lg hover:bg-opacity-90 transition"
+                            href="{{ url_for('auth.login') }}">
+                            Login
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Desktop Navigation Variante für Bildschirme unter 1025px (also md bis lg-1) -->
-    <div class="hidden md:block lg:hidden relative">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center relative">
-                <!-- Linke Gruppe -->
-                <div class="flex space-x-4">
-                    <a class="px-3 text-base hover:text-accent" href="#projects">Projekte</a>
-                    <a class="px-3 text-base hover:text-accent" href="#github-projects">GitHub</a>
-                </div>
-                <!-- Logo absolut zentriert -->
-                <div class="absolute left-1/2 top-custom transform -translate-x-1/2">
-                    <img src="{{ url_for('static', filename='images/LOGONEU.svg') }}" alt="Logo von Sebastian Meine"
-                        class="w-32 h-auto rounded-full">
-                </div>
-                <!-- Rechte Gruppe -->
-                <div class="flex space-x-4">
-                    <a class="px-3 text-base hover:text-accent" href="#skills">Skills</a>
-                    <a class="px-3 text-base hover:text-accent" href="#contact">Kontakt</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Mobile Navigation (für md:hidden) bleibt unverändert -->
-    <div class="md:hidden relative" x-data="{ open: false }" x-cloak>
-        <div class="container mx-auto px-4 flex justify-between items-center" style="height: 30px;">
-            <!-- Burger-Menü (links) -->
+    <!-- Zwischenstufe (unter 1024px, aber über 768px) -->
+    <div class="lg:hidden md:block hidden relative" x-data="{ open: false }" x-cloak>
+        <div class="container mx-auto px-4 flex justify-between items-center">
             <button @click="open = !open"
-                class="relative z-50 flex flex-col h-6 w-8 justify-between items-start focus:outline-none">
-                <span :class="{'rotate-45 translate-y-2': open}"
-                    class="block h-1 w-full bg-neutral transition-transform duration-300 ease-in-out"></span>
-                <span :class="{'opacity-0': open}"
-                    class="block h-1 w-full bg-neutral transition-opacity duration-300 ease-in-out"></span>
-                <span :class="{'-rotate-45 -translate-y-2': open}"
-                    class="block h-1 w-full bg-neutral transition-transform duration-300 ease-in-out"></span>
+                class="relative z-50 flex flex-col h-6 w-8 justify-between focus:outline-none">
+                <span :class="{'rotate-45 translate-y-2': open}" class="block h-1 w-full bg-neutral"></span>
+                <span :class="{'opacity-0': open}" class="block h-1 w-full bg-neutral"></span>
+                <span :class="{'-rotate-45 -translate-y-2': open}" class="block h-1 w-full bg-neutral"></span>
             </button>
+            <a class="absolute left-1/2 transform -translate-x-1/2">
+                <img src=" {{ url_for('static', filename='images/LOGONEU.svg' ) }}" alt="Logo von Sebastian Meine"
+                    class="w-24 md:w-28 h-auto rounded-full" style="bottom: 0; transform: translateY(40%);">
+            </a>
+            <div class="flex space-x-4 items-center">
+                <a class="px-3 text-base hover:text-accent"
+                    href="{% if request.endpoint == 'main.index' %}#contact{% else %}{{ url_for('main.index', _anchor='contact') }}{% endif %}">
+                    Kontakt
+                </a>
+                <a class="px-3 text-base hover:text-accent"
+                    href="{% if request.endpoint == 'main.index' %}#hero{% else %}{{ url_for('main.index', _anchor='hero') }}{% endif %}">
+                    About
+                </a>
+                {% if current_user.is_authenticated %}
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" type="button"
+                        class="px-4 py-2 text-base font-semibold text-white bg-accent rounded-lg hover:bg-opacity-90 transition focus:outline-none">
+                        Menü
+                        <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <!-- Dropdown: Mit x-cloak, damit es nicht beim Laden kurz sichtbar wird -->
+                    <div x-show="open" x-cloak @click.away="open = false" x-transition
+                        class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                        <div class="py-1">
+                            <a href="{{ url_for('admin.edit_about') }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                Bio bearbeiten
+                            </a>
+                            <a href="{{ url_for('auth.logout') }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="ml-auto">
+                    <a class="px-4 py-2 text-base font-semibold text-white bg-accent rounded-lg hover:bg-opacity-90 transition"
+                        href="{{ url_for('auth.login') }}">
+                        Login
+                    </a>
+                </div>
+                {% endif %}
+            </div>
         </div>
-        <!-- Absolut positioniertes Logo (rechts) -->
-        <a href="#hero">
+        <!-- Menü mit Projekten -->
+        <div x-show="open" @click.away="open = false" class="absolute top-full left-0 w-full bg-white z-40" x-cloak>
+            <div class="pt-2 pb-3 space-y-1 text-left px-4">
+                <a class="block px-3 py-2 hover:bg-gray-200"
+                    href="{% if request.endpoint == 'main.index' %}#projects{% else %}{{ url_for('main.index', _anchor='projects') }}{% endif %}">
+                    Projekte
+                </a>
+                <a class="block px-3 py-2 hover:bg-gray-200"
+                    href="{% if request.endpoint == 'main.index' %}#github-projects{% else %}{{ url_for('main.index', _anchor='github-projects') }}{% endif %}">
+                    GitHub
+                </a>
+                <a class="block px-3 py-2 hover:bg-gray-200"
+                    href="{% if request.endpoint == 'main.index' %}#skills{% else %}{{ url_for('main.index', _anchor='skills') }}{% endif %}">
+                    Skills
+                </a>
+                <a class="block px-3 py-2 hover:bg-gray-200"
+                    href="{% if request.endpoint == 'main.index' %}#certifications{% else %}{{ url_for('main.index', _anchor='certifications') }}{% endif %}">
+                    Zertifikate
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Mobile-Version (unter 768px) -->
+    <div class="md:hidden relative" x-data="{ open: false }" x-cloak>
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <button @click="open = !open"
+                class="relative z-50 flex flex-col h-6 w-8 justify-between focus:outline-none">
+                <span :class="{'rotate-45 translate-y-2': open}" class="block h-1 w-full bg-neutral"></span>
+                <span :class="{'opacity-0': open}" class="block h-1 w-full bg-neutral"></span>
+                <span :class="{'-rotate-45 -translate-y-2': open}" class="block h-1 w-full bg-neutral"></span>
+            </button>
+
+        </div>
+        <!-- Komplettes Mobile-Menü -->
+        <a>
             <img src="{{ url_for('static', filename='images/LOGONEU.svg') }}" alt="Logo von Sebastian Meine"
                 class="absolute right-4 w-20 h-auto rounded-full" style="bottom: 0; transform: translateY(70%);">
         </a>
-        <!-- Dropdown-Menü -->
-        <div x-show="open" @click.away="open = false" x-transition:enter="transition duration-300 ease-out"
-            x-transition:enter-start="opacity-0 transform -translate-y-2"
-            x-transition:enter-end="opacity-100 transform translate-y-0"
-            x-transition:leave="transition duration-200 ease-in"
-            x-transition:leave-start="opacity-100 transform translate-y-0"
-            x-transition:leave-end="opacity-0 transform -translate-y-2"
-            class="absolute top-full left-0 w-full bg-white z-40 border-t border-gray-200">
+        <div x-show="open" @click.away="open = false" class="absolute top-full left-0 w-full bg-white z-40" x-cloak>
             <div class="pt-2 pb-3 space-y-1 text-left px-4">
-                <a @click="setTimeout(() => { open = false }, 100)" href="#projects"
-                    class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">Projekte</a>
-                <a @click="setTimeout(() => { open = false }, 100)" href="#github-projects"
-                    class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">GitHub</a>
-                <a @click="setTimeout(() => { open = false }, 100)" href="#skills"
-                    class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">Skills</a>
-                <a @click="setTimeout(() => { open = false }, 100)" href="#contact"
-                    class="block px-3 py-2 rounded-md text-base hover:bg-gray-200">Kontakt</a>
+                {% if current_user.is_authenticated %}
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" type="button"
+                        class="px-4 py-2 text-base font-semibold text-white bg-accent rounded-lg hover:bg-opacity-90 transition focus:outline-none">
+                        Menü
+                        <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <!-- Dropdown: Mit x-cloak, damit es nicht beim Laden kurz sichtbar wird -->
+                    <div x-show="open" x-cloak @click.away="open = false" x-transition
+                        class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 block px-3 py-2 hover:bg-gray-200">
+                        <div class="py-1">
+                            <a href="{{ url_for('admin.edit_about') }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                Bio bearbeiten
+                            </a>
+                            <a href="{{ url_for('auth.logout') }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="ml-auto ">
+                    <a class="px-4 py-2 text-base font-semibold text-white bg-accent rounded-lg hover:bg-opacity-90 transition"
+                        href="{{ url_for('auth.login') }}">
+                        Login
+                    </a>
+                </div>
+                {% endif %}<a class="block px-3 py-2 hover:bg-gray-200"
+                    href="{% if request.endpoint == 'main.index' %}#projects{% else %}{{ url_for('main.index', _anchor='projects') }}{% endif %}">
+                    Projekte
+                </a>
+                <a class="block px-3 py-2 hover:bg-gray-200"
+                    href="{% if request.endpoint == 'main.index' %}#github-projects{% else %}{{ url_for('main.index', _anchor='github-projects') }}{% endif %}">
+                    GitHub
+                </a>
+                <a class="block px-3 py-2 hover:bg-gray-200"
+                    href="{% if request.endpoint == 'main.index' %}#skills{% else %}{{ url_for('main.index', _anchor='skills') }}{% endif %}">
+                    Skills
+                </a>
+                <a class="block px-3 py-2 hover:bg-gray-200"
+                    href="{% if request.endpoint == 'main.index' %}#certifications{% else %}{{ url_for('main.index', _anchor='certifications') }}{% endif %}">
+                    Zertifikate
+                </a>
+                <a class="block px-3 py-2 hover:bg-gray-200"
+                    href="{% if request.endpoint == 'main.index' %}#contact{% else %}{{ url_for('main.index', _anchor='contact') }}{% endif %}">
+                    Kontakt
+                </a>
+                <a class="block px-3 py-2 hover:bg-gray-200"
+                    href="{% if request.endpoint == 'main.index' %}#hero{% else %}{{ url_for('main.index', _anchor='hero') }}{% endif %}">
+                    About
+                </a>
             </div>
         </div>
     </div>
@@ -87,3 +238,16 @@
         <span class="material-symbols-outlined text-2xl md:text-5xl">arrow_upward</span>
     </a>
 </nav>
+<!-- Flash Messages Container -->
+<div id="flash-messages" class="fixed left-4 top-16 w-64 z-50">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div
+        class="flash-message px-4 py-2 mb-2 rounded-lg text-white text-sm shadow-lg {{ 'bg-green-500' if category == 'success' else 'bg-red-500' }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</div>

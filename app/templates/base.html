@@ -10,19 +10,19 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.tailwindcss.com"></script>
-
     {% block head_extra %}{% endblock %}
 </head>
 
+<!-- Body als Flex-Container mit mindestens Bildschirmhöhe -->
 
-<body class="bg-background text-neutral relative"
-    style="background: url('{{ url_for('static', filename='images/hero-bg.jpg') }}')  no-repeat center center fixed; background-size: cover;">
+<body class="flex flex-col min-h-screen bg-background text-neutral relative"
+    style="background: url('{{ url_for('static', filename='images/hero-bg.jpg') }}') no-repeat center center fixed; background-size: cover;">
 
     <!-- Navigation -->
     {% include "partials/nav.html" %}
 
-    <!-- Seiteninhalt -->
-    <main>
+    <!-- Hauptinhalt -->
+    <main class="flex-grow {% block main_class %}{% endblock %}">
         {% block content %}{% endblock %}
     </main>
 
@@ -33,7 +33,6 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="{{ url_for('static', filename='js/tailwind-config.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-
     {% block scripts %}{% endblock %}
 </body>
 

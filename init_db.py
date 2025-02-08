@@ -1,6 +1,8 @@
 from app import create_app, db
+from app.auth.models import User
 from app.data import load_data, load_data_list
 from app.models import About, Certification, Contact, GitHubProject, Project, Skill
+from werkzeug.security import generate_password_hash
 
 app = create_app()
 
@@ -24,6 +26,10 @@ with app.app_context():
     github_project_instances = load_data_list(GitHubProject, "github_projects.json")
     certification_instances = load_data_list(Certification, "certs.json")
 
+    user = User(
+        username="Psychoorc", password=generate_password_hash("P422w0rd4Schottel23")
+    )
+    db.session.add(user)
     db.session.add(about_instance)
     db.session.add(contact_instance)
     db.session.add_all(skills_instances)

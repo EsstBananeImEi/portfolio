@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Bio bearbeiten{% endblock %}
+
+{% block main_class %}flex items-center justify-center{% endblock %}
+
+{% block content %}
+
+<div class="w-full max-w-2xl bg-white/80 shadow-md rounded-lg p-6">
+
+    <h1 class="text-2xl font-bold text-center mb-6">Bio bearbeiten</h1>
+
+    <!-- Formular zum Erstellen/Aktualisieren der Bio -->
+    <form method="POST" action="{{ url_for('admin.edit_about') }}">
+        {{ form.hidden_tag() }}
+
+        <div class="mb-4">
+            <label for="greeting" class="block text-sm font-medium text-gray-700">Begrüßung</label>
+            {{ form.greeting(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-accent
+            focus:border-accent") }}
+        </div>
+
+        <div class="mb-4">
+            <label for="bio" class="block text-sm font-medium text-gray-700">Bio</label>
+            {{ form.bio(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-accent
+            focus:border-accent", rows="5") }}
+        </div>
+
+        <div class="mb-4">
+            <label for="role" class="block text-sm font-medium text-gray-700">Rolle</label>
+            {{ form.role(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-accent
+            focus:border-accent") }}
+        </div>
+
+        <div class="flex items-center justify-center">
+            {{ form.submit(class="py-2 px-4 bg-accent text-white font-semibold rounded-lg hover:bg-opacity-90
+            transition") }}
+        </div>
+    </form>
+
+    {% if about %}
+    <div class="flex items-center justify-center mt-4">
+        <form method="POST" action="{{ url_for('admin.delete_about') }}"
+            onsubmit="return confirm('Möchten Sie diese Bio wirklich löschen?');">
+            <button type="submit"
+                class="py-2 px-4 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition">
+                Löschen
+            </button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -148,3 +148,17 @@ footer {
 [x-cloak] {
     display: none !important;
 }
+
+.flash-message {
+    animation: fadeOut 0.5s ease-in-out 3s forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
