@@ -20,8 +20,14 @@
     x-init="$watch('openTile', value => { document.body.style.overflow = value !== null ? 'hidden' : '' })"
     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 fix-height"
     @click="openTile = null">
-    <!-- Modal-Inhalt mit maximaler Höhe und Scrollbarkeit -->
-    <div class="bg-white p-6 rounded-lg max-w-3xl w-full relative max-h-[90vh] overflow-y-auto">
+    <!-- Modal-Inhalt mit Referenz und Watcher -->
+    <div x-ref="modalContent" x-init="$watch('openTile', value => { 
+                     if (value !== null) { 
+                         $nextTick(() => { 
+                             $refs.modalContent.scrollTop = 0; 
+                         }); 
+                     } 
+                 })" class="bg-white p-6 rounded-lg max-w-3xl w-full relative max-h-[90vh] overflow-y-auto">
         {% for project in projects %}
         <div x-show="openTile === {{ loop.index }}" x-transition.duration.300ms>
             <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
