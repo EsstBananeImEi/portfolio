@@ -19,6 +19,7 @@
 
 {% macro skill_modal(skills, openSkill) %}
 <div x-show="openSkill !== null" x-cloak x-transition.opacity.duration.300ms
+    x-init="$watch('openSkill', value => { document.body.style.overflow = value !== null ? 'hidden' : '' })"
     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 fix-height"
     @click="openSkill = null">
     <div class="bg-white p-6 rounded-lg max-w-md w-full relative">
