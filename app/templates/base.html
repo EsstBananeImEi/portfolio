@@ -18,7 +18,8 @@
 
 <!-- Body als Flex-Container mit mindestens Bildschirmhöhe -->
 
-<body class="flex flex-col min-h-screen bg-background text-neutral relative"
+<body x-data="{ openTile: null }" :class="{ 'overflow-hidden': openTile !== null }"
+    class="flex flex-col min-h-screen bg-background text-neutral relative"
     style="background: url('{{ url_for('static', filename='images/hero-bg.jpg') }}') no-repeat center center fixed; background-size: cover;">
 
     <!-- Navigation -->

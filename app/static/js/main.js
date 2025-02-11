@@ -1,7 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
     const tiles = Array.from(document.querySelectorAll('.project-tile'));
     const backToTop = document.getElementById('back-to-top');
+    function updateViewportHeight() {
+        document.documentElement.style.setProperty('--real-vh', `${window.innerHeight}px`);
+    }
 
+    // Beim Laden und bei Größenänderung aktualisieren
+    window.addEventListener('resize', updateViewportHeight);
+    window.addEventListener('orientationchange', updateViewportHeight);
+    updateViewportHeight();
     // Sichtbarkeit des Back-to-Top-Buttons
     backToTop.style.display = 'none';
     window.addEventListener('scroll', function () {

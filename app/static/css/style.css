@@ -1,4 +1,11 @@
 /* Grundlegende Einstellungen */
+
+:root {
+    --real-vh: 100vh;
+    /* Fallback */
+}
+
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: #ffffff;
@@ -88,6 +95,10 @@ footer {
 @media (max-width: 768px) {
     .hero h1 {
         font-size: 2.5rem;
+    }
+
+    .fix-height {
+        height: var(--real-vh);
     }
 }
 
