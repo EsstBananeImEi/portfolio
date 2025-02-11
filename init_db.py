@@ -27,7 +27,9 @@ with app.app_context():
     certification_instances = load_data_list(Certification, "certs.json")
 
     user = User(
-        username="Psychoorc", password=generate_password_hash("P422w0rd4Schottel23")
+        username="Psychoorc",
+        password=generate_password_hash("P422w0rd4Schottel23"),
+        image="CRM_Meine_1.jpg",
     )
     db.session.add(user)
     db.session.add(about_instance)

@@ -12,7 +12,6 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
 
-    # Importiere und registriere Blueprints NACH dem Initialisieren von db
     from app.main.routes import main
     from app.auth.routes import auth
     from app.admin.routes import admin

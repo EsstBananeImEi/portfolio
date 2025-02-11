@@ -1,250 +1,121 @@
-<nav id="nav" class="bg-white/80 shadow-md py-4 relative z-50">
-    <!-- Desktop-Navigation (ab 1024px) -->
-    <div class="hidden lg:block relative">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center relative">
-                <!-- Absolut zentriertes Logo -->
-                <div class="absolute left-1/2 top-custom transform -translate-x-1/2">
-                    <img src="{{ url_for('static', filename='images/LOGONEU.svg') }}" alt="Logo"
-                        class="w-32 h-auto rounded-full">
-                </div>
-                <!-- Linke Navigations-Gruppe (nur ab 1024px sichtbar) -->
-                <div class="hidden md:flex space-x-4">
-                    <a class="px-3 text-base hover:text-accent"
-                        href="{% if request.endpoint == 'main.index' %}#projects{% else %}{{ url_for('main.index', _anchor='projects') }}{% endif %}">
-                        Projekte
-                    </a>
-                    <a class="px-3 text-base hover:text-accent"
-                        href="{% if request.endpoint == 'main.index' %}#github-projects{% else %}{{ url_for('main.index', _anchor='github-projects') }}{% endif %}">
-                        GitHub
-                    </a>
-                    <a class="px-3 text-base hover:text-accent"
-                        href="{% if request.endpoint == 'main.index' %}#skills{% else %}{{ url_for('main.index', _anchor='skills') }}{% endif %}">
-                        Skills
-                    </a>
-                    <a class="px-3 text-base hover:text-accent"
-                        href="{% if request.endpoint == 'main.index' %}#certifications{% else %}{{ url_for('main.index', _anchor='certifications') }}{% endif %}">
-                        Zertifikate
-                    </a>
-                </div>
-                <!-- Rechte Gruppe (immer sichtbar) -->
-                <div class="flex space-x-4 items-center">
-                    <a class="px-3 text-base hover:text-accent"
-                        href="{% if request.endpoint == 'main.index' %}#contact{% else %}{{ url_for('main.index', _anchor='contact') }}{% endif %}">
-                        Kontakt
-                    </a>
-                    <a class="px-3 text-base hover:text-accent"
-                        href="{% if request.endpoint == 'main.index' %}#hero{% else %}{{ url_for('main.index', _anchor='hero') }}{% endif %}">
-                        About
-                    </a>
-                    {% if current_user.is_authenticated %}
-                    <div class="relative" x-data="{ open: false }">
-                        <button @click="open = !open" type="button"
-                            class="px-4 py-2 text-base font-semibold text-white bg-accent rounded-lg hover:bg-opacity-90 transition focus:outline-none">
-                            Menü
-                            <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <!-- Dropdown: Mit x-cloak, damit es nicht beim Laden kurz sichtbar wird -->
-                        <div x-show="open" x-cloak @click.away="open = false" x-transition
-                            class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                            <div class="py-1">
-                                <a href="{{ url_for('admin.edit_about') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    Bio bearbeiten
-                                </a>
-                                <a href="{{ url_for('auth.logout') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    Logout
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    {% else %}
-                    <div class="ml-auto">
-                        <a class="px-4 py-2 text-base font-semibold text-white bg-accent rounded-lg hover:bg-opacity-90 transition"
-                            href="{{ url_for('auth.login') }}">
-                            Login
-                        </a>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Zwischenstufe (unter 1024px, aber über 768px) -->
-    <div class="lg:hidden md:block hidden relative" x-data="{ open: false }" x-cloak>
-        <div class="container mx-auto px-4 flex justify-between items-center">
-            <button @click="open = !open"
-                class="relative z-50 flex flex-col h-6 w-8 justify-between focus:outline-none">
-                <span :class="{'rotate-45 translate-y-2': open}" class="block h-1 w-full bg-neutral"></span>
-                <span :class="{'opacity-0': open}" class="block h-1 w-full bg-neutral"></span>
-                <span :class="{'-rotate-45 -translate-y-2': open}" class="block h-1 w-full bg-neutral"></span>
-            </button>
-            <a class="absolute left-1/2 transform -translate-x-1/2">
-                <img src=" {{ url_for('static', filename='images/LOGONEU.svg' ) }}" alt="Logo von Sebastian Meine"
-                    class="w-24 md:w-28 h-auto rounded-full" style="bottom: 0; transform: translateY(40%);">
-            </a>
-            <div class="flex space-x-4 items-center">
-                <a class="px-3 text-base hover:text-accent"
-                    href="{% if request.endpoint == 'main.index' %}#contact{% else %}{{ url_for('main.index', _anchor='contact') }}{% endif %}">
-                    Kontakt
-                </a>
-                <a class="px-3 text-base hover:text-accent"
-                    href="{% if request.endpoint == 'main.index' %}#hero{% else %}{{ url_for('main.index', _anchor='hero') }}{% endif %}">
-                    About
-                </a>
-                {% if current_user.is_authenticated %}
-                <div class="relative" x-data="{ open: false }">
-                    <button @click="open = !open" type="button"
-                        class="px-4 py-2 text-base font-semibold text-white bg-accent rounded-lg hover:bg-opacity-90 transition focus:outline-none">
-                        Menü
-                        <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    <!-- Dropdown: Mit x-cloak, damit es nicht beim Laden kurz sichtbar wird -->
-                    <div x-show="open" x-cloak @click.away="open = false" x-transition
-                        class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                        <div class="py-1">
-                            <a href="{{ url_for('admin.edit_about') }}"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                Bio bearbeiten
-                            </a>
-                            <a href="{{ url_for('auth.logout') }}"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                Logout
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                {% else %}
-                <div class="ml-auto">
-                    <a class="px-4 py-2 text-base font-semibold text-white bg-accent rounded-lg hover:bg-opacity-90 transition"
-                        href="{{ url_for('auth.login') }}">
-                        Login
-                    </a>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-        <!-- Menü mit Projekten -->
-        <div x-show="open" @click.away="open = false" class="absolute top-full left-0 w-full bg-white z-40" x-cloak>
-            <div class="pt-2 pb-3 space-y-1 text-left px-4">
-                <a class="block px-3 py-2 hover:bg-gray-200"
-                    href="{% if request.endpoint == 'main.index' %}#projects{% else %}{{ url_for('main.index', _anchor='projects') }}{% endif %}">
-                    Projekte
-                </a>
-                <a class="block px-3 py-2 hover:bg-gray-200"
-                    href="{% if request.endpoint == 'main.index' %}#github-projects{% else %}{{ url_for('main.index', _anchor='github-projects') }}{% endif %}">
-                    GitHub
-                </a>
-                <a class="block px-3 py-2 hover:bg-gray-200"
-                    href="{% if request.endpoint == 'main.index' %}#skills{% else %}{{ url_for('main.index', _anchor='skills') }}{% endif %}">
-                    Skills
-                </a>
-                <a class="block px-3 py-2 hover:bg-gray-200"
-                    href="{% if request.endpoint == 'main.index' %}#certifications{% else %}{{ url_for('main.index', _anchor='certifications') }}{% endif %}">
-                    Zertifikate
-                </a>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Mobile-Version (unter 768px) -->
-    <div class="md:hidden relative" x-data="{ open: false }" x-cloak>
-        <div class="container mx-auto px-4 flex justify-between items-center">
-            <button @click="open = !open"
-                class="relative z-50 flex flex-col h-6 w-8 justify-between focus:outline-none">
-                <span :class="{'rotate-45 translate-y-2': open}" class="block h-1 w-full bg-neutral"></span>
-                <span :class="{'opacity-0': open}" class="block h-1 w-full bg-neutral"></span>
-                <span :class="{'-rotate-45 -translate-y-2': open}" class="block h-1 w-full bg-neutral"></span>
-            </button>
-
-        </div>
-        <!-- Komplettes Mobile-Menü -->
-        <a>
-            <img src="{{ url_for('static', filename='images/LOGONEU.svg') }}" alt="Logo von Sebastian Meine"
-                class="absolute right-4 w-20 h-auto rounded-full" style="bottom: 0; transform: translateY(70%);">
+<!-- Navbar -->
+<nav id="nav" class="bg-white/80 border-gray-700 w-full top-0 z-50 shadow-md" x-data="{ mobileOpen: false }">
+    <div class="max-w-screen-xl mx-auto px-4 flex items-center justify-between h-16">
+        <!-- Linke Seite: Logo -->
+        <a href="{% if request.endpoint == 'main.index' %}#{% else %}{{ url_for('main.index', _anchor='') }}{% endif %}"
+            class="flex items-center space-x-2">
+            <img src="{{ url_for('static', filename='images/LOGONEU.svg') }}" alt="Logo" class="w-10 h-auto">
+            <span class="text-base text-xl font-bold">Portfolio</span>
         </a>
-        <div x-show="open" @click.away="open = false" class="absolute top-full left-0 w-full bg-white z-40" x-cloak>
-            <div class="pt-2 pb-3 space-y-1 text-left px-4">
-                {% if current_user.is_authenticated %}
-                <div class="relative" x-data="{ open: false }">
-                    <button @click="open = !open" type="button"
-                        class="px-4 py-2 text-base font-semibold text-white bg-accent rounded-lg hover:bg-opacity-90 transition focus:outline-none">
-                        Menü
-                        <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    <!-- Dropdown: Mit x-cloak, damit es nicht beim Laden kurz sichtbar wird -->
-                    <div x-show="open" x-cloak @click.away="open = false" x-transition
-                        class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 block px-3 py-2 hover:bg-gray-200">
-                        <div class="py-1">
-                            <a href="{{ url_for('admin.edit_about') }}"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                Bio bearbeiten
-                            </a>
-                            <a href="{{ url_for('auth.logout') }}"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                Logout
-                            </a>
-                        </div>
+
+        <!-- Desktop Navigation (ab 1024px) -->
+        <div class="hidden lg:flex flex-1 items-center justify-center space-x-6">
+            <!-- Navigationslinks -->
+            <a href="{% if request.endpoint == 'main.index' %}#projects{% else %}{{ url_for('main.index', _anchor='projects') }}{% endif %}"
+                class="text-base hover:underline">Projekte</a>
+            <a href="{% if request.endpoint == 'main.index' %}#github-projects{% else %}{{ url_for('main.index', _anchor='github-projects') }}{% endif %}"
+                class="text-base hover:underline">GitHub</a>
+            <a href="{% if request.endpoint == 'main.index' %}#skills{% else %}{{ url_for('main.index', _anchor='skills') }}{% endif %}"
+                class="text-base hover:underline">Skills</a>
+            <a href="{% if request.endpoint == 'main.index' %}#certifications{% else %}{{ url_for('main.index', _anchor='certifications') }}{% endif %}"
+                class="text-base hover:underline">Zertifikate</a>
+            <a href="{% if request.endpoint == 'main.index' %}#contact{% else %}{{ url_for('main.index', _anchor='contact') }}{% endif %}"
+                class="text-base hover:underline">Kontakt</a>
+            <a href="{% if request.endpoint == 'main.index' %}#hero{% else %}{{ url_for('main.index', _anchor='hero') }}{% endif %}"
+                class="text-base hover:underline">About</a>
+        </div>
+
+        <!-- Desktop User Dropdown (ab 1024px) -->
+        <!-- <div class="hidden lg:block">
+            {% if current_user.is_authenticated %}
+            <div class="relative" x-data="{ userOpen: false }">
+                <button @click="userOpen = !userOpen" type="button" class="flex items-center focus:outline-none">
+                    <img src="{{ url_for('static', filename='images/' + (current_user.image or 'default.png')) }}"
+                        alt="Profilbild von {{ current_user.username }}"
+                        class="w-8 h-8 rounded-full border-2 border-gray-300">
+                </button>
+                <div x-show="userOpen" x-cloak @click.away="userOpen = false" x-transition
+                    class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg">
+                    <div class="py-1">
+                        <a href="{{ url_for('admin.edit_about') }}"
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Bio bearbeiten</a>
+                        <a href="{{ url_for('auth.logout') }}"
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
                     </div>
                 </div>
-                {% else %}
-                <div class="ml-auto ">
-                    <a class="px-4 py-2 text-base font-semibold text-white bg-accent rounded-lg hover:bg-opacity-90 transition"
-                        href="{{ url_for('auth.login') }}">
-                        Login
-                    </a>
-                </div>
-                {% endif %}<a class="block px-3 py-2 hover:bg-gray-200"
-                    href="{% if request.endpoint == 'main.index' %}#projects{% else %}{{ url_for('main.index', _anchor='projects') }}{% endif %}">
-                    Projekte
-                </a>
-                <a class="block px-3 py-2 hover:bg-gray-200"
-                    href="{% if request.endpoint == 'main.index' %}#github-projects{% else %}{{ url_for('main.index', _anchor='github-projects') }}{% endif %}">
-                    GitHub
-                </a>
-                <a class="block px-3 py-2 hover:bg-gray-200"
-                    href="{% if request.endpoint == 'main.index' %}#skills{% else %}{{ url_for('main.index', _anchor='skills') }}{% endif %}">
-                    Skills
-                </a>
-                <a class="block px-3 py-2 hover:bg-gray-200"
-                    href="{% if request.endpoint == 'main.index' %}#certifications{% else %}{{ url_for('main.index', _anchor='certifications') }}{% endif %}">
-                    Zertifikate
-                </a>
-                <a class="block px-3 py-2 hover:bg-gray-200"
-                    href="{% if request.endpoint == 'main.index' %}#contact{% else %}{{ url_for('main.index', _anchor='contact') }}{% endif %}">
-                    Kontakt
-                </a>
-                <a class="block px-3 py-2 hover:bg-gray-200"
-                    href="{% if request.endpoint == 'main.index' %}#hero{% else %}{{ url_for('main.index', _anchor='hero') }}{% endif %}">
-                    About
-                </a>
             </div>
+            {% else %}
+            <a href="{{ url_for('auth.login') }}"
+                class="px-4 py-2 bg-accent text-base rounded-lg hover:bg-opacity-90 transition">Login</a>
+            {% endif %}
+        </div> -->
+
+        <!-- Mobile/Tablet Navigation (unter 1024px) -->
+        <div class="flex lg:hidden items-center space-x-4">
+            <!-- {% if current_user.is_authenticated %}
+            <div class="relative" x-data="{ userOpen: false }">
+                <button @click="userOpen = !userOpen" type="button" class="flex items-center focus:outline-none">
+                    <img src="{{ url_for('static', filename='images/' + (current_user.image or 'default.png')) }}"
+                        alt="Profilbild von {{ current_user.username }}"
+                        class="w-8 h-8 rounded-full border-2 border-gray-300">
+                </button>
+                <div x-show="userOpen" x-cloak @click.away="userOpen = false" x-transition
+                    class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg">
+                    <div class="py-1">
+                        <a href="{{ url_for('admin.edit_about') }}"
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Bio bearbeiten</a>
+                        <a href="{{ url_for('auth.logout') }}"
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <a href="{{ url_for('auth.login') }}"
+                class="px-4 py-2 bg-accent text-base rounded-lg hover:bg-opacity-90 transition">Login</a>
+            {% endif %} -->
+            <button @click="mobileOpen = !mobileOpen" id="mobile-menu-button"
+                class="p-2 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    </path>
+                </svg>
+            </button>
         </div>
     </div>
+
+    <!-- Mobile/Tablet Dropdown for Navigation Links -->
+    <div id="mobile-menu" class="lg:hidden bg-white shadow-lg absolute top-16 left-0 w-full z-50" x-show="mobileOpen"
+        x-cloak @click.away="mobileOpen = false" x-transition>
+        <div class="px-4 pt-2 pb-3 space-y-1">
+            <a href="#projects" class="block text-base hover:bg-gray-700 px-3 py-2"
+                @click="mobileOpen = false">Projekte</a>
+            <a href="#github-projects" class="block text-base hover:bg-gray-700 px-3 py-2"
+                @click="mobileOpen = false">GitHub</a>
+            <a href="#skills" class="block text-base hover:bg-gray-700 px-3 py-2" @click="mobileOpen = false">Skills</a>
+            <a href="#certifications" class="block text-base hover:bg-gray-700 px-3 py-2"
+                @click="mobileOpen = false">Zertifikate</a>
+            <a href="#contact" class="block text-base hover:bg-gray-700 px-3 py-2"
+                @click="mobileOpen = false">Kontakt</a>
+            <a href="#hero" class="block text-base hover:bg-gray-700 px-3 py-2" @click="mobileOpen = false">About</a>
+        </div>
+    </div>
+
+
     <!-- "Back-to-Top"-Button -->
     <a href="#nav" id="back-to-top"
-        class="fixed bottom-4 right-4 bg-accent text-white p-3 md:p-4 rounded-full shadow-lg hover:bg-opacity-90 z-50">
+        class="fixed bottom-4 right-4 bg-accent text-base p-3 md:p-4 rounded-full shadow-lg hover:bg-opacity-90 z-50">
         <span class="material-symbols-outlined text-2xl md:text-5xl">arrow_upward</span>
     </a>
 </nav>
+
 <!-- Flash Messages Container -->
 <div id="flash-messages" class="fixed left-4 top-16 w-64 z-50">
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     {% for category, message in messages %}
     <div
-        class="flash-message px-4 py-2 mb-2 rounded-lg text-white text-sm shadow-lg {{ 'bg-green-500' if category == 'success' else 'bg-red-500' }}">
+        class="flash-message px-4 py-2 mb-2 rounded-lg text-base text-sm shadow-lg {{ 'bg-green-500' if category == 'success' else 'bg-red-500' }}">
         {{ message }}
     </div>
     {% endfor %}
