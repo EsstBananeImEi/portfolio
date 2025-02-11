@@ -5,7 +5,7 @@
         <a href="{% if request.endpoint == 'main.index' %}#{% else %}{{ url_for('main.index', _anchor='') }}{% endif %}"
             class="flex items-center space-x-2">
             <img src="{{ url_for('static', filename='images/LOGONEU.svg') }}" alt="Logo" class="w-10 h-auto">
-            <span class="text-base text-xl font-bold">Portfolio</span>
+            <span class="text-base text-xl font-bold">{{ contact.get_full_name()}}</span>
         </a>
 
         <!-- Desktop Navigation (ab 1024px) -->
