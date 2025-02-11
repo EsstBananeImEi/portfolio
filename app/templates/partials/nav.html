@@ -86,16 +86,18 @@
     <div id="mobile-menu" class="lg:hidden bg-white shadow-lg absolute top-16 left-0 w-full z-50" x-show="mobileOpen"
         x-cloak @click.away="mobileOpen = false" x-transition>
         <div class="px-4 pt-2 pb-3 space-y-1">
-            <a href="#projects" class="block text-base hover:bg-gray-700 px-3 py-2"
-                @click="mobileOpen = false">Projekte</a>
-            <a href="#github-projects" class="block text-base hover:bg-gray-700 px-3 py-2"
-                @click="mobileOpen = false">GitHub</a>
-            <a href="#skills" class="block text-base hover:bg-gray-700 px-3 py-2" @click="mobileOpen = false">Skills</a>
-            <a href="#certifications" class="block text-base hover:bg-gray-700 px-3 py-2"
-                @click="mobileOpen = false">Zertifikate</a>
-            <a href="#contact" class="block text-base hover:bg-gray-700 px-3 py-2"
-                @click="mobileOpen = false">Kontakt</a>
-            <a href="#hero" class="block text-base hover:bg-gray-700 px-3 py-2" @click="mobileOpen = false">About</a>
+            <a href="{% if request.endpoint == 'main.index' %}#projects{% else %}{{ url_for('main.index', _anchor='projects') }}{% endif %}"
+                class="block text-base hover:bg-gray-700 px-3 py-2" @click="mobileOpen = false">Projekte</a>
+            <a href="{% if request.endpoint == 'main.index' %}#github-projects{% else %}{{ url_for('main.index', _anchor='github-projects') }}{% endif %}"
+                class="block text-base hover:bg-gray-700 px-3 py-2" @click="mobileOpen = false">GitHub</a>
+            <a href="{% if request.endpoint == 'main.index' %}#skills{% else %}{{ url_for('main.index', _anchor='skills') }}{% endif %}"
+                class="block text-base hover:bg-gray-700 px-3 py-2" @click="mobileOpen = false">Skills</a>
+            <a href="{% if request.endpoint == 'main.index' %}#certifications{% else %}{{ url_for('main.index', _anchor='certifications') }}{% endif %}"
+                class="block text-base hover:bg-gray-700 px-3 py-2" @click="mobileOpen = false">Zertifikate</a>
+            <a href="{% if request.endpoint == 'main.index' %}#contact{% else %}{{ url_for('main.index', _anchor='contact') }}{% endif %}"
+                class="block text-base hover:bg-gray-700 px-3 py-2" @click="mobileOpen = false">Kontakt</a>
+            <a href="{% if request.endpoint == 'main.index' %}#hero{% else %}{{ url_for('main.index', _anchor='hero') }}{% endif %}"
+                class="block text-base hover:bg-gray-700 px-3 py-2" @click="mobileOpen = false">About</a>
         </div>
     </div>
 
