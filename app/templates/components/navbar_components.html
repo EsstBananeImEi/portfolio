@@ -1,0 +1,59 @@
+{# templates/components/navbar_components.html #}
+
+{% set nav_links = [
+{"anchor": "projects", "text": "Projekte"},
+{"anchor": "github-projects", "text": "GitHub"},
+{"anchor": "skills", "text": "Skills"},
+{"anchor": "certifications", "text": "Zertifikate"},
+{"anchor": "contact", "text": "Kontakt"},
+{"anchor": "hero", "text": "About"}
+] %}
+
+<!-- Links for Mobile -->
+{% macro mobile_nav_link() -%}
+{% for link in nav_links %}
+{% if request.endpoint == 'main.index' %}
+<a href="#{{ link.anchor }}" class="block text-base hover:bg-gray-700 px-3 py-2" @click="mobileOpen = false">{{
+    link.text }}</a>
+{% else %}
+<a href="{{ url_for('main.index', _anchor=link.anchor) }}" class="block text-base hover:bg-gray-700 px-3 py-2"
+    @click="mobileOpen = false">{{ link.text }}</a>
+{% endif %}
+{% endfor %}
+{% endmacro %}
+
+<!-- Links for Desktop -->
+{% macro nav_link() -%}
+{% for link in nav_links %}
+{% if request.endpoint == 'main.index' %}
+<a href="#{{ link.anchor }}" class="text-base hover:underline">{{
+    link.text }}</a>
+{% else %}
+<a href="{{ url_for('main.index', _anchor=link.anchor) }}" class="text-base hover:underline">{{ link.text }}</a>
+{% endif %}
+{% endfor %}
+{% endmacro %}
+
+<!-- User authentification -->
+{% macro user_dropdown(current_user) %}
+{% if current_user.is_authenticated %}
+<div class="relative" x-data="{ userOpen: false }">
+    <button @click="userOpen = !userOpen" type="button" class="flex items-center focus:outline-none">
+        <img src="{{ url_for('static', filename='images/' + (current_user.image or 'default.png')) }}"
+            alt="Profilbild von {{ current_user.username }}" class="w-8 h-8 rounded-full ">
+    </button>
+    <div x-show="userOpen" x-cloak @click.away="userOpen = false" x-transition
+        class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg">
+        <div class="py-1">
+            <a href="{{ url_for('admin.edit_about') }}"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Bio bearbeiten</a>
+            <a href="{{ url_for('auth.logout') }}"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+        </div>
+    </div>
+</div>
+{% else %}
+<a href="{{ url_for('auth.login') }}"
+    class="px-4 py-2 bg-black/50 text-gray rounded-lg hover:bg-opacity-90 transition">Login</a>
+{% endif %}
+{% endmacro %}
