@@ -11,7 +11,15 @@ document.addEventListener('DOMContentLoaded', function () {
             backToTop.style.display = 'none';
         }
     });
-
+    document.addEventListener('alpine:init', () => {
+        Alpine.effect(() => {
+            if (Alpine.store('openTile') !== null) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        });
+    });
     function updateActiveTile() {
         // Falls Desktopmodus (>=768px): entferne alle "active" und beende die Funktion
         if (window.innerWidth >= 768) {
@@ -40,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+
     // Initialer Aufruf und Aktualisierung bei Scroll und Resize
     updateActiveTile();
     window.addEventListener('scroll', updateActiveTile);
@@ -54,3 +63,4 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }, 3000); // 3 Sekunden warten
 });
+

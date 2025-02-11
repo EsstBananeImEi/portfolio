@@ -1,3 +1,4 @@
+<!-- base.html -->
 <!DOCTYPE html>
 <html lang="de">
 
@@ -22,7 +23,7 @@
 
     <!-- Navigation -->
     {% include "partials/nav.html" %}
-
+    {% include "partials/messages.html" %}
     <!-- Hauptinhalt -->
     <main class="flex-grow {% block main_class %}{% endblock %}">
         {% block content %}{% endblock %}
