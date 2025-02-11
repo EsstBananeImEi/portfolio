@@ -16,7 +16,8 @@
 <!-- Zertifikat-Modal-Komponente -->
 {% macro certification_modal(certifications, openCertTile) %}
 <div x-show="openCertTile !== null" x-cloak x-transition.opacity.duration.300ms
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" @click="openCertTile = null">
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 fix-height"
+    @click="openCertTile = null">
     <div class="bg-white p-6 rounded-lg max-w-md w-full relative">
         {% for certification in certifications %}
         <div x-show="openCertTile === {{ loop.index }}" x-transition.duration.300ms>

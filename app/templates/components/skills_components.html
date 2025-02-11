@@ -19,7 +19,8 @@
 
 {% macro skill_modal(skills, openSkill) %}
 <div x-show="openSkill !== null" x-cloak x-transition.opacity.duration.300ms
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" @click="openSkill = null">
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 fix-height"
+    @click="openSkill = null">
     <div class="bg-white p-6 rounded-lg max-w-md w-full relative">
         {% for skill in skills %}
         <div x-show="openSkill === {{ loop.index }}" x-transition.duration.300ms>
