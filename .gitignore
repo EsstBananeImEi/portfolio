@@ -1,3 +1,4 @@
 *.env
 *__pycache__/
 *init_db.py
+init_db.py
