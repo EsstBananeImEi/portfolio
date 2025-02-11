@@ -1,26 +1,58 @@
-<!-- base.html -->
 <!DOCTYPE html>
 <html lang="de">
 
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Portfolio{% endblock %}</title>
+    <title>{% block title %}{{ contact.get_full_name() }} - Portfolio{% endblock %}</title>
+
+    <!-- Meta Tags für SEO -->
+    <meta name="description"
+        content="Portfolio von {{ contact.get_full_name() }} – {{ about.role }}. {{ about.bio | truncate(160, True, '...') }}">
+    <meta name="keywords"
+        content="Portfolio, {{ contact.get_full_name() }}, {{ about.role }}, Softwareentwickler, CRM, Dynamics 365, Python, JavaScript">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="canonical" href="{{ url_for('main.index', _external=True) }}">
+
+    <!-- Open Graph Tags für Social Media -->
+    <meta property="og:title" content="{{ contact.get_full_name() }} – Portfolio">
+    <meta property="og:description" content="{{ about.bio | truncate(160, True, '...') }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/LOGONEU.svg', _external=True) }}">
+    <meta property="og:url" content="{{ url_for('main.index', _external=True) }}">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ contact.get_full_name() }} – Portfolio">
+    <meta name="twitter:description" content="{{ about.bio | truncate(160, True, '...') }}">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/LOGONEU.svg', _external=True) }}">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "{{ contact.name }}'s Portfolio",
+    "url": "{{ url_for('main.index', _external=True) }}",
+    "description": "{{ about.bio | truncate(160, True, '...') }}",
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{ contact.get_full_name() }}"
+    }
+  }
+  </script>
+
+    <!-- Styles und Icons -->
     <link rel="icon" href="{{ url_for('static', filename='images/icon.svg') }}" type="image/svg+xml">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
+    <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     {% block head_extra %}{% endblock %}
 </head>
 
-<!-- Body als Flex-Container mit mindestens Bildschirmhöhe -->
-
-<body x-data="{ openTile: null, openGitTile: null, openSkill: null }"
-    :class="{ 'overflow-hidden': openTile !== null || openGitTile !== null || openSkill !== null }"
-    class="flex flex-col min-h-screen bg-background text-neutral relative"
+<body class="flex flex-col min-h-screen bg-background text-neutral relative"
     style="background: url('{{ url_for('static', filename='images/hero-bg.jpg') }}') no-repeat center center fixed; background-size: cover;">
 
 
