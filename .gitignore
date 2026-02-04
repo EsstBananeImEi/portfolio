@@ -2,3 +2,13 @@
 *__pycache__/
 *init_db.py
 init_db.py
+test_email.py
+reset_admin_password.py
+*.vscode/
+*.idea/
+*export_db_data.py
+*generate_secret_key.py
+*MIGRATION_NOTES*
+migrate_db.py
+setup_email_env.ps1
+TOKEN_SYSTEM_README.md

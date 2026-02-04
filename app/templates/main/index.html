@@ -15,17 +15,139 @@
 
 <!-- Projekte Section -->
 {% call style_component.section_block('projects', 'bg-white/80', 'Meine Projekte') %}
-<div x-data="{ openTile: null }" class="relative">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {% for project in projects %}
-        {{ project_component.project_tile(project, loop.index, 'openTile') }}
-        {% endfor %}
+{% if show_projects %}
+    <div x-data="{ openTile: null }" class="relative">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for project in projects %}
+            {{ project_component.project_tile(project, loop.index, 'openTile') }}
+            {% endfor %}
+        </div>
+        {{ project_component.project_modal(projects, 'openTile') }}
     </div>
-    {{ project_component.project_modal(projects, 'openTile') }}
-</div>
+    
+    <!-- Zugriff widerrufen Button -->
+    <div class="mt-6 text-center">
+        <a href="{{ url_for('main.revoke_access') }}" 
+           class="text-sm text-gray-600 hover:text-gray-800 underline">
+            Zugriff widerrufen
+        </a>
+    </div>
+{% else %}
+    <!-- Token-Eingabe oder Zugriff anfordern -->
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-white/60 backdrop-blur-sm rounded-lg p-8 shadow-md border border-gray-200">
+            <h3 class="text-xl font-semibold text-center mb-3 text-gray-800">🔒 Geschützter Bereich</h3>
+            <p class="text-gray-600 text-center mb-6 text-sm">
+                Projekte sind nur für ausgewählte Personen sichtbar.
+            </p>
+
+            
+            <!-- Token eingeben -->
+            <div class="mb-6" x-data="{ tokenValue: '' }">
+                <form method="POST" action="{{ url_for('main.validate_token') }}" class="space-y-3">
+                    <div>
+                        <label for="token" class="block text-sm font-medium text-gray-700 mb-1">
+                            Zugangstoken
+                        </label>
+                        <input type="text" 
+                               name="token" 
+                               id="token"
+                               x-model="tokenValue"
+                               required
+                               placeholder="Token hier eingeben..."
+                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400 focus:border-transparent transition">
+                    </div>
+                    <button type="submit"
+                            :disabled="tokenValue.trim() === ''"
+                            :class="tokenValue.trim() === ''
+                                ? 'w-full bg-gray-300 text-gray-500 px-6 py-2.5 rounded-lg cursor-not-allowed font-medium'
+                                : 'w-full bg-black text-white px-6 py-2.5 rounded-lg hover:bg-gray-800 transition-colors font-medium'">
+                        Zugriff freischalten
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Trennlinie -->
+            <div class="relative my-6">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-200"></div>
+                </div>
+                <div class="relative flex justify-center text-xs">
+                    <span class="px-4 bg-white text-gray-500 font-medium">ODER</span>
+                </div>
+            </div>
+            
+            <!-- Zugriff anfordern -->
+            <div>
+                <p class="text-gray-600 text-center mb-3 text-sm">
+                    Noch kein Token? Fordern Sie Zugriff an.
+                </p>
+                
+                <div x-data="{ showForm: false, name: '', email: '' }">
+                    <button @click="showForm = !showForm" 
+                            class="w-full bg-gray-100 text-gray-700 px-6 py-2.5 rounded-lg hover:bg-gray-200 transition-colors font-medium border border-gray-300"
+                            x-text="showForm ? 'Formular schließen' : 'Zugriff anfordern'">
+                    </button>
+                    
+                    <div x-show="showForm" 
+                         x-transition
+                         class="mt-4">
+                        <form method="POST" action="{{ url_for('main.request_access') }}" class="space-y-3">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Name *
+                                </label>
+                                <input type="text" 
+                                       name="name" 
+                                       id="name"
+                                       x-model="name"
+                                       required
+                                       placeholder="Ihr vollständiger Name"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400 focus:border-transparent transition">
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                                    E-Mail-Adresse *
+                                </label>
+                                <input type="email" 
+                                       name="email" 
+                                       id="email"
+                                       x-model="email"
+                                       required
+                                       placeholder="ihre.email@beispiel.de"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400 focus:border-transparent transition">
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Nachricht (optional)
+                                </label>
+                                <textarea name="message" 
+                                          id="message" 
+                                          rows="3"
+                                          placeholder="Warum möchten Sie Zugriff auf meine Projekte?"
+                                          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400 focus:border-transparent transition"></textarea>
+                            </div>
+                            
+                            <button type="submit"
+                                    :disabled="name.trim() === '' || email.trim() === ''"
+                                    :class="name.trim() === '' || email.trim() === ''
+                                        ? 'w-full bg-gray-300 text-gray-500 px-6 py-2.5 rounded-lg cursor-not-allowed font-medium'
+                                        : 'w-full bg-black text-white px-6 py-2.5 rounded-lg hover:bg-gray-800 transition-colors font-medium'">
+                                Anfrage senden
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
 {% endcall %}
 
 <!-- GitHub Projekte Section -->
+{% if show_projects %}
 {% call style_component.section_block('github-projects', 'bg-white/30', 'Meine GitHub-Projekte') %}
 <div x-data="{ openGitTile: null }" class="relative">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -36,6 +158,7 @@
     {{ github_component.github_modal(github_projects, 'openGitTile') }}
 </div>
 {% endcall %}
+{% endif %}
 
 <!-- Skills Section -->
 {% call style_component.section_block('skills', 'bg-white/80', 'Meine Skills') %}

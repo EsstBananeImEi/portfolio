@@ -1,44 +1,44 @@
 [
-    {
-        "name": "Microsoft Certified: Dynamics 365 Fundamentals (CRM)",
-        "description": "Das Zertifikat bestätigt fundiertes Wissen über Microsoft Dynamics 365 im Bereich Customer Relationship Management (CRM)",
-        "date": "07.01.2022",
-        "link": "https://learn.microsoft.com/api/credentials/share/de-de/SebastianMeine-0380/4F99157505BC4E6?sharingId=4AFA81233B724A1E",
-        "image": "static/images/dynamicsfundamelntals.png"
-    },
-    {
-        "name": "Microsoft Certified: Power Platform Developer Associate",
-        "description": "Das Zertifikat bestätigt fundiertes Wissen über die Entwicklung von Lösungen auf der Microsoft Power Platform",
-        "date": "27.02.2025",
-        "link": "https://learn.microsoft.com/api/credentials/share/de-de/SebastianMeine-0380/2562BC122917E8AD?sharingId=4AFA81233B724A1E",
-        "image": "static/images/powerplatformdeveloper.png"
-    },
-    {
-        "name": "Certified Web Developer (PHP and MySQL)",
-        "description": "Zertifizierung zum Webentwickler mit Schwerpunkt PHP und MySQL. Dieses Zertifikat bestätigt die Kenntnisse und Fähigkeiten im Bereich der Webentwicklung mit PHP und MySQL.",
-        "date": "16.10.2017",
-        "link": null,
-        "image": "static/images/webmasterseuropePhp.png"
-    },
-    {
-        "name": "Certified Web Developer (JavaScript)",
-        "description": "Zertifizierung zum Webentwickler mit Schwerpunkt JavaScript. Dieses Zertifikat bestätigt die Kenntnisse und Fähigkeiten im Bereich der Webentwicklung mit JavaScript.",
-        "date": "29.03.2017",
-        "link": null,
-        "image": "static/images/webmasterseuropeJs.png"
-    },
-    {
-        "name": "Certified Web Interface Designer",
-        "description": "Zertifizierung zum Web Interface Designer. Dieses Zertifikat bestätigt die Kenntnisse und Fähigkeiten im Bereich der Gestaltung von Webseiten und Benutzeroberflächen mit Hilfe von HTML5, CSS und Bootstrap.",
-        "date": "09.03.2017",
-        "link": null,
-        "image": "static/images/webmasterseurope.png"
-    },
-    {
-        "name": "Angular Certificate of Competence",
-        "description": "Zertifizierung zum Angular-Entwickler. Dieses Zertifikat bestätigt die Kenntnisse und Fähigkeiten im Bereich der Webentwicklung mit Angular.",
-        "date": "07.02.2020",
-        "link": null,
-        "image": "static/images/Angular.png"
-    }
+  {
+    "name": "Microsoft Certified: Dynamics 365 Fundamentals (CRM)",
+    "description": "Das Zertifikat bestätigt fundiertes Wissen über Microsoft Dynamics 365 im Bereich Customer Relationship Management (CRM)",
+    "date": "07.01.2022",
+    "link": "https://learn.microsoft.com/api/credentials/share/de-de/SebastianMeine-0380/4F99157505BC4E6?sharingId=4AFA81233B724A1E",
+    "image": "static/images/dynamicsfundamelntals.png"
+  },
+  {
+    "name": "Certified Web Developer (PHP and MySQL)",
+    "description": "Zertifizierung zum Webentwickler mit Schwerpunkt PHP und MySQL. Dieses Zertifikat bestätigt die Kenntnisse und Fähigkeiten im Bereich der Webentwicklung mit PHP und MySQL.",
+    "date": "16.10.2017",
+    "link": null,
+    "image": "static/images/webmasterseuropePhp.png"
+  },
+  {
+    "name": "Certified Web Developer (JavaScript)",
+    "description": "Zertifizierung zum Webentwickler mit Schwerpunkt JavaScript. Dieses Zertifikat bestätigt die Kenntnisse und Fähigkeiten im Bereich der Webentwicklung mit JavaScript.",
+    "date": "29.03.2017",
+    "link": null,
+    "image": "static/images/webmasterseuropeJs.png"
+  },
+  {
+    "name": "Certified Web Interface Designer",
+    "description": "Zertifizierung zum Web Interface Designer. Dieses Zertifikat bestätigt die Kenntnisse und Fähigkeiten im Bereich der Gestaltung von Webseiten und Benutzeroberflächen mit Hilfe von HTML5, CSS und Bootstrap.",
+    "date": "09.03.2017",
+    "link": null,
+    "image": "static/images/webmasterseurope.png"
+  },
+  {
+    "name": "Angular Certificate of Competence",
+    "description": "Zertifizierung zum Angular-Entwickler. Dieses Zertifikat bestätigt die Kenntnisse und Fähigkeiten im Bereich der Webentwicklung mit Angular.",
+    "date": "07.02.2020",
+    "link": null,
+    "image": "static/images/Angular.png"
+  },
+  {
+    "name": "Microsoft Certified: Power Platform Developer Associate",
+    "description": "Das Zertifikat bestätigt fundiertes Wissen über die Entwicklung von Lösungen auf der Microsoft Power Platform",
+    "date": "27.02.2025",
+    "link": "https://learn.microsoft.com/api/credentials/share/de-de/SebastianMeine-0380/2562BC122917E8AD?sharingId=4AFA81233B724A1E",
+    "image": "static/images/powerplatformdeveloper.png"
+  }
 ]

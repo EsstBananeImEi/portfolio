@@ -81,3 +81,15 @@ class Certification(db.Model):
     date = db.Column(db.String(255), nullable=False)
     link = db.Column(db.String(255), nullable=True)
     image = db.Column(db.String(255), nullable=False)
+
+
+class AccessRequest(db.Model):
+    """Anfragen für Zugriff auf die Portfolio-Projekte"""
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(255), nullable=False)
+    message = db.Column(db.Text, nullable=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=db.func.now())
+    status = db.Column(db.String(50), nullable=False, default='pending')  # pending, approved, rejected
+    token = db.Column(db.String(64), nullable=True, unique=True)
+    token_expires = db.Column(db.DateTime, nullable=True)
