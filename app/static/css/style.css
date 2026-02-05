@@ -3,6 +3,26 @@
 :root {
     --real-vh: 100vh;
     /* Fallback */
+
+    /* Light Mode Farben */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --text-primary: #333;
+    --text-secondary: #666;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --card-bg: #ffffff;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode Farben */
+.dark {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #0f0f0f;
+    --text-primary: #e5e5e5;
+    --text-secondary: #a0a0a0;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --card-bg: #2a2a2a;
+    --card-shadow: rgba(0, 0, 0, 0.3);
 }
 
 html {
@@ -12,12 +32,15 @@ html {
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #ffffff;
-    color: #333;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
     width: 100%;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark body {
+    color: #e5e5e5;
 }
 
 /* ===== MODERNE SCROLL REVEAL ANIMATIONEN ===== */
@@ -76,6 +99,82 @@ body {
 /* Nur Alpine.js Transitions verwenden - keine CSS Animations um Flackern zu vermeiden */
 
 /* ===== GRADIENT OVERLAYS ===== */
+/* ===== DARK MODE SUPPORT ===== */
+
+/* Cards - Project tiles, skill cards, cert cards */
+.dark .project-tile {
+    background-color: #2a2a2a !important;
+}
+
+/* Admin Dashboard Cards mit backdrop-blur */
+.dark .bg-white\/90,
+.dark .backdrop-blur-sm {
+    background-color: rgba(55, 65, 81, 0.9) !important;
+}
+
+/* Alle bg-white Elemente im Dark Mode */
+.dark .bg-white {
+    background-color: #374151 !important;
+}
+
+/* Modals und Dropdowns */
+.dark .fixed.bg-white,
+.dark .absolute.bg-white {
+    background-color: #2a2a2a !important;
+}
+
+/* Inputs und Textareas im Dark Mode */
+.dark input[type="text"],
+.dark input[type="email"],
+.dark input[type="password"],
+.dark input[type="number"],
+.dark input[type="date"],
+.dark input:not([type]),
+.dark textarea,
+.dark select {
+    background-color: #374151 !important;
+    color: #f3f4f6 !important;
+    border-color: #4b5563 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+    color: #9ca3af !important;
+}
+
+/* Text Farben */
+.dark .text-gray-800,
+.dark .text-gray-900,
+.dark .text-neutral {
+    color: #e5e5e5 !important;
+}
+
+.dark .text-gray-600,
+.dark .text-gray-700 {
+    color: #a0a0a0 !important;
+}
+
+.dark .text-gray-500 {
+    color: #9ca3af !important;
+}
+
+/* Borders */
+.dark .border-gray-200,
+.dark .border-gray-300 {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Backgrounds */
+.dark .bg-gray-200 {
+    background-color: #4b5563 !important;
+}
+
+.dark .hover\:bg-gray-300:hover {
+    background-color: #6b7280 !important;
+}
+
+/* ===== ENDE DARK MODE SUPPORT ===== */
+
 .gradient-overlay {
     position: relative;
 }

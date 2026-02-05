@@ -1,11 +1,38 @@
 <!-- base.html -->
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }"
+    x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))" :class="{ 'dark': darkMode }">
 
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Portfolio{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- SEO Meta-Tags -->
+    <meta name="description"
+        content="{% block description %}Professionelles Portfolio - Projekte, Skills und Erfahrungen{% endblock %}">
+    <meta name="keywords" content="{% block keywords %}Portfolio, Webentwicklung, Projekte, Skills{% endblock %}">
+    <meta name="author" content="{% block author %}{{ config.SITE_AUTHOR|default('Portfolio') }}{% endblock %}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ self.description() }}{% endblock %}">
+    <meta property="og:image"
+        content="{% block og_image %}{{ url_for('static', filename='images/og-image.jpg', _external=True) }}{% endblock %}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ request.url }}">
+    <meta property="twitter:title" content="{% block twitter_title %}{{ self.title() }}{% endblock %}">
+    <meta property="twitter:description"
+        content="{% block twitter_description %}{{ self.description() }}{% endblock %}">
+    <meta property="twitter:image" content="{% block twitter_image %}{{ self.og_image() }}{% endblock %}">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{% block canonical %}{{ request.url }}{% endblock %}">
+
     <link rel="icon" href="{{ url_for('static', filename='images/icon.svg') }}" type="image/svg+xml">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
@@ -20,9 +47,9 @@
 <body
     x-data="{ openTile: null, openGitTile: null, openSkill: null, openCertTile: null, projectSlide: 0, githubSlide: 0, showAllProjects: false, showAllGithub: false }"
     :class="{ 'overflow-hidden': openTile !== null || openGitTile !== null || openSkill !== null || openCertTile !== null }"
-    class="flex flex-col min-h-screen text-neutral relative"
+    class="flex flex-col min-h-screen text-neutral relative transition-colors duration-300"
     data-hero-bg="{{ url_for('static', filename='images/hero-bg.jpg') }}"
-    style="background: linear-gradient(to bottom, #f8f9fa 0%, #e9ecef 100%);">
+    :style="darkMode ? 'background: linear-gradient(to bottom, #1a1a1a 0%, #0f0f0f 100%);' : 'background: linear-gradient(to bottom, #f8f9fa 0%, #e9ecef 100%);'">
 
     <!-- Navigation -->
     {% include "partials/nav.html" %}

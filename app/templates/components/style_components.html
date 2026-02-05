@@ -10,10 +10,16 @@
 {% endmacro %}
 
 {% macro section_block(id, bg_class, title) %}
-<section id="{{ id }}" class="py-12 {{ bg_class }} animate-section">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        {{ section_title(title) }}
-        {{ caller() }}
-    </div>
-</section>
-{% endmacro %}
+{% if 'bg-white/80' in bg_class %}
+<section id="{{ id }}" class="py-12 bg-white/80 dark:bg-black/80 animate-section transition-colors duration-300">
+    {% elif 'bg-white/30' in bg_class %}
+    <section id="{{ id }}" class="py-12 bg-white/30 dark:bg-black/30 animate-section transition-colors duration-300">
+        {% else %}
+        <section id="{{ id }}" class="py-12 {{ bg_class }} animate-section transition-colors duration-300">
+            {% endif %}
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                {{ section_title(title) }}
+                {{ caller() }}
+            </div>
+        </section>
+        {% endmacro %}

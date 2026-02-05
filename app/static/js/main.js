@@ -37,12 +37,59 @@ document.addEventListener('DOMContentLoaded', function () {
         'rgba(0, 188, 242, 0.25)'     // #00bcf2 - Cyan (Ergänzung)
     ];
 
+    // Hilfsfunktion zur Überlappungsprüfung
+    function checkOverlap(newShape, existingShapes, maxOverlaps = 2) {
+        let overlapCount = 0;
+        const newRect = {
+            left: parseFloat(newShape.left),
+            top: parseFloat(newShape.top),
+            right: parseFloat(newShape.left) + newShape.width / window.innerWidth * 100,
+            bottom: parseFloat(newShape.top) + newShape.height / window.innerHeight * 100
+        };
+
+        existingShapes.forEach(existing => {
+            const existingRect = {
+                left: parseFloat(existing.left),
+                top: parseFloat(existing.top),
+                right: parseFloat(existing.left) + existing.width / window.innerWidth * 100,
+                bottom: parseFloat(existing.top) + existing.height / window.innerHeight * 100
+            };
+
+            // Prüfe ob Rechtecke sich überlappen
+            if (!(newRect.right < existingRect.left ||
+                newRect.left > existingRect.right ||
+                newRect.bottom < existingRect.top ||
+                newRect.top > existingRect.bottom)) {
+                overlapCount++;
+            }
+        });
+
+        return overlapCount <= maxOverlaps;
+    }
+
     // Microsoft-typische Formen: Quadrate dominieren (wie Logo)
-    for (let i = 0; i < 10; i++) {
+    const placedShapes = [];
+    for (let i = 0; i < 13; i++) {
         const shape = document.createElement('div');
         const isSquare = Math.random() > 0.2; // 80% Quadrate/Rechtecke (Microsoft-Logo Style)
         const width = isSquare ? Math.random() * 450 + 250 : Math.random() * 600 + 300; // Größere Formen
         const height = isSquare ? width : Math.random() * 450 + 250;
+
+        let top, left, attempts = 0;
+        let validPosition = false;
+
+        // Versuche eine Position zu finden, die nicht zu viele Überlappungen hat
+        while (!validPosition && attempts < 20) {
+            top = Math.random() * 210 - 80;
+            left = Math.random() * 120 - 10;
+
+            const newShape = { top, left, width, height };
+            validPosition = checkOverlap(newShape, placedShapes);
+            attempts++;
+        }
+
+        // Speichere Position für zukünftige Überlappungsprüfungen
+        placedShapes.push({ top, left, width, height });
 
         shape.style.cssText = `
             position: absolute;
@@ -50,8 +97,8 @@ document.addEventListener('DOMContentLoaded', function () {
             height: ${height}px;
             background: ${msColors[i % msColors.length]};
             border-radius: ${isSquare ? '6px' : '50%'};
-            top: ${Math.random() * 120 - 10}%;
-            left: ${Math.random() * 120 - 10}%;
+            top: ${top}%;
+            left: ${left}%;
             transform: rotate(${Math.random() * 30 - 15}deg);
             box-shadow: 0 8px 20px ${msColors[i % msColors.length]};
         `;

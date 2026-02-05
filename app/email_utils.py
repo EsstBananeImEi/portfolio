@@ -44,29 +44,70 @@ def send_admin_notification(access_request):
 
         html_body = f"""
         <html>
-            <body style="font-family: Arial, sans-serif; padding: 20px;">
-                <h2 style="color: #2563eb;">Neue Zugriffsanfrage für Portfolio-Projekte</h2>
-                
-                <div style="background-color: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                    <p><strong>Name:</strong> {access_request.name}</p>
-                    <p><strong>E-Mail:</strong> <a href="mailto:{access_request.email}">{access_request.email}</a></p>
-                    <p><strong>Datum:</strong> {access_request.created_at.strftime('%d.%m.%Y %H:%M')}</p>
+            <head>
+                <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+                </style>
+            </head>
+            <body style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background-color: #f8f9fa;">
+                <div style="max-width: 600px; margin: 40px auto; background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.08);">
+                    <!-- Microsoft-inspired Header -->
+                    <div style="background: linear-gradient(135deg, #01A6F0 0%, #0078D4 100%); padding: 40px; text-align: center;">
+                        <!-- Logo Grid -->
+                        <div style="display: inline-grid; grid-template-columns: repeat(2, 24px); gap: 4px; margin-bottom: 20px;">
+                            <div style="background: linear-gradient(135deg, #F34F1C 0%, #FF6B39 100%); width: 24px; height: 24px; border-radius: 3px;"></div>
+                            <div style="background: linear-gradient(135deg, #7FBC00 0%, #9FDC20 100%); width: 24px; height: 24px; border-radius: 3px;"></div>
+                            <div style="background: linear-gradient(135deg, #FFBA01 0%, #FFD54F 100%); width: 24px; height: 24px; border-radius: 3px;"></div>
+                            <div style="background: linear-gradient(135deg, #01A6F0 0%, #39B4F0 100%); width: 24px; height: 24px; border-radius: 3px;"></div>
+                        </div>
+                        <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 700;">Neue Zugriffsanfrage</h1>
+                        <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 14px;">Portfolio-Projekte</p>
+                    </div>
                     
-                    {f'<p><strong>Nachricht:</strong><br>{access_request.message}</p>' if access_request.message else ''}
+                    <!-- Content -->
+                    <div style="padding: 40px;">
+                        <p style="font-size: 16px; color: #212529; margin-bottom: 30px;">
+                            Es gibt eine neue Anfrage für den Zugriff auf Ihre Portfolio-Projekte:
+                        </p>
+                        
+                        <!-- Info Card -->
+                        <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-left: 4px solid #01A6F0; padding: 24px; border-radius: 8px; margin: 25px 0;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="padding: 8px 0; color: #6c757d; font-size: 14px; font-weight: 600;">Name:</td>
+                                    <td style="padding: 8px 0; color: #212529; font-size: 14px;">{access_request.name}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; color: #6c757d; font-size: 14px; font-weight: 600;">E-Mail:</td>
+                                    <td style="padding: 8px 0;">
+                                        <a href="mailto:{access_request.email}" style="color: #01A6F0; text-decoration: none; font-size: 14px;">{access_request.email}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; color: #6c757d; font-size: 14px; font-weight: 600;">Datum:</td>
+                                    <td style="padding: 8px 0; color: #212529; font-size: 14px;">{access_request.created_at.strftime('%d.%m.%Y %H:%M')}</td>
+                                </tr>
+                            </table>
+                            
+                            {f'<div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.1);"><p style="margin: 0; color: #6c757d; font-size: 13px; font-weight: 600;">Nachricht:</p><p style="margin: 10px 0 0 0; color: #212529; font-size: 14px; line-height: 1.6;">{access_request.message}</p></div>' if access_request.message else ''}
+                        </div>
+                        
+                        <!-- Action Button -->
+                        <div style="text-align: center; margin: 35px 0;">
+                            <a href="{current_app.config.get('BASE_URL', 'http://localhost:5000')}/admin/access-requests" 
+                               style="display: inline-block; background: linear-gradient(135deg, #01A6F0 0%, #0078D4 100%); color: white; padding: 16px 40px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 12px rgba(1, 166, 240, 0.3);">
+                                Token-Verwaltung öffnen
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div style="background-color: #f8f9fa; padding: 24px; text-align: center; border-top: 1px solid #e9ecef;">
+                        <p style="margin: 0; color: #6c757d; font-size: 12px;">
+                            Diese E-Mail wurde automatisch von Ihrem Portfolio-System generiert.
+                        </p>
+                    </div>
                 </div>
-                
-                <p>Bitte loggen Sie sich ein, um ein Token zu generieren:</p>
-                <p>
-                    <a href="{current_app.config.get('BASE_URL', 'http://localhost:5000')}/admin/access-requests" 
-                       style="background-color: #2563eb; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
-                        Zur Token-Verwaltung
-                    </a>
-                </p>
-                
-                <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
-                <p style="color: #6b7280; font-size: 12px;">
-                    Diese E-Mail wurde automatisch von Ihrem Portfolio-System generiert.
-                </p>
             </body>
         </html>
         """
@@ -106,28 +147,70 @@ def send_token_email(access_request):
 
         html_body = f"""
         <html>
-            <body style="font-family: Arial, sans-serif; padding: 20px;">
-                <h2 style="color: #16a34a;">Ihr Zugangstoken wurde generiert</h2>
-                
-                <p>Hallo {access_request.name},</p>
-                
-                <p>Ihr Zugriff auf die Portfolio-Projekte wurde genehmigt!</p>
-                
-                <div style="background-color: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                    <p><strong>Ihr Token:</strong></p>
-                    <code style="background-color: #e5e7eb; padding: 10px; display: block; font-size: 14px; word-break: break-all;">
-                        {access_request.token}
-                    </code>
+            <head>
+                <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+                </style>
+            </head>
+            <body style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background-color: #f8f9fa;">
+                <div style="max-width: 600px; margin: 40px auto; background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.08);">
+                    <!-- Header -->
+                    <div style="background: linear-gradient(135deg, #7FBC00 0%, #9FDC20 100%); padding: 40px; text-align: center;">
+                        <div style="display: inline-grid; grid-template-columns: repeat(2, 24px); gap: 4px; margin-bottom: 20px;">
+                            <div style="background: linear-gradient(135deg, #F34F1C 0%, #FF6B39 100%); width: 24px; height: 24px; border-radius: 3px;"></div>
+                            <div style="background: linear-gradient(135deg, #7FBC00 0%, #9FDC20 100%); width: 24px; height: 24px; border-radius: 3px;"></div>
+                            <div style="background: linear-gradient(135deg, #FFBA01 0%, #FFD54F 100%); width: 24px; height: 24px; border-radius: 3px;"></div>
+                            <div style="background: linear-gradient(135deg, #01A6F0 0%, #39B4F0 100%); width: 24px; height: 24px; border-radius: 3px;"></div>
+                        </div>
+                        <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 700;">Token generiert</h1>
+                        <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 14px;">Ihr Zugriff wurde genehmigt</p>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div style="padding: 40px;">
+                        <p style="font-size: 16px; color: #212529; margin-bottom: 10px;">
+                            Hallo {access_request.name},
+                        </p>
+                        
+                        <p style="font-size: 16px; color: #212529; margin-bottom: 30px;">
+                            Ihr Zugriff auf die Portfolio-Projekte wurde genehmigt!
+                        </p>
+                        
+                        <!-- Token Card -->
+                        <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-left: 4px solid #7FBC00; padding: 24px; border-radius: 8px; margin: 25px 0;">
+                            <p style="margin: 0 0 12px 0; color: #6c757d; font-size: 13px; font-weight: 600;">IHR ZUGANGSTOKEN:</p>
+                            <div style="background-color: rgba(0,0,0,0.05); padding: 16px; border-radius: 6px; font-family: 'Courier New', monospace; font-size: 15px; color: #212529; word-break: break-all; letter-spacing: 0.5px;">
+                                {access_request.token}
+                            </div>
+                        </div>
+                        
+                        <!-- Validity Info -->
+                        <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; margin: 20px 0;">
+                            <p style="margin: 0; color: #212529; font-size: 14px;">
+                                <strong style="color: #7FBC00;">⏰ Gültigkeit:</strong><br>
+                                {f'<span style="color: #6c757d;">Gültig bis {access_request.token_expires.strftime("%d.%m.%Y")}</span>' if access_request.token_expires else '<span style="color: #7FBC00;">Unbegrenzt gültig ✓</span>'}
+                            </p>
+                        </div>
+                        
+                        <p style="font-size: 14px; color: #6c757d; line-height: 1.6; margin: 25px 0;">
+                            Gehen Sie auf die Portfolio-Seite und geben Sie das Token ein, um Zugriff auf alle Projekte zu erhalten.
+                        </p>
+                        
+                        <!-- Warning Box -->
+                        <div style="background-color: #fff3cd; border-left: 4px solid #FFBA01; padding: 16px; border-radius: 6px; margin: 25px 0;">
+                            <p style="margin: 0; color: #856404; font-size: 13px;">
+                                <strong>⚠️ Wichtig:</strong> Teilen Sie dieses Token nicht mit anderen Personen.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div style="background-color: #f8f9fa; padding: 24px; text-align: center; border-top: 1px solid #e9ecef;">
+                        <p style="margin: 0; color: #6c757d; font-size: 12px;">
+                            Bei Fragen antworten Sie einfach auf diese E-Mail.
+                        </p>
+                    </div>
                 </div>
-                
-                {f'<p><strong>Gültig bis:</strong> {access_request.token_expires.strftime("%d.%m.%Y")}</p>' if access_request.token_expires else '<p>Dieses Token ist <strong>unbegrenzt</strong> gültig.</p>'}
-                
-                <p>Gehen Sie auf die Portfolio-Seite und geben Sie das Token ein, um Zugriff auf alle Projekte zu erhalten.</p>
-                
-                <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
-                <p style="color: #6b7280; font-size: 12px;">
-                    Teilen Sie dieses Token nicht mit anderen. Bei Fragen antworten Sie einfach auf diese E-Mail.
-                </p>
             </body>
         </html>
         """
@@ -174,60 +257,87 @@ def send_access_credentials(access_request, password):
 
         html_body = f"""
         <html>
-            <body style="font-family: Arial, sans-serif; padding: 20px; background-color: #f9fafb;">
-                <div style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                    <!-- Header mit Gradient -->
-                    <div style="background: linear-gradient(135deg, #16a34a 0%, #8fcc14 100%); padding: 30px; text-align: center;">
-                        <h1 style="color: white; margin: 0; font-size: 24px;">Portfolio-Zugang gewährt</h1>
+            <head>
+                <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+                </style>
+            </head>
+            <body style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background-color: #f8f9fa;">
+                <div style="max-width: 600px; margin: 40px auto; background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.08);">
+                    <!-- Microsoft-inspired Header -->
+                    <div style="background: linear-gradient(135deg, #7FBC00 0%, #9FDC20 100%); padding: 40px; text-align: center;">
+                        <!-- Logo Grid -->
+                        <div style="display: inline-grid; grid-template-columns: repeat(2, 24px); gap: 4px; margin-bottom: 20px;">
+                            <div style="background: linear-gradient(135deg, #F34F1C 0%, #FF6B39 100%); width: 24px; height: 24px; border-radius: 3px;"></div>
+                            <div style="background: linear-gradient(135deg, #7FBC00 0%, #9FDC20 100%); width: 24px; height: 24px; border-radius: 3px;"></div>
+                            <div style="background: linear-gradient(135deg, #FFBA01 0%, #FFD54F 100%); width: 24px; height: 24px; border-radius: 3px;"></div>
+                            <div style="background: linear-gradient(135deg, #01A6F0 0%, #39B4F0 100%); width: 24px; height: 24px; border-radius: 3px;"></div>
+                        </div>
+                        <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 700;">Zugang gewährt</h1>
+                        <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 14px;">Ihre persönlichen Zugangsdaten</p>
                     </div>
                     
                     <!-- Content -->
-                    <div style="padding: 30px;">
-                        <p style="font-size: 16px; color: #374151;">Hallo {access_request.name},</p>
+                    <div style="padding: 40px;">
+                        <p style="font-size: 16px; color: #212529; margin-bottom: 10px;">
+                            Hallo {access_request.name},
+                        </p>
                         
-                        <p style="font-size: 16px; color: #374151;">
+                        <p style="font-size: 16px; color: #212529; margin-bottom: 30px;">
                             Ihr Zugang zu den Portfolio-Projekten wurde genehmigt! Sie können sich jetzt mit Ihren persönlichen Zugangsdaten anmelden.
                         </p>
                         
-                        <!-- Zugangsdaten Box -->
-                        <div style="background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border-left: 4px solid #16a34a; padding: 20px; border-radius: 8px; margin: 25px 0;">
-                            <h3 style="margin-top: 0; color: #16a34a;">Ihre Zugangsdaten</h3>
+                        <!-- Credentials Card -->
+                        <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-left: 4px solid #7FBC00; padding: 24px; border-radius: 8px; margin: 25px 0;">
+                            <h3 style="margin: 0 0 20px 0; color: #7FBC00; font-size: 16px; font-weight: 700;">IHRE ZUGANGSDATEN</h3>
                             
-                            <p style="margin: 10px 0;">
-                                <strong style="color: #374151;">E-Mail-Adresse:</strong><br>
-                                <code style="background-color: rgba(0,0,0,0.05); padding: 8px 12px; display: inline-block; border-radius: 4px; font-size: 14px; margin-top: 5px;">
-                                    {access_request.email}
-                                </code>
-                            </p>
-                            
-                            <p style="margin: 10px 0;">
-                                <strong style="color: #374151;">Passwort:</strong><br>
-                                <code style="background-color: rgba(0,0,0,0.05); padding: 8px 12px; display: inline-block; border-radius: 4px; font-size: 14px; margin-top: 5px; word-break: break-all;">
-                                    {password}
-                                </code>
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="padding: 12px 0;">
+                                        <p style="margin: 0 0 6px 0; color: #6c757d; font-size: 13px; font-weight: 600;">E-MAIL-ADRESSE:</p>
+                                        <div style="background-color: rgba(0,0,0,0.05); padding: 12px 16px; border-radius: 6px; font-family: 'Courier New', monospace; font-size: 14px; color: #212529;">
+                                            {access_request.email}
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px 0;">
+                                        <p style="margin: 0 0 6px 0; color: #6c757d; font-size: 13px; font-weight: 600;">PASSWORT:</p>
+                                        <div style="background-color: rgba(0,0,0,0.05); padding: 12px 16px; border-radius: 6px; font-family: 'Courier New', monospace; font-size: 14px; color: #212529; word-break: break-all;">
+                                            {password}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <!-- Validity Info -->
+                        <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; margin: 20px 0;">
+                            <p style="margin: 0; color: #212529; font-size: 14px;">
+                                <strong style="color: #7FBC00;">⏰ Gültigkeit:</strong><br>
+                                {f'<span style="color: #6c757d;">Gültig bis {access_request.token_expires.strftime("%d.%m.%Y")}</span>' if access_request.token_expires else '<span style="color: #7FBC00;">Unbegrenzt gültig ✓</span>'}
                             </p>
                         </div>
                         
-                        {f'<p style="color: #6b7280;"><strong>Gültig bis:</strong> {access_request.token_expires.strftime("%d.%m.%Y")}</p>' if access_request.token_expires else '<p style="color: #16a34a;"><strong>Ihr Zugang ist unbegrenzt gültig.</strong></p>'}
-                        
                         <!-- Login Button -->
-                        <div style="text-align: center; margin: 30px 0;">
+                        <div style="text-align: center; margin: 35px 0;">
                             <a href="{login_url}" 
-                               style="background: linear-gradient(135deg, #16a34a 0%, #8fcc14 100%); color: white; padding: 14px 32px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: 600; box-shadow: 0 4px 6px rgba(22,163,74,0.2);">
+                               style="display: inline-block; background: linear-gradient(135deg, #7FBC00 0%, #9FDC20 100%); color: white; padding: 16px 40px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 12px rgba(127, 188, 0, 0.3);">
                                 Jetzt anmelden →
                             </a>
                         </div>
                         
-                        <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 8px; margin-top: 25px;">
-                            <p style="margin: 0; font-size: 14px; color: #92400e;">
-                                <strong>⚠️ Wichtig:</strong> Bewahren Sie diese Zugangsdaten sicher auf. Teilen Sie Ihr Passwort nicht mit anderen Personen.
+                        <!-- Warning Box -->
+                        <div style="background-color: #fff3cd; border-left: 4px solid #FFBA01; padding: 16px; border-radius: 6px; margin: 25px 0;">
+                            <p style="margin: 0; color: #856404; font-size: 13px;">
+                                <strong>⚠️ Sicherheitshinweis:</strong> Bewahren Sie diese Zugangsdaten sicher auf und teilen Sie Ihr Passwort nicht mit anderen Personen.
                             </p>
                         </div>
                     </div>
                     
                     <!-- Footer -->
-                    <div style="background-color: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
-                        <p style="color: #6b7280; font-size: 12px; margin: 0;">
+                    <div style="background-color: #f8f9fa; padding: 24px; text-align: center; border-top: 1px solid #e9ecef;">
+                        <p style="margin: 0; color: #6c757d; font-size: 12px;">
                             Diese E-Mail wurde automatisch generiert. Bei Fragen antworten Sie einfach auf diese E-Mail.
                         </p>
                     </div>

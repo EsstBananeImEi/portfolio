@@ -1,7 +1,7 @@
 {# Timeline Tab Content #}
 <div class="space-y-6">
     {% for item in timeline_items %}
-    <div class="bg-white rounded-2xl shadow-xl p-6 border-l-4 
+    <div class="bg-white dark:bg-gray-700 rounded-2xl shadow-xl p-6 border-l-4 transition-colors duration-300
         {% if item.badge_color == 'success' %}border-success
         {% elif item.badge_color == 'primary' %}border-primary
         {% elif item.badge_color == 'accent' %}border-accent
@@ -20,7 +20,7 @@
                         Von
                     </label>
                     <input type="text" name="period_start" value="{{ item.period_start }}" required
-                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                        class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
                 </div>
 
                 <!-- Period End -->
@@ -33,7 +33,7 @@
                         Bis
                     </label>
                     <input type="text" name="period_end" value="{{ item.period_end }}" required
-                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                        class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
                 </div>
 
                 <!-- Title -->
@@ -46,7 +46,7 @@
                         Position
                     </label>
                     <input type="text" name="title" value="{{ item.title }}" required
-                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                        class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
                 </div>
 
                 <!-- Company -->

@@ -1,11 +1,13 @@
 from datetime import datetime, timedelta
-from flask import render_template, redirect, url_for, flash, request, jsonify
+from flask import render_template, redirect, url_for, flash, request, jsonify, send_file
 from flask_login import login_required
 from app import db
 from app.models import About, Contact, AccessRequest, TimelineItem
 from app.forms import AboutForm
 from app.admin import admin
 import secrets
+import json
+from io import BytesIO
 
 
 @admin.route("/about", methods=["GET", "POST"])
@@ -324,4 +326,226 @@ def add_timeline_item():
         next_position=next_position,
         contact=Contact.query.first(),
         now=datetime.now(),
+    )
+
+
+@admin.route("/export/all")
+@login_required
+def export_all_data():
+    """Exportiert alle Daten als JSON"""
+    from flask_login import current_user
+    import os
+
+    if not (hasattr(current_user, "get_id") and current_user.get_id() == "1"):
+        flash("Zugriff verweigert.", "error")
+        return redirect(url_for("main.index"))
+
+    # Sammle alle Daten
+    data = {
+        "bio": {},
+        "timeline": [],
+        "projects": [],
+        "github_projects": [],
+        "skills": [],
+        "certs": [],
+        "contact": {},
+        "access_requests": [],
+        "exported_at": datetime.now().isoformat(),
+    }
+
+    # Bio
+    about = About.query.first()
+    if about:
+        data["bio"] = {
+            "name": about.name,
+            "title": about.title,
+            "description": about.description,
+            "image": about.image,
+        }
+
+    # Timeline
+    timeline_items = TimelineItem.query.order_by(TimelineItem.position).all()
+    for item in timeline_items:
+        data["timeline"].append(
+            {
+                "id": item.id,
+                "title": item.title,
+                "organization": item.organization,
+                "date": item.date,
+                "description": item.description,
+                "icon": item.icon,
+                "position": item.position,
+                "is_active": item.is_active,
+            }
+        )
+
+    # Contact
+    contact = Contact.query.first()
+    if contact:
+        data["contact"] = {
+            "email": contact.email,
+            "phone": contact.phone,
+            "location": contact.location,
+            "github": contact.github,
+            "linkedin": contact.linkedin,
+            "twitter": contact.twitter,
+        }
+
+    # Access Requests
+    requests = AccessRequest.query.all()
+    for req in requests:
+        data["access_requests"].append(
+            {
+                "id": req.id,
+                "email": req.email,
+                "created_at": req.created_at.isoformat() if req.created_at else None,
+                "expires_at": req.expires_at.isoformat() if req.expires_at else None,
+                "is_used": req.is_used,
+            }
+        )
+
+    # JSON-Daten aus Dateien lesen
+    from pathlib import Path
+
+    data_dir = Path(__file__).parent.parent / "data"
+
+    json_files = {
+        "projects": "projects.json",
+        "github_projects": "github_projects.json",
+        "skills": "skills.json",
+        "certs": "certs.json",
+    }
+
+    for key, filename in json_files.items():
+        file_path = data_dir / filename
+        if file_path.exists():
+            try:
+                with open(file_path, "r", encoding="utf-8") as f:
+                    data[key] = json.load(f)
+            except Exception as e:
+                data[key] = {"error": str(e)}
+
+    # JSON erstellen
+    json_data = json.dumps(data, ensure_ascii=False, indent=2)
+
+    # Als Datei zurückgeben
+    buffer = BytesIO()
+    buffer.write(json_data.encode("utf-8"))
+    buffer.seek(0)
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"portfolio_backup_{timestamp}.json"
+
+    return send_file(
+        buffer, mimetype="application/json", as_attachment=True, download_name=filename
+    )
+
+
+@admin.route("/export/<data_type>")
+@login_required
+def export_data(data_type):
+    """Exportiert spezifische Daten als JSON"""
+    from flask_login import current_user
+    from pathlib import Path
+
+    if not (hasattr(current_user, "get_id") and current_user.get_id() == "1"):
+        flash("Zugriff verweigert.", "error")
+        return redirect(url_for("main.index"))
+
+    data = {"type": data_type, "exported_at": datetime.now().isoformat()}
+
+    if data_type == "bio":
+        about = About.query.first()
+        if about:
+            data["data"] = {
+                "name": about.name,
+                "title": about.title,
+                "description": about.description,
+                "image": about.image,
+            }
+
+    elif data_type == "timeline":
+        timeline_items = TimelineItem.query.order_by(TimelineItem.position).all()
+        data["data"] = []
+        for item in timeline_items:
+            data["data"].append(
+                {
+                    "id": item.id,
+                    "title": item.title,
+                    "organization": item.organization,
+                    "date": item.date,
+                    "description": item.description,
+                    "icon": item.icon,
+                    "position": item.position,
+                    "is_active": item.is_active,
+                }
+            )
+
+    elif data_type == "contact":
+        contact = Contact.query.first()
+        if contact:
+            data["data"] = {
+                "email": contact.email,
+                "phone": contact.phone,
+                "location": contact.location,
+                "github": contact.github,
+                "linkedin": contact.linkedin,
+                "twitter": contact.twitter,
+            }
+
+    elif data_type == "access_requests":
+        requests = AccessRequest.query.all()
+        data["data"] = []
+        for req in requests:
+            data["data"].append(
+                {
+                    "id": req.id,
+                    "email": req.email,
+                    "created_at": (
+                        req.created_at.isoformat() if req.created_at else None
+                    ),
+                    "expires_at": (
+                        req.expires_at.isoformat() if req.expires_at else None
+                    ),
+                    "is_used": req.is_used,
+                }
+            )
+
+    elif data_type in ["projects", "github_projects", "skills", "certs"]:
+        # JSON-Datei lesen
+        data_dir = Path(__file__).parent.parent / "data"
+        json_files = {
+            "projects": "projects.json",
+            "github_projects": "github_projects.json",
+            "skills": "skills.json",
+            "certs": "certs.json",
+        }
+
+        file_path = data_dir / json_files[data_type]
+        if file_path.exists():
+            try:
+                with open(file_path, "r", encoding="utf-8") as f:
+                    data["data"] = json.load(f)
+            except Exception as e:
+                data["data"] = {"error": str(e)}
+        else:
+            data["data"] = {"error": "File not found"}
+
+    else:
+        flash("Ungültiger Datentyp.", "error")
+        return redirect(url_for("admin.dashboard", active_tab="backup"))
+
+    # JSON erstellen
+    json_data = json.dumps(data, ensure_ascii=False, indent=2)
+
+    # Als Datei zurückgeben
+    buffer = BytesIO()
+    buffer.write(json_data.encode("utf-8"))
+    buffer.seek(0)
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"portfolio_{data_type}_{timestamp}.json"
+
+    return send_file(
+        buffer, mimetype="application/json", as_attachment=True, download_name=filename
     )

@@ -4,7 +4,8 @@
 {% block main_class %}{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
+<div
+    class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-8 transition-colors duration-300">
     <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <!-- Header -->
@@ -26,14 +27,15 @@
         </div>
 
         <!-- Tab Navigation -->
-        <div class="bg-white rounded-xl shadow-lg mb-6" x-data="{ activeTab: '{{ active_tab | default('bio') }}' }">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg mb-6 transition-colors duration-300"
+            x-data="{ activeTab: '{{ active_tab | default('bio') }}' }">
 
             <!-- Tab Buttons -->
-            <div class="border-b border-gray-200">
+            <div class="border-b border-gray-200 dark:border-gray-700">
                 <nav class="flex flex-wrap -mb-px" aria-label="Tabs">
                     <!-- Bio Tab -->
                     <button @click="activeTab = 'bio'"
-                        :class="activeTab === 'bio' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        :class="activeTab === 'bio' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'"
                         class="w-full sm:w-auto flex-1 sm:flex-none whitespace-nowrap py-4 px-6 border-b-2 font-semibold text-sm transition-all flex items-center justify-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -44,7 +46,7 @@
 
                     <!-- Timeline Tab -->
                     <button @click="activeTab = 'timeline'"
-                        :class="activeTab === 'timeline' ? 'border-success text-success' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        :class="activeTab === 'timeline' ? 'border-success text-success' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'"
                         class="w-full sm:w-auto flex-1 sm:flex-none whitespace-nowrap py-4 px-6 border-b-2 font-semibold text-sm transition-all flex items-center justify-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -55,7 +57,7 @@
 
                     <!-- Zugriffsverwaltung Tab -->
                     <button @click="activeTab = 'access'"
-                        :class="activeTab === 'access' ? 'border-accent text-accent' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        :class="activeTab === 'access' ? 'border-accent text-accent' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'"
                         class="w-full sm:w-auto flex-1 sm:flex-none whitespace-nowrap py-4 px-6 border-b-2 font-semibold text-sm transition-all flex items-center justify-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -63,11 +65,55 @@
                         </svg>
                         Zugriffe
                     </button>
+
+                    <!-- Projekte Tab -->
+                    <button @click="activeTab = 'projects'"
+                        :class="activeTab === 'projects' ? 'border-warning text-warning' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'"
+                        class="w-full sm:w-auto flex-1 sm:flex-none whitespace-nowrap py-4 px-6 border-b-2 font-semibold text-sm transition-all flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                        </svg>
+                        Projekte
+                    </button>
+
+                    <!-- Skills Tab -->
+                    <button @click="activeTab = 'skills'"
+                        :class="activeTab === 'skills' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'"
+                        class="w-full sm:w-auto flex-1 sm:flex-none whitespace-nowrap py-4 px-6 border-b-2 font-semibold text-sm transition-all flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
+                        Skills
+                    </button>
+
+                    <!-- Zertifikate Tab -->
+                    <button @click="activeTab = 'certs'"
+                        :class="activeTab === 'certs' ? 'border-success text-success' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'"
+                        class="w-full sm:w-auto flex-1 sm:flex-none whitespace-nowrap py-4 px-6 border-b-2 font-semibold text-sm transition-all flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                        </svg>
+                        Zertifikate
+                    </button>
+
+                    <!-- Backup Tab -->
+                    <button @click="activeTab = 'backup'"
+                        :class="activeTab === 'backup' ? 'border-accent text-accent' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'"
+                        class="w-full sm:w-auto flex-1 sm:flex-none whitespace-nowrap py-4 px-6 border-b-2 font-semibold text-sm transition-all flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Backup
+                    </button>
                 </nav>
             </div>
 
             <!-- Tab Content -->
-            <div class="p-6">
+            <div class="p-6 dark:bg-gray-800 transition-colors duration-300">
                 <!-- Bio Tab Content -->
                 <div x-show="activeTab === 'bio'" x-cloak>
                     {% include 'admin/tabs/bio_tab.html' %}
@@ -81,6 +127,26 @@
                 <!-- Access Tab Content -->
                 <div x-show="activeTab === 'access'" x-cloak>
                     {% include 'admin/tabs/access_tab.html' %}
+                </div>
+
+                <!-- Projects Tab Content -->
+                <div x-show="activeTab === 'projects'" x-cloak>
+                    {% include 'admin/tabs/projects_tab.html' %}
+                </div>
+
+                <!-- Skills Tab Content -->
+                <div x-show="activeTab === 'skills'" x-cloak>
+                    {% include 'admin/tabs/skills_tab.html' %}
+                </div>
+
+                <!-- Certs Tab Content -->
+                <div x-show="activeTab === 'certs'" x-cloak>
+                    {% include 'admin/tabs/certs_tab.html' %}
+                </div>
+
+                <!-- Backup Tab Content -->
+                <div x-show="activeTab === 'backup'" x-cloak>
+                    {% include 'admin/tabs/backup_tab.html' %}
                 </div>
             </div>
         </div>
