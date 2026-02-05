@@ -1,0 +1,133 @@
+{# Access Requests Tab Content #}
+<div class="space-y-4">
+    {% for req in requests %}
+    <div class="bg-white rounded-2xl shadow-xl p-6 border-l-4 
+        {% if req.status == 'pending' %}border-warning
+        {% elif req.status == 'approved' %}border-success
+        {% else %}border-red-500{% endif %}">
+
+        <!-- Header -->
+        <div class="flex justify-between items-start mb-4">
+            <div>
+                <h3 class="font-bold text-xl text-gray-900">{{ req.name }}</h3>
+                <p class="text-sm text-gray-600">{{ req.email }}</p>
+            </div>
+            <div>
+                {% if req.status == 'pending' %}
+                <span class="px-3 py-1 text-sm font-semibold rounded-full bg-warning/20 text-warning">
+                    Ausstehend
+                </span>
+                {% elif req.status == 'approved' %}
+                <span class="px-3 py-1 text-sm font-semibold rounded-full bg-success/20 text-success">
+                    Genehmigt
+                </span>
+                {% else %}
+                <span class="px-3 py-1 text-sm font-semibold rounded-full bg-red-100 text-red-800">
+                    Abgelehnt
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Message -->
+        <div class="mb-4 pb-4 border-b-2 border-gray-100">
+            <label class="text-xs font-semibold text-gray-500 uppercase mb-1 block">Nachricht:</label>
+            <p class="text-sm text-gray-700">{{ req.message }}</p>
+        </div>
+
+        <!-- Date -->
+        <div class="mb-4 flex items-center gap-2 text-sm text-gray-600">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            {{ req.created_at.strftime('%d.%m.%Y %H:%M') }}
+        </div>
+
+        <!-- Token Info -->
+        {% if req.token %}
+        <div class="mb-6 p-4 bg-gray-50 rounded-xl border-2 border-gray-200">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                    <svg class="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    Token:
+                </span>
+                <button onclick="copyToken('{{ req.token }}')"
+                    class="px-3 py-1 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all text-xs font-semibold">
+                    📋 Kopieren
+                </button>
+            </div>
+            <code
+                class="block bg-white px-3 py-2 rounded text-xs break-all font-mono border border-gray-300">{{ req.token }}</code>
+            {% if req.token_expires %}
+            <small class="text-gray-500 text-xs mt-2 block">
+                Gültig bis: {{ req.token_expires.strftime('%d.%m.%Y') }}
+            </small>
+            {% else %}
+            <small class="text-success text-xs mt-2 block font-semibold">Unbegrenzt gültig</small>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Actions -->
+        <div class="space-y-3">
+            {% if req.status == 'pending' or not req.token %}
+            <form method="POST" action="{{ url_for('admin.generate_token', request_id=req.id) }}" class="flex gap-3">
+                <select name="expires_days"
+                    class="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                    <option value="1">1 Tag</option>
+                    <option value="2">2 Tage</option>
+                    <option value="3" selected>3 Tage</option>
+                    <option value="5">5 Tage</option>
+                    <option value="8">8 Tage</option>
+                    <option value="13">13 Tage</option>
+                    <option value="0">Unbegrenzt</option>
+                </select>
+                <button type="submit"
+                    class="px-6 py-3 bg-gradient-to-r from-success to-green-400 text-white rounded-xl hover:shadow-lg transition-all font-semibold whitespace-nowrap">
+                    Token generieren
+                </button>
+            </form>
+            {% endif %}
+
+            <div class="flex gap-3">
+                {% if req.status == 'approved' %}
+                <form method="POST" action="{{ url_for('admin.revoke_token', request_id=req.id) }}" class="flex-1">
+                    <button type="submit" onclick="return confirm('Token wirklich widerrufen?')"
+                        class="w-full px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:shadow-lg transition-all font-semibold">
+                        Widerrufen
+                    </button>
+                </form>
+                {% endif %}
+
+                <form method="POST" action="{{ url_for('admin.delete_request', request_id=req.id) }}" class="flex-1">
+                    <button type="submit" onclick="return confirm('Anfrage wirklich löschen?')"
+                        class="w-full px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:shadow-lg transition-all font-semibold">
+                        Löschen
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="bg-white rounded-2xl shadow-xl p-12 text-center">
+        <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        <p class="text-gray-500 text-lg">Keine Zugriffsanfragen vorhanden</p>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    function copyToken(token) {
+        navigator.clipboard.writeText(token).then(function () {
+            alert('Token wurde in die Zwischenablage kopiert!');
+        }, function (err) {
+            console.error('Fehler beim Kopieren: ', err);
+        });
+    }
+</script>

@@ -37,14 +37,45 @@ def edit_about():
             db.session.add(about)
             flash("Bio wurde erstellt.", "success")
         db.session.commit()
-        return redirect(url_for("admin.edit_about"))
+        return redirect(url_for("admin.dashboard", active_tab="bio"))
+
+    # Redirect to dashboard
+    return redirect(url_for("admin.dashboard", active_tab="bio"))
+
+
+@admin.route("/dashboard")
+@login_required
+def dashboard():
+    """Zentrales Admin Dashboard mit Tabs"""
+    from flask_login import current_user
+
+    if not (hasattr(current_user, "get_id") and current_user.get_id() == "1"):
+        flash("Zugriff verweigert.", "error")
+        return redirect(url_for("main.index"))
+
+    # Daten für alle Tabs laden
+    about = About.query.first()
+    form = AboutForm(obj=about)
+
+    timeline_items = (
+        TimelineItem.query.filter_by(is_active=True)
+        .order_by(TimelineItem.position)
+        .all()
+    )
+
+    requests = AccessRequest.query.order_by(AccessRequest.created_at.desc()).all()
+
+    active_tab = request.args.get("active_tab", "bio")
 
     return render_template(
-        "admin/edit_about.html",
+        "admin/dashboard.html",
         form=form,
         about=about,
-        now=datetime.now(),
+        timeline_items=timeline_items,
+        requests=requests,
+        active_tab=active_tab,
         contact=Contact.query.first(),
+        now=datetime.now(),
     )
 
 
@@ -65,7 +96,7 @@ def delete_about():
         flash("Bio wurde gelöscht.", "success")
     else:
         flash("Kein Bio-Datensatz gefunden.", "error")
-    return redirect(url_for("admin.edit_about"))
+    return redirect(url_for("admin.dashboard", active_tab="bio"))
 
 
 @admin.route("/stats", methods=["GET", "POST"])
@@ -90,24 +121,8 @@ def edit_stats():
 @admin.route("/access-requests")
 @login_required
 def access_requests():
-    """Liste aller Zugriffsanfragen"""
-    # Nur echte Admins
-    from flask_login import current_user
-
-    if not (hasattr(current_user, "get_id") and current_user.get_id() == "1"):
-        flash(
-            "Zugriff verweigert. Nur Administratoren dürfen Zugriffsanfragen verwalten.",
-            "error",
-        )
-        return redirect(url_for("main.index"))
-
-    requests = AccessRequest.query.order_by(AccessRequest.created_at.desc()).all()
-    return render_template(
-        "admin/access_requests.html",
-        requests=requests,
-        now=datetime.now(),
-        contact=Contact.query.first(),
-    )
+    """Liste aller Zugriffsanfragen - Redirect zum Dashboard"""
+    return redirect(url_for("admin.dashboard", active_tab="access"))
 
 
 @admin.route("/access-requests/<int:request_id>/generate-token", methods=["POST"])
@@ -167,7 +182,7 @@ def generate_token(request_id):
             "warning",
         )
 
-    return redirect(url_for("admin.access_requests"))
+    return redirect(url_for("admin.dashboard", active_tab="access"))
 
 
 @admin.route("/access-requests/<int:request_id>/revoke", methods=["POST"])
@@ -191,7 +206,7 @@ def revoke_token(request_id):
     db.session.commit()
 
     flash("Zugriff wurde widerrufen und Account deaktiviert.", "success")
-    return redirect(url_for("admin.access_requests"))
+    return redirect(url_for("admin.dashboard", active_tab="access"))
 
 
 @admin.route("/access-requests/<int:request_id>/delete", methods=["POST"])
@@ -211,30 +226,14 @@ def delete_request(request_id):
     db.session.commit()
 
     flash("Anfrage wurde gelöscht.", "success")
-    return redirect(url_for("admin.access_requests"))
+    return redirect(url_for("admin.dashboard", active_tab="access"))
 
 
 @admin.route("/timeline")
 @login_required
 def edit_timeline():
-    """Timeline bearbeiten"""
-    from flask_login import current_user
-
-    if not (hasattr(current_user, "get_id") and current_user.get_id() == "1"):
-        flash("Zugriff verweigert.", "error")
-        return redirect(url_for("main.index"))
-
-    timeline_items = (
-        TimelineItem.query.filter_by(is_active=True)
-        .order_by(TimelineItem.position)
-        .all()
-    )
-    return render_template(
-        "admin/edit_timeline.html",
-        timeline_items=timeline_items,
-        contact=Contact.query.first(),
-        now=datetime.now(),
-    )
+    """Timeline bearbeiten - Redirect zum Dashboard"""
+    return redirect(url_for("admin.dashboard", active_tab="timeline"))
 
 
 @admin.route("/timeline/<int:item_id>/update", methods=["POST"])
@@ -262,7 +261,7 @@ def update_timeline_item(item_id):
 
     db.session.commit()
     flash("Timeline-Eintrag wurde aktualisiert.", "success")
-    return redirect(url_for("admin.edit_timeline"))
+    return redirect(url_for("admin.dashboard", active_tab="timeline"))
 
 
 @admin.route("/timeline/<int:item_id>/delete")
@@ -280,7 +279,7 @@ def delete_timeline_item(item_id):
     db.session.commit()
 
     flash("Timeline-Eintrag wurde gelöscht.", "success")
-    return redirect(url_for("admin.edit_timeline"))
+    return redirect(url_for("admin.dashboard", active_tab="timeline"))
 
 
 @admin.route("/timeline/add", methods=["GET", "POST"])
@@ -313,7 +312,7 @@ def add_timeline_item():
         db.session.commit()
 
         flash("Neuer Timeline-Eintrag wurde erstellt.", "success")
-        return redirect(url_for("admin.edit_timeline"))
+        return redirect(url_for("admin.dashboard", active_tab="timeline"))
 
     # GET: Formular anzeigen
     # Nächste Position ermitteln

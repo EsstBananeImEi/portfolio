@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block main_class %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
+    <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-primary to-accent rounded-2xl shadow-2xl p-8 mb-8">
+            <div class="flex justify-between items-center flex-wrap gap-4">
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Admin Dashboard</h1>
+                    <p class="text-white/80">Verwalten Sie Ihre Portfolio-Inhalte</p>
+                </div>
+                <a href="{{ url_for('main.index') }}"
+                    class="px-6 py-3 bg-white text-primary rounded-lg hover:shadow-xl transform hover:scale-105 transition-all font-semibold flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    Zur Startseite
+                </a>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="bg-white rounded-xl shadow-lg mb-6" x-data="{ activeTab: '{{ active_tab | default('bio') }}' }">
+
+            <!-- Tab Buttons -->
+            <div class="border-b border-gray-200">
+                <nav class="flex flex-wrap -mb-px" aria-label="Tabs">
+                    <!-- Bio Tab -->
+                    <button @click="activeTab = 'bio'"
+                        :class="activeTab === 'bio' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        class="w-full sm:w-auto flex-1 sm:flex-none whitespace-nowrap py-4 px-6 border-b-2 font-semibold text-sm transition-all flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        Bio
+                    </button>
+
+                    <!-- Timeline Tab -->
+                    <button @click="activeTab = 'timeline'"
+                        :class="activeTab === 'timeline' ? 'border-success text-success' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        class="w-full sm:w-auto flex-1 sm:flex-none whitespace-nowrap py-4 px-6 border-b-2 font-semibold text-sm transition-all flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Timeline
+                    </button>
+
+                    <!-- Zugriffsverwaltung Tab -->
+                    <button @click="activeTab = 'access'"
+                        :class="activeTab === 'access' ? 'border-accent text-accent' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        class="w-full sm:w-auto flex-1 sm:flex-none whitespace-nowrap py-4 px-6 border-b-2 font-semibold text-sm transition-all flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        Zugriffe
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="p-6">
+                <!-- Bio Tab Content -->
+                <div x-show="activeTab === 'bio'" x-cloak>
+                    {% include 'admin/tabs/bio_tab.html' %}
+                </div>
+
+                <!-- Timeline Tab Content -->
+                <div x-show="activeTab === 'timeline'" x-cloak>
+                    {% include 'admin/tabs/timeline_tab.html' %}
+                </div>
+
+                <!-- Access Tab Content -->
+                <div x-show="activeTab === 'access'" x-cloak>
+                    {% include 'admin/tabs/access_tab.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
