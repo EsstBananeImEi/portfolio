@@ -12,15 +12,35 @@ def create_app():
 
     db.init_app(app)
     login_manager.init_app(app)
-    
+
     # Session initialisieren (für Token-Verwaltung in DB)
-    from flask_session import Session
-    app.config['SESSION_SQLALCHEMY'] = db
-    Session(app)
-    
+    try:
+        from flask_session import Session
+
+        app.config["SESSION_SQLALCHEMY"] = db
+        Session(app)
+    except ImportError:
+        pass  # flask-session nicht installiert
+
     # E-Mail initialisieren
-    from app.email_utils import init_mail
-    init_mail(app)
+    try:
+        from app.email_utils import init_mail
+
+        init_mail(app)
+    except Exception:
+        pass  # E-Mail nicht konfiguriert
+
+    # Custom Jinja2 Filter für DevIcon SVG Pfade
+    @app.template_filter("devicon_svg")
+    def devicon_svg_filter(icon_class):
+        """Konvertiert DevIcon-Klassen zu SVG-Pfaden"""
+        import re
+
+        match = re.search(r"devicon-(\w+)-(\w+)", icon_class)
+        if match:
+            name, variant = match.groups()
+            return f"icons/skills/svg/{name}-{variant}.svg"
+        return None
 
     from app.main.routes import main
     from app.auth.routes import auth

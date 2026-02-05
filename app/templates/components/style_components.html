@@ -2,15 +2,16 @@
 
 {% macro section_title(text) %}
 <h2
-    class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative">
+    class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent text-center mb-12 relative stagger-item">
     {{ text }}
-    <span class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2"></span>
+    <span
+        class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2 transition-all duration-500"></span>
 </h2>
 {% endmacro %}
 
 {% macro section_block(id, bg_class, title) %}
-<section id="{{ id }}" class="py-12 {{ bg_class }}">
-    <div class="container mx-auto px-4">
+<section id="{{ id }}" class="py-12 {{ bg_class }} animate-section">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         {{ section_title(title) }}
         {{ caller() }}
     </div>

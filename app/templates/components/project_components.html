@@ -1,8 +1,138 @@
 {# templates/components/project_section_components.html #}
 
+<!-- Project Carousel -->
+{% macro project_carousel(projects, openTile, slideVar) %}
+<div x-data="{
+    currentSlide: 0,
+    itemsPerView: window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1),
+    isMobile: window.innerWidth < 768,
+    touchStartX: 0,
+    touchEndX: 0,
+    get visibleProjects() { return this.isMobile ? {{ projects|length }} : Math.min(7, {{ projects|length }}); },
+    get hasMore() { return !this.isMobile && {{ projects|length }} > 7; },
+    get totalItems() { return this.visibleProjects + (this.hasMore ? 1 : 0); },
+    get totalSlides() { return Math.max(1, Math.ceil(this.totalItems / this.itemsPerView)); },
+    get canGoPrev() { return this.currentSlide > 0; },
+    get canGoNext() { return this.currentSlide < this.totalSlides - 1; },
+    prev() { if (this.canGoPrev) this.currentSlide--; },
+    next() { if (this.canGoNext) this.currentSlide++; },
+    handleTouchStart(e) { this.touchStartX = e.touches[0].clientX; },
+    handleTouchEnd(e) {
+        this.touchEndX = e.changedTouches[0].clientX;
+        if (this.touchStartX - this.touchEndX > 50) this.next();
+        if (this.touchEndX - this.touchStartX > 50) this.prev();
+    },
+    updateItemsPerView() {
+        const wasMobile = this.isMobile;
+        this.itemsPerView = window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
+        this.isMobile = window.innerWidth < 768;
+        if (wasMobile !== this.isMobile) {
+            this.currentSlide = 0;
+        } else {
+            this.currentSlide = Math.min(this.currentSlide, this.totalSlides - 1);
+        }
+    }
+}" x-init="window.addEventListener('resize', () => updateItemsPerView())" class="relative">
+
+    <!-- Carousel Container -->
+    <div class="overflow-x-hidden py-4" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
+        <div class="flex transition-transform duration-500 ease-out"
+            :style="'transform: translateX(-' + (currentSlide * 100) + '%)'">
+            {% for project in projects %}
+            <div class="flex-shrink-0 px-2 md:px-4" :style="'width: calc(100% / ' + itemsPerView + ')'"
+                x-show="{{ loop.index }} <= visibleProjects">
+                {{ project_tile(project, loop.index, openTile) }}
+            </div>
+            {% endfor %}
+
+            <!-- Mehr-Kachel nur auf Desktop wenn > 7 Projekte -->
+            <div class="flex-shrink-0 px-2 md:px-4" :style="'width: calc(100% / ' + itemsPerView + ')'"
+                x-show="hasMore">
+                <div class="rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105 cursor-pointer modern-card-hover h-full flex items-center justify-center min-h-[200px]"
+                    style="background: linear-gradient(135deg, #01A6F0 0%, #00bcf2 100%);"
+                    @click="showAllProjects = true">
+                    <div class="p-6 text-center text-white">
+                        <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        <h3 class="text-2xl font-bold mb-2" x-text="({{ projects|length }} - 7) + ' weitere'"></h3>
+                        <p class="text-white/90">Alle Projekte anzeigen</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <button @click="prev" x-show="canGoPrev" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-6 z-10
+                   w-12 h-12 rounded-full bg-white/90 backdrop-blur-md shadow-lg
+                   flex items-center justify-center
+                   hover:bg-white hover:scale-110 transition-all duration-300
+                   disabled:opacity-50 disabled:cursor-not-allowed">
+        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+        </svg>
+    </button>
+
+    <button @click="next" x-show="canGoNext" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-6 z-10
+                   w-12 h-12 rounded-full bg-white/90 backdrop-blur-md shadow-lg
+                   flex items-center justify-center
+                   hover:bg-white hover:scale-110 transition-all duration-300
+                   disabled:opacity-50 disabled:cursor-not-allowed">
+        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+        </svg>
+    </button>
+
+    <!-- Slide Indicators -->
+    <div class="flex justify-center gap-3 mt-8" x-show="totalSlides > 1">
+        <template x-for="(slideNum, idx) in Array.from({length: totalSlides}, (_, i) => i)" :key="idx">
+            <button @click="currentSlide = slideNum" class="h-3 rounded-full transition-all duration-300 border-2"
+                :class="currentSlide === slideNum ? 'bg-primary border-primary w-12' : 'bg-white border-gray-800 hover:bg-gray-800 w-3'"></button>
+        </template>
+    </div>
+</div>
+
+<!-- All Projects Grid Overlay (nur Desktop) -->
+<div x-show="showAllProjects" x-cloak class="fixed inset-0 z-50" @click="showAllProjects = false"
+    x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-300"
+    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+
+    <div class="fixed inset-4 md:inset-8 bg-white rounded-2xl shadow-2xl overflow-y-auto" @click.stop
+        x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="scale-95 opacity-0"
+        x-transition:enter-end="scale-100 opacity-100" x-transition:leave="transition ease-in duration-300 transform"
+        x-transition:leave-start="scale-100 opacity-100" x-transition:leave-end="scale-95 opacity-0">
+
+        <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between z-10">
+            <h2 class="text-2xl font-bold text-primary">Alle Projekte ({{ projects|length }})</h2>
+            <button @click="showAllProjects = false"
+                class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for project in projects %}
+                <div @click="showAllProjects = false; {{ openTile }} = {{ loop.index }}">
+                    {{ project_tile(project, loop.index, openTile) }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
 <!-- Project Tile -->
 {% macro project_tile(project, index, openTile) %}
-<div class="project-tile bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105 cursor-pointer"
+<div class="project-tile bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105 cursor-pointer modern-card-hover"
     @click="{{ openTile }} = ({{ openTile }} === {{ index }} ? null : {{ index }})">
     <div class="p-6">
         <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
@@ -16,53 +146,95 @@
 
 <!-- Project Modal -->
 {% macro project_modal(projects, openTile) %}
-<div x-show="openTile !== null" x-cloak x-transition.opacity.duration.300ms
-    x-init="$watch('openTile', value => { document.body.style.overflow = value !== null ? 'hidden' : '' })"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 fix-height"
-    @click="openTile = null">
-    <!-- Modal-Inhalt mit Referenz und Watcher -->
-    <div x-ref="modalContent" x-init="$watch('openTile', value => { 
-                     if (value !== null) { 
-                         $nextTick(() => { 
-                             $refs.modalContent.scrollTop = 0; 
-                         }); 
-                     } 
-                 })" class="bg-white p-6 rounded-lg max-w-3xl w-full relative max-h-[90vh] overflow-y-auto">
-        {% for project in projects %}
-        <div x-show="openTile === {{ loop.index }}" x-transition.duration.300ms>
-            <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
-                alt="Logo von {{ project.title }}" class="w-auto max-w-full h-12 object-contain mx-auto mb-4">
-            <h3 class="text-2xl font-bold mb-4 text-primary">{{ project.title }}</h3>
-            <!-- Detaillierte Inhalte -->
-            <div class="mb-4">
-                <strong>ROLLE:</strong>
-                <p>{{ project.rolle }}</p>
+<div x-show="openTile !== null" x-cloak class="fixed inset-0 z-50" @click="openTile = null">
+
+    <!-- Backdrop with blur applied immediately -->
+    <div class="absolute inset-0 bg-gradient-to-br from-primary/20 via-black/50 to-accent/20 backdrop-blur-sm"
+        x-show="openTile !== null" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"></div>
+
+    <!-- Desktop: Right Slide Panel | Mobile: Full Screen -->
+    <div class="fixed left-0 right-0 top-0 bottom-0 md:left-auto md:right-0 md:top-0 md:bottom-0 md:w-[600px] md:max-w-[90vw]
+                bg-white shadow-2xl overflow-y-auto
+                md:rounded-l-2xl" @click.self="openTile = null" x-ref="modalContent" x-init="$watch('openTile', value => { 
+             if (value !== null) { 
+                 $nextTick(() => { 
+                     $refs.modalContent.scrollTop = 0; 
+                 }); 
+             } 
+         })" x-transition:enter="transition ease-out duration-300 transform"
+        x-transition:enter-start="md:translate-x-full translate-y-full"
+        x-transition:enter-end="md:translate-x-0 translate-y-0"
+        x-transition:leave="transition ease-in duration-300 transform"
+        x-transition:leave-start="md:translate-x-0 translate-y-0"
+        x-transition:leave-end="md:translate-x-full translate-y-full">
+
+        <!-- Content -->
+        <div class="p-6 md:p-8">
+            {% for project in projects %}
+            <div x-show="openTile === {{ loop.index }}">
+                <img src="{{ project.logo or url_for('static', filename='images/default-logo.png') }}"
+                    alt="Logo von {{ project.title }}" class="w-auto max-w-full h-16 object-contain mx-auto mb-6">
+                <h3 class="text-3xl font-bold mb-6 text-primary">{{ project.title }}</h3>
+
+                <!-- Detaillierte Inhalte -->
+                <div class="space-y-4">
+                    <div class="border-l-4 border-primary pl-4">
+                        <strong class="text-sm uppercase tracking-wide text-gray-500">Rolle</strong>
+                        <p class="mt-1">{{ project.rolle }}</p>
+                    </div>
+
+                    <div class="border-l-4 border-primary pl-4">
+                        <strong class="text-sm uppercase tracking-wide text-gray-500">Beschreibung</strong>
+                        <p class="mt-1">{{ project.description }}</p>
+                    </div>
+
+                    <div class="border-l-4 border-primary pl-4">
+                        <strong class="text-sm uppercase tracking-wide text-gray-500">Aufgaben</strong>
+                        <ul class="mt-1 space-y-2">
+                            {% for aufgabe in project.tasks %}
+                            <li class="flex items-start">
+                                <span class="text-primary mr-2">•</span>
+                                <span>{{ aufgabe.description }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="border-l-4 border-primary pl-4">
+                        <strong class="text-sm uppercase tracking-wide text-gray-500">Technologien</strong>
+                        <p class="mt-1">{{ project.technologien }}</p>
+                    </div>
+
+                    {% if project.link %}
+                    <div class="pt-4">
+                        <a href="{{ project.link }}" target="_blank"
+                            class="inline-flex items-center gap-2 bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white py-3 px-6 rounded-lg hover:shadow-lg transition-all duration-200 font-semibold">
+                            <span>Zur Website</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
+                                </path>
+                            </svg>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
-            <div class="mb-4">
-                <strong>BESCHREIBUNG:</strong>
-                <p>{{ project.description }}</p>
-            </div>
-            <div class="mb-4">
-                <strong>AUFGABEN:</strong>
-                <ul class="list-disc list-inside">
-                    {% for aufgabe in project.tasks %}
-                    <li>{{ aufgabe.description }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="mb-4">
-                <strong>TECHNOLOGIEN:</strong>
-                <p>{{ project.technologien }}</p>
-            </div>
-            {% if project.link %}
-            <a href="{{ project.link }}" target="_blank"
-                class="inline-block mt-4 bg-primary text-white py-2 px-4 rounded hover:bg-opacity-90">
-                Zur Website</a>
-            {% endif %}
+            {% endfor %}
+
+            <!-- Close Button -->
+            <button
+                class="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-20"
+                @click="openTile = null" aria-label="Schließen">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
         </div>
-        {% endfor %}
-        <!-- Schließen-Button -->
-        <button class="absolute top-2 right-2 text-2xl leading-none z-50" @click="openTile = null">&times;</button>
     </div>
 </div>
 {% endmacro %}

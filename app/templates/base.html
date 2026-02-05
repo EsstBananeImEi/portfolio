@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{ url_for('static', filename='images/icon.svg') }}" type="image/svg+xml">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
@@ -18,11 +17,12 @@
 
 <!-- Body als Flex-Container mit mindestens Bildschirmhöhe -->
 
-<body x-data="{ openTile: null, openGitTile: null, openSkill: null }"
-    :class="{ 'overflow-hidden': openTile !== null || openGitTile !== null || openSkill !== null }"
-    class="flex flex-col min-h-screen bg-background text-neutral relative"
-    style="background: url('{{ url_for('static', filename='images/hero-bg.jpg') }}') no-repeat center center fixed; background-size: cover;">
-
+<body
+    x-data="{ openTile: null, openGitTile: null, openSkill: null, openCertTile: null, projectSlide: 0, githubSlide: 0, showAllProjects: false, showAllGithub: false }"
+    :class="{ 'overflow-hidden': openTile !== null || openGitTile !== null || openSkill !== null || openCertTile !== null }"
+    class="flex flex-col min-h-screen text-neutral relative"
+    data-hero-bg="{{ url_for('static', filename='images/hero-bg.jpg') }}"
+    style="background: linear-gradient(to bottom, #f8f9fa 0%, #e9ecef 100%);">
 
     <!-- Navigation -->
     {% include "partials/nav.html" %}

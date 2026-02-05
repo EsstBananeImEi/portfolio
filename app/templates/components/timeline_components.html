@@ -1,0 +1,293 @@
+{# templates/components/timeline_components.html #}
+
+{% macro career_timeline() %}
+<!-- Berufserfahrung Timeline Section -->
+<section id="career" class="py-16 bg-gradient-to-br from-white/80 to-gray-50/80 backdrop-blur-sm">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Title -->
+        <h2
+            class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent text-center mb-4 relative stagger-item">
+            Berufliche Laufbahn
+            <span
+                class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-accent transform -translate-x-1/2 transition-all duration-500"></span>
+        </h2>
+        <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto stagger-item">
+            Mein Weg als Developer und Consultant mit Fokus auf Microsoft Dynamics 365
+        </p>
+
+        <!-- Timeline Container -->
+        <div class="max-w-5xl mx-auto relative stagger-container">
+            <!-- Vertical Line (Desktop) -->
+            <div
+                class="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1 bg-gradient-to-b from-primary via-accent to-success h-full rounded-full">
+            </div>
+
+            <!-- Timeline Items -->
+            <div class="space-y-12">
+                <!-- Timeline Item 1 - Current -->
+                <div class="relative stagger-item">
+                    <div class="md:flex md:items-center">
+                        <!-- Left Content (Desktop) / Full Width (Mobile) -->
+                        <div class="md:w-1/2 md:pr-12 mb-4 md:mb-0 md:text-right">
+                            <div
+                                class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-6 border-l-4 md:border-l-0 md:border-r-4 border-primary transform hover:scale-105 transition-all duration-300">
+                                <div class="flex items-center justify-between md:flex-row-reverse mb-3">
+                                    <span
+                                        class="px-4 py-1.5 bg-gradient-to-r from-success to-green-400 text-white text-sm font-bold rounded-full">
+                                        Aktuell
+                                    </span>
+                                    <span class="text-gray-500 text-sm font-semibold">2020 - Heute</span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-2">Senior Dynamics 365 Consultant</h3>
+                                <p class="text-accent font-semibold mb-3">Tech Solutions GmbH</p>
+                                <p class="text-gray-600 leading-relaxed">
+                                    Entwicklung und Implementierung von Microsoft Dynamics 365 CRM-Lösungen für
+                                    mittelständische Unternehmen.
+                                    Fokus auf maßgeschneiderte Business-Prozesse und digitale Transformation.
+                                </p>
+                                <div class="mt-4 flex flex-wrap gap-2 md:justify-end">
+                                    <span
+                                        class="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">Dynamics
+                                        365</span>
+                                    <span
+                                        class="px-3 py-1 bg-accent/10 text-accent text-xs font-semibold rounded-full">C#</span>
+                                    <span
+                                        class="px-3 py-1 bg-success/10 text-success text-xs font-semibold rounded-full">Power
+                                        Platform</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Center Icon -->
+                        <div
+                            class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-full items-center justify-center shadow-2xl z-10 border-4 border-white">
+                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M0 0h11.377v11.372H0zm12.623 0H24v11.372H12.623zM0 12.623h11.377V24H0zm12.623 0H24V24H12.623" />
+                            </svg>
+                        </div>
+
+                        <!-- Right Content (Spacer for Desktop) -->
+                        <div class="md:w-1/2 md:pl-12"></div>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 2 -->
+                <div class="relative stagger-item">
+                    <div class="md:flex md:items-center">
+                        <!-- Left Content (Spacer for Desktop) -->
+                        <div class="md:w-1/2 md:pr-12"></div>
+
+                        <!-- Center Icon -->
+                        <div
+                            class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-accent to-warning rounded-full items-center justify-center shadow-2xl z-10 border-4 border-white">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+
+                        <!-- Right Content (Desktop) / Full Width (Mobile) -->
+                        <div class="md:w-1/2 md:pl-12">
+                            <div
+                                class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-6 border-l-4 border-accent transform hover:scale-105 transition-all duration-300">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-gray-500 text-sm font-semibold">2017 - 2019</span>
+                                    <span class="px-4 py-1.5 bg-gray-200 text-gray-700 text-sm font-bold rounded-full">
+                                        2.5 Jahre
+                                    </span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-2">Full Stack Developer</h3>
+                                <p class="text-accent font-semibold mb-3">Digital Innovations AG</p>
+                                <p class="text-gray-600 leading-relaxed">
+                                    Entwicklung moderner Webanwendungen mit Python, JavaScript und React.
+                                    Fokus auf performante, skalierbare Lösungen und agile Entwicklungsmethoden.
+                                </p>
+                                <div class="mt-4 flex flex-wrap gap-2">
+                                    <span
+                                        class="px-3 py-1 bg-warning/10 text-warning text-xs font-semibold rounded-full">Python</span>
+                                    <span
+                                        class="px-3 py-1 bg-accent/10 text-accent text-xs font-semibold rounded-full">React</span>
+                                    <span
+                                        class="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">PostgreSQL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 3 -->
+                <div class="relative stagger-item">
+                    <div class="md:flex md:items-center">
+                        <!-- Left Content (Desktop) / Full Width (Mobile) -->
+                        <div class="md:w-1/2 md:pr-12 mb-4 md:mb-0 md:text-right">
+                            <div
+                                class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-6 border-l-4 md:border-l-0 md:border-r-4 border-success transform hover:scale-105 transition-all duration-300">
+                                <div class="flex items-center justify-between md:flex-row-reverse mb-3">
+                                    <span class="px-4 py-1.5 bg-gray-200 text-gray-700 text-sm font-bold rounded-full">
+                                        2 Jahre
+                                    </span>
+                                    <span class="text-gray-500 text-sm font-semibold">2015 - 2017</span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-2">Junior Software Developer</h3>
+                                <p class="text-accent font-semibold mb-3">StartUp Ventures GmbH</p>
+                                <p class="text-gray-600 leading-relaxed">
+                                    Einstieg in die professionelle Softwareentwicklung. Arbeit an verschiedenen Web- und
+                                    Desktop-Anwendungen mit modernen Frameworks und Technologien.
+                                </p>
+                                <div class="mt-4 flex flex-wrap gap-2 md:justify-end">
+                                    <span
+                                        class="px-3 py-1 bg-success/10 text-success text-xs font-semibold rounded-full">JavaScript</span>
+                                    <span
+                                        class="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">Node.js</span>
+                                    <span
+                                        class="px-3 py-1 bg-accent/10 text-accent text-xs font-semibold rounded-full">MongoDB</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Center Icon -->
+                        <div
+                            class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-success to-green-400 rounded-full items-center justify-center shadow-2xl z-10 border-4 border-white">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+
+                        <!-- Right Content (Spacer for Desktop) -->
+                        <div class="md:w-1/2 md:pl-12"></div>
+                    </div>
+                </div>
+
+                <!-- Start Point -->
+                <div class="relative stagger-item">
+                    <div class="flex justify-center">
+                        <div
+                            class="bg-gradient-to-r from-primary via-accent to-success text-white px-8 py-4 rounded-full shadow-xl font-bold text-lg">
+                            🎓 Beginn der Karriere - 2015
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endmacro %}
+
+{% macro tech_highlights() %}
+<!-- Tech Stack Highlights Section -->
+<section id="tech-highlights" class="py-16 bg-white/80">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Title -->
+        <h2
+            class="text-4xl font-extrabold uppercase tracking-wider bg-gradient-to-l from-success to-accent bg-clip-text text-transparent text-center mb-4 relative stagger-item">
+            Technologie-Stack
+            <span
+                class="absolute left-1/2 bottom-[-10px] w-16 h-1 bg-success transform -translate-x-1/2 transition-all duration-500"></span>
+        </h2>
+        <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto stagger-item">
+            Die wichtigsten Technologien und Tools, mit denen ich täglich arbeite
+        </p>
+
+        <!-- Tech Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 max-w-6xl mx-auto stagger-container">
+            <!-- Tech 1: Dynamics 365 -->
+            <div
+                class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center transform hover:scale-110 hover:shadow-2xl transition-all duration-300 border-t-4 border-primary stagger-item">
+                <div class="w-16 h-16 mb-3 flex items-center justify-center">
+                    <i class="devicon-dot-net-plain text-5xl text-primary"></i>
+                </div>
+                <h4 class="font-bold text-gray-800 text-center text-sm">Dynamics 365</h4>
+                <div class="flex gap-1 mt-2">
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                </div>
+            </div>
+
+            <!-- Tech 2: Python -->
+            <div
+                class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center transform hover:scale-110 hover:shadow-2xl transition-all duration-300 border-t-4 border-warning stagger-item">
+                <div class="w-16 h-16 mb-3 flex items-center justify-center">
+                    <i class="devicon-python-plain text-5xl text-[#3776ab]"></i>
+                </div>
+                <h4 class="font-bold text-gray-800 text-center text-sm">Python</h4>
+                <div class="flex gap-1 mt-2">
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                </div>
+            </div>
+
+            <!-- Tech 3: React -->
+            <div
+                class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center transform hover:scale-110 hover:shadow-2xl transition-all duration-300 border-t-4 border-accent stagger-item">
+                <div class="w-16 h-16 mb-3 flex items-center justify-center">
+                    <i class="devicon-react-original text-5xl text-[#61dafb]"></i>
+                </div>
+                <h4 class="font-bold text-gray-800 text-center text-sm">React</h4>
+                <div class="flex gap-1 mt-2">
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-gray-300">⭐</span>
+                </div>
+            </div>
+
+            <!-- Tech 4: C# -->
+            <div
+                class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center transform hover:scale-110 hover:shadow-2xl transition-all duration-300 border-t-4 border-success stagger-item">
+                <div class="w-16 h-16 mb-3 flex items-center justify-center">
+                    <i class="devicon-csharp-plain text-5xl text-[#239120]"></i>
+                </div>
+                <h4 class="font-bold text-gray-800 text-center text-sm">C#</h4>
+                <div class="flex gap-1 mt-2">
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                </div>
+            </div>
+
+            <!-- Tech 5: Azure -->
+            <div
+                class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center transform hover:scale-110 hover:shadow-2xl transition-all duration-300 border-t-4 border-primary stagger-item">
+                <div class="w-16 h-16 mb-3 flex items-center justify-center">
+                    <i class="devicon-azure-plain text-5xl text-[#0078d4]"></i>
+                </div>
+                <h4 class="font-bold text-gray-800 text-center text-sm">Azure</h4>
+                <div class="flex gap-1 mt-2">
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-gray-300">⭐</span>
+                </div>
+            </div>
+
+            <!-- Tech 6: SQL -->
+            <div
+                class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center transform hover:scale-110 hover:shadow-2xl transition-all duration-300 border-t-4 border-accent stagger-item">
+                <div class="w-16 h-16 mb-3 flex items-center justify-center">
+                    <i class="devicon-postgresql-plain text-5xl text-[#336791]"></i>
+                </div>
+                <h4 class="font-bold text-gray-800 text-center text-sm">SQL</h4>
+                <div class="flex gap-1 mt-2">
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                    <span class="text-yellow-400">⭐</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endmacro %}

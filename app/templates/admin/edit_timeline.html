@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 py-12 px-4">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="mb-8">
+            <a href="{{ url_for('admin.edit_about') }}"
+                class="inline-flex items-center gap-2 text-primary hover:text-accent transition-colors mb-4">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                <span>Zurück zur Bio-Verwaltung</span>
+            </a>
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">Timeline bearbeiten</h1>
+            <p class="text-gray-600">Verwalte deinen beruflichen Werdegang</p>
+        </div>
+
+        <!-- Timeline Items -->
+        <div class="space-y-6">
+            {% for item in timeline_items %}
+            <div class="bg-white rounded-2xl shadow-xl p-6 border-l-4 
+                {% if item.badge_color == 'success' %}border-success
+                {% elif item.badge_color == 'primary' %}border-primary
+                {% elif item.badge_color == 'accent' %}border-accent
+                {% elif item.badge_color == 'warning' %}border-warning
+                {% else %}border-gray-400{% endif %}">
+
+                <form method="POST" action="{{ url_for('admin.update_timeline_item', item_id=item.id) }}"
+                    class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Period Start -->
+                        <div>
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                                <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                Von
+                            </label>
+                            <input type="text" name="period_start" value="{{ item.period_start }}" required
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                        </div>
+
+                        <!-- Period End -->
+                        <div>
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                                <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                Bis
+                            </label>
+                            <input type="text" name="period_end" value="{{ item.period_end }}" required
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                        </div>
+
+                        <!-- Title -->
+                        <div class="md:col-span-2">
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                                <svg class="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                Position
+                            </label>
+                            <input type="text" name="title" value="{{ item.title }}" required
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                        </div>
+
+                        <!-- Company -->
+                        <div class="md:col-span-2">
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                                <svg class="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                                Unternehmen
+                            </label>
+                            <input type="text" name="company" value="{{ item.company }}" required
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                        </div>
+
+                        <!-- Description -->
+                        <div class="md:col-span-2">
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                                <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                                </svg>
+                                Beschreibung
+                            </label>
+                            <textarea name="description" rows="3" required
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">{{ item.description }}</textarea>
+                        </div>
+
+                        <!-- Badge -->
+                        <div>
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                                <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                </svg>
+                                Badge Text
+                            </label>
+                            <input type="text" name="badge" value="{{ item.badge or '' }}"
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                        </div>
+
+                        <!-- Badge Color -->
+                        <div>
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                                <svg class="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                                </svg>
+                                Badge Farbe
+                            </label>
+                            <select name="badge_color"
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                                <option value="success" {% if item.badge_color=='success' %}selected{% endif %}>Grün
+                                    (Success)</option>
+                                <option value="primary" {% if item.badge_color=='primary' %}selected{% endif %}>Blau
+                                    (Primary)</option>
+                                <option value="accent" {% if item.badge_color=='accent' %}selected{% endif %}>Lila
+                                    (Accent)</option>
+                                <option value="warning" {% if item.badge_color=='warning' %}selected{% endif %}>Orange
+                                    (Warning)</option>
+                                <option value="gray" {% if item.badge_color=='gray' %}selected{% endif %}>Grau</option>
+                            </select>
+                        </div>
+
+                        <!-- Icon Type -->
+                        <div>
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                                <svg class="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                                Icon
+                            </label>
+                            <select name="icon_type"
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                                <option value="microsoft" {% if item.icon_type=='microsoft' %}selected{% endif %}>
+                                    Microsoft</option>
+                                <option value="code" {% if item.icon_type=='code' %}selected{% endif %}>Code</option>
+                                <option value="briefcase" {% if item.icon_type=='briefcase' %}selected{% endif %}>
+                                    Aktentasche</option>
+                            </select>
+                        </div>
+
+                        <!-- Position/Sortierung -->
+                        <div>
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                                <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+                                </svg>
+                                Sortierung
+                            </label>
+                            <input type="number" name="position" value="{{ item.position }}" required min="1"
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                        </div>
+
+                        <!-- Tags -->
+                        <div class="md:col-span-2">
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                                <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                                </svg>
+                                Tags (kommagetrennt)
+                            </label>
+                            <input type="text" name="tags" value="{{ item.tags or '' }}"
+                                placeholder="Dynamics 365,C#,Power Platform"
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex gap-3 pt-4 border-t-2 border-gray-100">
+                        <button type="submit"
+                            class="flex-1 bg-gradient-to-r from-primary to-accent text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all">
+                            Speichern
+                        </button>
+                        <a href="{{ url_for('admin.delete_timeline_item', item_id=item.id) }}"
+                            onclick="return confirm('Wirklich löschen?')"
+                            class="px-6 py-3 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-colors">
+                            Löschen
+                        </a>
+                    </div>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Add New Button -->
+        <div class="mt-8">
+            <a href="{{ url_for('admin.add_timeline_item') }}"
+                class="inline-flex items-center gap-2 bg-gradient-to-r from-success to-green-400 text-white px-8 py-4 rounded-xl font-bold shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                <span>Neuer Timeline-Eintrag</span>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

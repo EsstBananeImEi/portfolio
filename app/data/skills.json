@@ -1,250 +1,434 @@
 [
-  {
-    "name": "Python",
-    "level": "Expert",
-    "icon": "devicon-python-plain",
-    "info": "Dynamisch, vielseitig und weit verbreitet.",
-    "description": "Python ist eine leistungsstarke, interpretierte Programmiersprache, die sich besonders für Skripting, Automatisierung und Datenanalyse eignet.",
-    "link": "https://www.python.org/"
-  },
-  {
-    "name": "Flask",
-    "level": "Intermediate",
-    "icon": "devicon-flask-original",
-    "info": "Ein leichtgewichtiges Webframework.",
-    "description": "Flask ist ein minimalistisches Python-Webframework, das sich hervorragend für schnelle Prototypen und kleine bis mittelgroße Webanwendungen eignet.",
-    "link": "https://flask.palletsprojects.com/"
-  },
-  {
-    "name": "HTML5",
-    "level": "Advanced",
-    "icon": "devicon-html5-plain",
-    "info": "Standard zur Strukturierung von Webinhalten.",
-    "description": "HTML5 ist die neueste Version der Hypertext Markup Language, die zur Strukturierung und Darstellung von Inhalten im Web dient.",
-    "link": "https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5"
-  },
-  {
-    "name": "CSS3",
-    "level": "Advanced",
-    "icon": "devicon-css3-plain",
-    "info": "Gestaltung und Layout von Webseiten.",
-    "description": "CSS3 ermöglicht die Gestaltung von Webseiten mit modernen Layout- und Animationstechniken.",
-    "link": "https://developer.mozilla.org/en-US/docs/Web/CSS"
-  },
-  {
-    "name": "JavaScript",
-    "level": "Advanced",
-    "icon": "devicon-javascript-plain",
-    "info": "Die Sprache des Webs.",
-    "description": "JavaScript ist eine vielseitige Sprache, die sowohl auf der Client- als auch auf der Serverseite eingesetzt wird.",
-    "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-  },
-  {
-    "name": "TypeScript",
-    "level": "Advanced",
-    "icon": "devicon-typescript-plain",
-    "info": "JavaScript mit Typisierung.",
-    "description": "TypeScript erweitert JavaScript um statische Typisierung und moderne Features, um große Codebasen besser verwalten zu können.",
-    "link": "https://www.typescriptlang.org/"
-  },
-  {
-    "name": "React",
-    "level": "Advanced",
-    "icon": "devicon-react-original",
-    "info": "Eine Bibliothek zur Erstellung von UI-Komponenten.",
-    "description": "React ist eine JavaScript-Bibliothek zur Erstellung von wiederverwendbaren UI-Komponenten und Single-Page-Anwendungen.",
-    "link": "https://reactjs.org/"
-  },
-  {
-    "name": "Angular",
-    "level": "Advanced",
-    "icon": "devicon-angularjs-plain",
-    "info": "Ein Framework für dynamische Webanwendungen.",
-    "description": "Angular ist ein leistungsstarkes Framework für den Aufbau von dynamischen und modularen Webanwendungen.",
-    "link": "https://angular.io/"
-  },
-  {
-    "name": "Node.js",
-    "level": "Intermediate",
-    "icon": "devicon-nodejs-plain",
-    "info": "Serverseitiges JavaScript.",
-    "description": "Node.js ermöglicht die Ausführung von JavaScript auf dem Server und ist ideal für skalierbare Netzwerkapplikationen.",
-    "link": "https://nodejs.org/"
-  },
-  {
-    "name": "C#",
-    "level": "Advanced",
-    "icon": "devicon-csharp-plain",
-    "info": "Eine moderne, objektorientierte Programmiersprache.",
-    "description": "C# wird häufig für die Entwicklung von Windows-Anwendungen und Spielen eingesetzt, etwa mit Unity.",
-    "link": "https://docs.microsoft.com/en-us/dotnet/csharp/"
-  },
-  {
-    "name": "PHP",
-    "level": "Intermediate",
-    "icon": "devicon-php-plain",
-    "info": "Eine weit verbreitete serverseitige Sprache.",
-    "description": "PHP wird hauptsächlich zur Erstellung dynamischer Webseiten und Webanwendungen verwendet.",
-    "link": "https://www.php.net/"
-  },
-  {
-    "name": "Java",
-    "level": "Intermediate",
-    "icon": "devicon-java-plain",
-    "info": "Eine universell einsetzbare Programmiersprache.",
-    "description": "Java ist bekannt für seine Plattformunabhängigkeit und wird in vielen Unternehmensanwendungen eingesetzt.",
-    "link": "https://www.java.com/"
-  },
-  {
-    "name": "Docker",
-    "level": "Intermediate",
-    "icon": "devicon-docker-plain",
-    "info": "Containerisierung von Anwendungen.",
-    "description": "Docker ermöglicht es, Anwendungen in Containern zu isolieren, was die Bereitstellung und Skalierung vereinfacht.",
-    "link": "https://www.docker.com/"
-  },
-  {
-    "name": "Git",
-    "level": "Advanced",
-    "icon": "devicon-git-plain",
-    "info": "Versionskontrolle für Projekte.",
-    "description": "Git ist ein verteiltes Versionskontrollsystem, das es Teams ermöglicht, effizient an Code zu arbeiten.",
-    "link": "https://git-scm.com/"
-  },
-  {
-    "name": "Linux",
-    "level": "Advanced",
-    "icon": "devicon-linux-plain",
-    "info": "Ein vielseitiges Betriebssystem.",
-    "description": "Linux ist ein Open-Source-Betriebssystem, das für seine Stabilität und Sicherheit bekannt ist.",
-    "link": "https://www.linux.org/"
-  },
-  {
-    "name": "MySQL",
-    "level": "Intermediate",
-    "icon": "devicon-mysql-plain",
-    "info": "Relationale Datenbank.",
-    "description": "MySQL ist eine der bekanntesten relationalen Datenbanken und wird häufig in Webanwendungen eingesetzt.",
-    "link": "https://www.mysql.com/"
-  },
-  {
-    "name": "PostgreSQL",
-    "level": "Intermediate",
-    "icon": "devicon-postgresql-plain",
-    "info": "Fortschrittliche relationale Datenbank.",
-    "description": "PostgreSQL ist eine leistungsstarke, objektrelationale Datenbank, die für ihre Stabilität und Erweiterbarkeit bekannt ist.",
-    "link": "https://www.postgresql.org/"
-  },
-  {
-    "name": "SQLite",
-    "level": "Advanced",
-    "icon": "devicon-sqlite-plain",
-    "info": "Leichte, dateibasierte Datenbank.",
-    "description": "SQLite ist eine serverlose, selbst enthaltene SQL-Datenbank, die sich gut für kleinere Projekte eignet.",
-    "link": "https://www.sqlite.org/"
-  },
-  {
-    "name": "Jenkins",
-    "level": "Intermediate",
-    "icon": "devicon-jenkins-plain",
-    "info": "Automatisierung von CI/CD-Prozessen.",
-    "description": "Jenkins ist ein Open-Source-Automatisierungsserver, der hilft, den Softwareentwicklungsprozess zu automatisieren.",
-    "link": "https://www.jenkins.io/"
-  },
-  {
-    "name": "Dynamics 365",
-    "level": "Expert",
-    "icon": "static/images/dynamics.png",
-    "info": "Enterprise-CRM und ERP-Lösungen.",
-    "description": "Dynamics 365 bietet eine umfassende Suite von Unternehmensanwendungen, die CRM und ERP integrieren.",
-    "link": "https://dynamics.microsoft.com/"
-  },
-  {
-    "name": "Prometheus",
-    "level": "Intermediate",
-    "icon": "devicon-prometheus-plain",
-    "info": "Monitoring und Alerting-System.",
-    "description": "Prometheus ist ein Open-Source-Monitoring- und Alerting-Toolkit, das besonders in Cloud-Umgebungen beliebt ist.",
-    "link": "https://prometheus.io/"
-  },
-  {
-    "name": "Grafana",
-    "level": "Intermediate",
-    "icon": "devicon-grafana-plain",
-    "info": "Visualisierung von Metriken und Logs.",
-    "description": "Grafana wird häufig zusammen mit Prometheus verwendet, um Metriken in ansprechenden Dashboards darzustellen.",
-    "link": "https://grafana.com/"
-  },
-  {
-    "name": "Jira",
-    "level": "Intermediate",
-    "icon": "devicon-jira-plain",
-    "info": "Projektmanagement und Issue-Tracking.",
-    "description": "Jira ist ein Tool zur Verwaltung von Projekten, Aufgaben und Bugs, das vor allem in agilen Teams eingesetzt wird.",
-    "link": "https://www.atlassian.com/software/jira"
-  },
-  {
-    "name": "Confluence",
-    "level": "Intermediate",
-    "icon": "devicon-confluence-plain",
-    "info": "Wissensmanagement und Zusammenarbeit.",
-    "description": "Confluence ist ein Kollaborationswerkzeug, mit dem Teams Dokumente, Notizen und Projektpläne gemeinsam bearbeiten können.",
-    "link": "https://www.atlassian.com/software/confluence"
-  },
-  {
-    "name": "Bootstrap",
-    "level": "Advanced",
-    "icon": "devicon-bootstrap-plain",
-    "info": "CSS-Framework für responsives Design.",
-    "description": "Bootstrap vereinfacht die Entwicklung von responsiven und modernen Webseiten durch vordefinierte Komponenten und Styles.",
-    "link": "https://getbootstrap.com/"
-  },
-  {
-    "name": "Microservices",
-    "level": "Advanced",
-    "icon": "static/images/microservice.png",
-    "info": "Architekturstil für skalierbare Anwendungen.",
-    "description": "Microservices teilen Anwendungen in kleine, unabhängige Services auf, die jeweils eine einzelne Funktion übernehmen.",
-    "link": "https://microservices.io/"
-  },
-  {
-    "name": "MQTT",
-    "level": "Intermediate",
-    "icon": "static/images/mqtt.png",
-    "info": "Leichtgewichtiges Messaging-Protokoll für IoT.",
-    "description": "MQTT ist ein Publish/Subscribe-Protokoll, das sich hervorragend für die Kommunikation in IoT-Anwendungen eignet.",
-    "link": "http://mqtt.org/"
-  },
-  {
-    "name": "ZeroMQ",
-    "level": "Intermediate",
-    "icon": "static/images/zeromq.png",
-    "info": "Asynchrone Messaging-Bibliothek.",
-    "description": "ZeroMQ ist eine leistungsfähige Messaging-Bibliothek, die beim Aufbau verteilter Systeme hilft.",
-    "link": "https://zeromq.org/"
-  },
-  {
-    "name": "Cucumber",
-    "level": "Intermediate",
-    "icon": "static/images/cucumber.png",
-    "info": "BDD-Tool zur Testautomatisierung.",
-    "description": "Cucumber nutzt Gherkin-Syntax, um Anforderungen als leicht verständliche Szenarien zu beschreiben, und automatisiert diese als Tests.",
-    "link": "https://cucumber.io/"
-  },
-  {
-    "name": "Gherkin",
-    "level": "Intermediate",
-    "icon": "static/images/gherkin.svg",
-    "info": "Spezifikationssprache für BDD.",
-    "description": "Gherkin ist eine domänenspezifische Sprache, die es ermöglicht, Anforderungen in verständlichen Szenarien zu beschreiben.",
-    "link": "https://cucumber.io/docs/gherkin/reference/"
-  },
-  {
-    "name": "TDD",
-    "level": "Intermediate",
-    "icon": "static/images/tdd.svg",
-    "info": "Test-Driven Development als Entwicklungsansatz.",
-    "description": "TDD ist ein Entwicklungsprozess, bei dem Tests vor dem eigentlichen Code geschrieben werden, um so die Implementierung zu leiten.",
-    "link": "https://www.agilealliance.org/glossary/tdd/"
-  }
+    {
+        "name": "Python",
+        "level": "Expert",
+        "icon": "devicon-python-plain",
+        "info": "Dynamisch, vielseitig und weit verbreitet.",
+        "description": "Python ist eine leistungsstarke, interpretierte Programmiersprache, die sich besonders für Skripting, Automatisierung und Datenanalyse eignet.",
+        "link": "https://www.python.org/",
+        "category": "backend"
+    },
+    {
+        "name": "Flask",
+        "level": "Advanced",
+        "icon": "devicon-flask-original",
+        "info": "Ein leichtgewichtiges Webframework.",
+        "description": "Flask ist ein minimalistisches Python-Webframework, das sich hervorragend für schnelle Prototypen und kleine bis mittelgroße Webanwendungen eignet.",
+        "link": "https://flask.palletsprojects.com/",
+        "category": "backend"
+    },
+    {
+        "name": "HTML5",
+        "level": "Expert",
+        "icon": "devicon-html5-plain",
+        "info": "Standard zur Strukturierung von Webinhalten.",
+        "description": "HTML5 ist die neueste Version der Hypertext Markup Language, die zur Strukturierung und Darstellung von Inhalten im Web dient.",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5",
+        "category": "frontend"
+    },
+    {
+        "name": "CSS3",
+        "level": "Expert",
+        "icon": "devicon-css3-plain",
+        "info": "Gestaltung und Layout von Webseiten.",
+        "description": "CSS3 ermöglicht die Gestaltung von Webseiten mit modernen Layout- und Animationstechniken.",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/CSS",
+        "category": "frontend"
+    },
+    {
+        "name": "JavaScript",
+        "level": "Expert",
+        "icon": "devicon-javascript-plain",
+        "info": "Die Sprache des Webs.",
+        "description": "JavaScript ist eine vielseitige Sprache, die sowohl auf der Client- als auch auf der Serverseite eingesetzt wird.",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+        "category": "frontend"
+    },
+    {
+        "name": "TypeScript",
+        "level": "Advanced",
+        "icon": "devicon-typescript-plain",
+        "info": "JavaScript mit Typisierung.",
+        "description": "TypeScript erweitert JavaScript um statische Typisierung und moderne Features, um große Codebasen besser verwalten zu können.",
+        "link": "https://www.typescriptlang.org/",
+        "category": "frontend"
+    },
+    {
+        "name": "React",
+        "level": "Advanced",
+        "icon": "devicon-react-original",
+        "info": "Eine Bibliothek zur Erstellung von UI-Komponenten.",
+        "description": "React ist eine JavaScript-Bibliothek zur Erstellung von wiederverwendbaren UI-Komponenten und Single-Page-Anwendungen.",
+        "link": "https://reactjs.org/",
+        "category": "frontend"
+    },
+    {
+        "name": "Angular",
+        "level": "Intermediate",
+        "icon": "devicon-angular-plain",
+        "info": "Ein Framework für dynamische Webanwendungen.",
+        "description": "Angular ist ein leistungsstarkes Framework für den Aufbau von dynamischen und modularen Webanwendungen.",
+        "link": "https://angular.io/",
+        "category": "frontend"
+    },
+    {
+        "name": "Node.js",
+        "level": "Intermediate",
+        "icon": "devicon-nodejs-plain",
+        "info": "Serverseitiges JavaScript.",
+        "description": "Node.js ermöglicht die Ausführung von JavaScript auf dem Server und ist ideal für skalierbare Netzwerkapplikationen.",
+        "link": "https://nodejs.org/",
+        "category": "backend"
+    },
+    {
+        "name": "C#",
+        "level": "Expert",
+        "icon": "devicon-csharp-plain",
+        "info": "Eine moderne, objektorientierte Programmiersprache.",
+        "description": "C# wird häufig für die Entwicklung von Windows-Anwendungen und Spielen eingesetzt, etwa mit Unity.",
+        "link": "https://docs.microsoft.com/en-us/dotnet/csharp/",
+        "category": "backend"
+    },
+    {
+        "name": "PHP",
+        "level": "Beginner",
+        "icon": "devicon-php-plain",
+        "info": "Eine weit verbreitete serverseitige Sprache.",
+        "description": "PHP wird hauptsächlich zur Erstellung dynamischer Webseiten und Webanwendungen verwendet.",
+        "link": "https://www.php.net/",
+        "category": "backend"
+    },
+    {
+        "name": "Java",
+        "level": "Beginner",
+        "icon": "devicon-java-plain",
+        "info": "Eine universell einsetzbare Programmiersprache.",
+        "description": "Java ist bekannt für seine Plattformunabhängigkeit und wird in vielen Unternehmensanwendungen eingesetzt.",
+        "link": "https://www.java.com/",
+        "category": "backend"
+    },
+    {
+        "name": "Docker",
+        "level": "Advanced",
+        "icon": "devicon-docker-plain",
+        "info": "Containerisierung von Anwendungen.",
+        "description": "Docker ermöglicht es, Anwendungen in Containern zu isolieren, was die Bereitstellung und Skalierung vereinfacht.",
+        "link": "https://www.docker.com/",
+        "category": "cloud"
+    },
+    {
+        "name": "Git",
+        "level": "Expert",
+        "icon": "devicon-git-plain",
+        "info": "Versionskontrolle für Projekte.",
+        "description": "Git ist ein verteiltes Versionskontrollsystem, das es Teams ermöglicht, effizient an Code zu arbeiten.",
+        "link": "https://git-scm.com/",
+        "category": "tools"
+    },
+    {
+        "name": "Linux",
+        "level": "Advanced",
+        "icon": "devicon-linux-plain",
+        "info": "Ein vielseitiges Betriebssystem.",
+        "description": "Linux ist ein Open-Source-Betriebssystem, das für seine Stabilität und Sicherheit bekannt ist.",
+        "link": "https://www.linux.org/",
+        "category": "cloud"
+    },
+    {
+        "name": "MySQL",
+        "level": "Advanced",
+        "icon": "devicon-mysql-plain",
+        "info": "Relationale Datenbank.",
+        "description": "MySQL ist eine der bekanntesten relationalen Datenbanken und wird häufig in Webanwendungen eingesetzt.",
+        "link": "https://www.mysql.com/",
+        "category": "backend"
+    },
+    {
+        "name": "PostgreSQL",
+        "level": "Advanced",
+        "icon": "devicon-postgresql-plain",
+        "info": "Fortschrittliche relationale Datenbank.",
+        "description": "PostgreSQL ist eine leistungsstarke, objektrelationale Datenbank, die für ihre Stabilität und Erweiterbarkeit bekannt ist.",
+        "link": "https://www.postgresql.org/",
+        "category": "backend"
+    },
+    {
+        "name": "SQLite",
+        "level": "Expert",
+        "icon": "devicon-sqlite-plain",
+        "info": "Leichte, dateibasierte Datenbank.",
+        "description": "SQLite ist eine serverlose, selbst enthaltene SQL-Datenbank, die sich gut für kleinere Projekte eignet.",
+        "link": "https://www.sqlite.org/",
+        "category": "backend"
+    },
+    {
+        "name": "Jenkins",
+        "level": "Beginner",
+        "icon": "devicon-jenkins-plain",
+        "info": "Automatisierung von CI/CD-Prozessen.",
+        "description": "Jenkins ist ein Open-Source-Automatisierungsserver, der hilft, den Softwareentwicklungsprozess zu automatisieren.",
+        "link": "https://www.jenkins.io/",
+        "category": "cloud"
+    },
+    {
+        "name": "Dynamics 365",
+        "level": "Expert",
+        "icon": "static/images/dynamics.png",
+        "info": "Enterprise-CRM und ERP-Lösungen.",
+        "description": "Dynamics 365 bietet eine umfassende Suite von Unternehmensanwendungen, die CRM und ERP integrieren.",
+        "link": "https://dynamics.microsoft.com/",
+        "category": "tools"
+    },
+    {
+        "name": "Prometheus",
+        "level": "Intermediate",
+        "icon": "devicon-prometheus-original",
+        "info": "Monitoring und Alerting-System.",
+        "description": "Prometheus ist ein Open-Source-Monitoring- und Alerting-Toolkit, das besonders in Cloud-Umgebungen beliebt ist.",
+        "link": "https://prometheus.io/",
+        "category": "cloud"
+    },
+    {
+        "name": "Grafana",
+        "level": "Intermediate",
+        "icon": "devicon-grafana-plain colored",
+        "info": "Visualisierung von Metriken und Logs.",
+        "description": "Grafana wird häufig zusammen mit Prometheus verwendet, um Metriken in ansprechenden Dashboards darzustellen.",
+        "link": "https://grafana.com/",
+        "category": "cloud"
+    },
+    {
+        "name": "Jira",
+        "level": "Intermediate",
+        "icon": "devicon-jira-plain",
+        "info": "Projektmanagement und Issue-Tracking.",
+        "description": "Jira ist ein Tool zur Verwaltung von Projekten, Aufgaben und Bugs, das vor allem in agilen Teams eingesetzt wird.",
+        "link": "https://www.atlassian.com/software/jira",
+        "category": "tools"
+    },
+    {
+        "name": "Confluence",
+        "level": "Intermediate",
+        "icon": "devicon-confluence-plain",
+        "info": "Wissensmanagement und Zusammenarbeit.",
+        "description": "Confluence ist ein Kollaborationswerkzeug, mit dem Teams Dokumente, Notizen und Projektpläne gemeinsam bearbeiten können.",
+        "link": "https://www.atlassian.com/software/confluence",
+        "category": "tools"
+    },
+    {
+        "name": "Bootstrap",
+        "level": "Advanced",
+        "icon": "devicon-bootstrap-plain",
+        "info": "CSS-Framework für responsives Design.",
+        "description": "Bootstrap vereinfacht die Entwicklung von responsiven und modernen Webseiten durch vordefinierte Komponenten und Styles.",
+        "link": "https://getbootstrap.com/",
+        "category": "frontend"
+    },
+    {
+        "name": "Microservices",
+        "level": "Advanced",
+        "icon": "static/images/microservice.png",
+        "info": "Architekturstil für skalierbare Anwendungen.",
+        "description": "Microservices teilen Anwendungen in kleine, unabhängige Services auf, die jeweils eine einzelne Funktion übernehmen.",
+        "link": "https://microservices.io/",
+        "category": "cloud"
+    },
+    {
+        "name": "MQTT",
+        "level": "Intermediate",
+        "icon": "static/images/mqtt.png",
+        "info": "Leichtgewichtiges Messaging-Protokoll für IoT.",
+        "description": "MQTT ist ein Publish/Subscribe-Protokoll, das sich hervorragend für die Kommunikation in IoT-Anwendungen eignet.",
+        "link": "http://mqtt.org/",
+        "category": "tools"
+    },
+    {
+        "name": "ZeroMQ",
+        "level": "Intermediate",
+        "icon": "static/images/zeromq.png",
+        "info": "Asynchrone Messaging-Bibliothek.",
+        "description": "ZeroMQ ist eine leistungsfähige Messaging-Bibliothek, die beim Aufbau verteilter Systeme hilft.",
+        "link": "https://zeromq.org/",
+        "category": "tools"
+    },
+    {
+        "name": "Cucumber",
+        "level": "Intermediate",
+        "icon": "static/images/cucumber.png",
+        "info": "BDD-Tool zur Testautomatisierung.",
+        "description": "Cucumber nutzt Gherkin-Syntax, um Anforderungen als leicht verständliche Szenarien zu beschreiben, und automatisiert diese als Tests.",
+        "link": "https://cucumber.io/",
+        "category": "tools"
+    },
+    {
+        "name": "Gherkin",
+        "level": "Intermediate",
+        "icon": "static/images/gherkin.svg",
+        "info": "Spezifikationssprache für BDD.",
+        "description": "Gherkin ist eine domänenspezifische Sprache, die es ermöglicht, Anforderungen in verständlichen Szenarien zu beschreiben.",
+        "link": "https://cucumber.io/docs/gherkin/reference/",
+        "category": "tools"
+    },
+    {
+        "name": "TDD",
+        "level": "Intermediate",
+        "icon": "static/images/tdd.svg",
+        "info": "Test-Driven Development als Entwicklungsansatz.",
+        "description": "TDD ist ein Entwicklungsprozess, bei dem Tests vor dem eigentlichen Code geschrieben werden, um so die Implementierung zu leiten.",
+        "link": "https://www.agilealliance.org/glossary/tdd/",
+        "category": "tools"
+    },
+    {
+        "name": "Power Platform",
+        "level": "Advanced",
+        "icon": "static/images/power-platform.svg",
+        "info": "Low-Code-Entwicklung mit Microsoft Power Platform.",
+        "description": "Power Platform vereint Power Apps, Power Automate, Power BI und Dataverse für schnelle Business-Lösungen.",
+        "link": "https://powerplatform.microsoft.com/",
+        "category": "tools"
+    },
+    {
+        "name": "Power BI",
+        "level": "Intermediate",
+        "icon": "static/images/powerbi.svg",
+        "info": "Business Intelligence und Datenvisualisierung.",
+        "description": "Power BI ermöglicht die Erstellung interaktiver Dashboards und Berichte zur Datenanalyse.",
+        "link": "https://powerbi.microsoft.com/",
+        "category": "tools"
+    },
+    {
+        "name": "Power Apps",
+        "level": "Advanced",
+        "icon": "static/images/powerapps.svg",
+        "info": "Custom Business Applications ohne Code.",
+        "description": "Power Apps erlaubt die Entwicklung von Canvas- und Model-Driven Apps für geschäftliche Anforderungen.",
+        "link": "https://powerapps.microsoft.com/",
+        "category": "tools"
+    },
+    {
+        "name": "Power Automate",
+        "level": "Advanced",
+        "icon": "static/images/power-automate.svg",
+        "info": "Workflow-Automatisierung und RPA.",
+        "description": "Power Automate automatisiert wiederkehrende Aufgaben und Geschäftsprozesse über verschiedene Systeme hinweg.",
+        "link": "https://powerautomate.microsoft.com/",
+        "category": "tools"
+    },
+    {
+        "name": "Dataverse",
+        "level": "Intermediate",
+        "icon": "static/images/dataverse.svg",
+        "info": "Datenverwaltungsplattform für Dynamics 365.",
+        "description": "Dataverse (ehemals Common Data Service) ist die zugrundeliegende Datenbank für Power Platform und Dynamics 365.",
+        "link": "https://powerplatform.microsoft.com/dataverse/",
+        "category": "cloud"
+    },
+    {
+        "name": "SharePoint",
+        "level": "Intermediate",
+        "icon": "static/images/sharepoint.svg",
+        "info": "Kollaboration und Dokumentenmanagement.",
+        "description": "SharePoint ermöglicht Teamarbeit, Dokumentenverwaltung und Integration mit Microsoft 365.",
+        "link": "https://www.microsoft.com/sharepoint/",
+        "category": "tools"
+    },
+    {
+        "name": "Azure",
+        "level": "Intermediate",
+        "icon": "devicon-azure-plain",
+        "info": "Microsoft Cloud-Plattform.",
+        "description": "Azure bietet Cloud-Computing-Dienste für Computing, Analytics, Storage und Networking.",
+        "link": "https://azure.microsoft.com/",
+        "category": "cloud"
+    },
+    {
+        "name": "Microsoft 365",
+        "level": "Intermediate",
+        "icon": "static/images/m365.svg",
+        "info": "Produktivitätssuite und Cloud-Dienste.",
+        "description": "Microsoft 365 integriert Office-Anwendungen mit Cloud-Diensten für moderne Zusammenarbeit.",
+        "link": "https://www.microsoft.com/microsoft-365",
+        "category": "tools"
+    },
+    {
+        "name": "Azure DevOps",
+        "level": "Advanced",
+        "icon": "devicon-azuredevops-plain colored",
+        "info": "CI/CD und Projektmanagement.",
+        "description": "Azure DevOps bietet Git-Repositories, CI/CD-Pipelines, Boards und Artifacts für moderne Entwicklungsteams.",
+        "link": "https://azure.microsoft.com/services/devops/",
+        "category": "cloud"
+    },
+    {
+        "name": "Model-Driven Apps",
+        "level": "Advanced",
+        "icon": "static/images/model-driven.svg",
+        "info": "Dynamics 365 App-Entwicklung.",
+        "description": "Model-Driven Apps sind datengetriebene Anwendungen, die auf Dataverse basieren und komplexe Geschäftslogik abbilden.",
+        "link": "https://docs.microsoft.com/powerapps/maker/model-driven-apps/",
+        "category": "tools"
+    },
+    {
+        "name": "Canvas Apps",
+        "level": "Advanced",
+        "icon": "static/images/canvas-apps.svg",
+        "info": "Flexible Low-Code Apps mit Power Apps.",
+        "description": "Canvas Apps bieten pixelgenaue UI-Kontrolle für mobile und webbasierte Geschäftsanwendungen.",
+        "link": "https://docs.microsoft.com/powerapps/maker/canvas-apps/",
+        "category": "tools"
+    },
+    {
+        "name": "Dynamics 365 Sales",
+        "level": "Advanced",
+        "icon": "static/images/d365-sales.svg",
+        "info": "CRM-Modul für Vertriebsprozesse.",
+        "description": "Dynamics 365 Sales optimiert den Verkaufsprozess von Lead-Generierung bis zum Abschluss.",
+        "link": "https://dynamics.microsoft.com/sales/overview/",
+        "category": "tools"
+    },
+    {
+        "name": "Dynamics 365 Customer Service",
+        "level": "Intermediate",
+        "icon": "static/images/d365-service.svg",
+        "info": "Service- und Support-Management.",
+        "description": "Dynamics 365 Customer Service ermöglicht effizientes Case-Management und Kundensupport.",
+        "link": "https://dynamics.microsoft.com/customer-service/overview/",
+        "category": "tools"
+    },
+    {
+        "name": "PCF Controls",
+        "level": "Advanced",
+        "icon": "static/images/pcf.svg",
+        "info": "Power Apps Component Framework.",
+        "description": "PCF ermöglicht die Entwicklung wiederverwendbarer Custom Controls für Model-Driven und Canvas Apps.",
+        "link": "https://docs.microsoft.com/powerapps/developer/component-framework/overview",
+        "category": "frontend"
+    },
+    {
+        "name": "OData",
+        "level": "Advanced",
+        "icon": "static/images/odata.svg",
+        "info": "REST API Standard für Dynamics 365.",
+        "description": "OData ist ein offener Standard für RESTful APIs, der von Dynamics 365 Web API verwendet wird.",
+        "link": "https://www.odata.org/",
+        "category": "backend"
+    },
+    {
+        "name": "Dynamics 365 Web API",
+        "level": "Advanced",
+        "icon": "static/images/d365-api.svg",
+        "info": "RESTful API für Dynamics 365.",
+        "description": "Die Web API ermöglicht CRUD-Operationen und komplexe Abfragen gegen Dataverse über HTTP.",
+        "link": "https://docs.microsoft.com/dynamics365/customer-engagement/web-api/",
+        "category": "backend"
+    },
+    {
+        "name": "Dynamics 365 Plugins",
+        "level": "Expert",
+        "icon": "static/images/d365-plugin.svg",
+        "info": "Serverseitige C#-Erweiterungen für Dynamics.",
+        "description": "Plugins erweitern Dynamics 365 mit custom Business Logic, die auf Datenbankoperationen reagiert.",
+        "link": "https://docs.microsoft.com/powerapps/developer/data-platform/plug-ins",
+        "category": "backend"
+    }
 ]

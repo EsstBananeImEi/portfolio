@@ -5,6 +5,10 @@
     /* Fallback */
 }
 
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
 
 body {
     font-family: 'Inter', sans-serif;
@@ -12,18 +16,84 @@ body {
     color: #333;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
+    width: 100%;
 }
 
-html {
-    scroll-behavior: smooth;
+/* ===== MODERNE SCROLL REVEAL ANIMATIONEN ===== */
+/* Sections: Sanftes Fade-In */
+.fade-in-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.3s cubic-bezier(0.16, 1, 0.3, 1), transform 1.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-in-section.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Grid-Items: Subtiles Slide-Up */
+.stagger-item {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stagger-item.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Fallback für statische Darstellung (kein JS) */
+.no-js .stagger-item,
+.no-js .fade-in-section {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== MODERNE HOVER-EFFEKTE ===== */
+.modern-card-hover {
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.4s ease;
+}
+
+.modern-card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== GLASSMORPHISM VERBESSERUNGEN ===== */
+.glass-enhanced {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== MODAL / DRAWER STYLES ===== */
+/* Nur Alpine.js Transitions verwenden - keine CSS Animations um Flackern zu vermeiden */
+
+/* ===== GRADIENT OVERLAYS ===== */
+.gradient-overlay {
+    position: relative;
+}
+
+.gradient-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.05) 100%);
+    pointer-events: none;
 }
 
 .project-tile {
     transform: scale(1);
     transition: transform 0.3s ease-in-out;
     position: relative;
-
-    /* Hier nicht unbedingt overflow ändern – je nach Bedarf */
 }
 
 /* Im Desktopmodus wird der normale Hover genutzt (Tailwind: hover:scale-105) */
@@ -100,6 +170,84 @@ footer {
     .fix-height {
         height: var(--real-vh);
     }
+
+    /* Stagger-Animation schneller auf Mobile */
+    .stagger-item {
+        transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    }
+}
+
+/* ===== SMOOTH SCROLL BEHAVIOR ===== */
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+/* ===== BUTTON & LINK HOVER EFFECTS ===== */
+a,
+button {
+    transition: all 0.3s ease;
+}
+
+/* ===== ENHANCED SHADOWS ===== */
+.shadow-soft {
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+}
+
+.shadow-medium {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.shadow-strong {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== SCALE ANIMATIONS ===== */
+.scale-on-hover {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.scale-on-hover:hover {
+    transform: scale(1.05);
+}
+
+/* ===== TEXT GRADIENT ===== */
+.text-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ===== FLOATING ANIMATION ===== */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.float-animation {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* ===== PULSE GLOW ===== */
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 20px 10px rgba(102, 126, 234, 0);
+    }
 }
 
 @media (max-width: 1024px) {
@@ -172,4 +320,22 @@ footer {
     to {
         opacity: 0;
     }
+}
+
+/* SVG Icon Farb-Filter basierend auf Tailwind Farben */
+/* Diese Filter passen die SVG-Icons farblich an die Kategorien an */
+.filter-primary {
+    filter: brightness(0) saturate(100%) invert(34%) sepia(98%) saturate(3454%) hue-rotate(214deg) brightness(97%) contrast(103%);
+}
+
+.filter-accent {
+    filter: brightness(0) saturate(100%) invert(42%) sepia(59%) saturate(1899%) hue-rotate(326deg) brightness(101%) contrast(105%);
+}
+
+.filter-success {
+    filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(118%) contrast(119%);
+}
+
+.filter-warning {
+    filter: brightness(0) saturate(100%) invert(66%) sepia(76%) saturate(2087%) hue-rotate(360deg) brightness(103%) contrast(103%);
 }

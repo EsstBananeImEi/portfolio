@@ -18,8 +18,10 @@ class Contact(db.Model):
 class About(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     greeting = db.Column(db.String(255), nullable=False)
+    short_description = db.Column(db.Text, nullable=True)
     bio = db.Column(db.Text, nullable=False)
     role = db.Column(db.String(255), nullable=True)
+    dynamics365_since = db.Column(db.Integer, nullable=True)
 
 
 class Task(db.Model):
@@ -45,6 +47,7 @@ class Project(db.Model):
     bis = db.Column(db.String(255), nullable=False)
     logo = db.Column(db.String(255), nullable=False)
     link = db.Column(db.String(255), nullable=True)
+    types = db.Column(db.String(255), nullable=True)  # z.B. "dynamics,software"
 
     def __init__(self, **kwargs):
         tasks_data = kwargs.pop("aufgaben", None)
@@ -57,6 +60,7 @@ class GitHubProject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
     shortDescription = db.Column(db.String(255), nullable=False)
+    types = db.Column(db.String(255), nullable=True)  # z.B. "software,web"
     description = db.Column(db.Text, nullable=False)
     link = db.Column(db.String(255), nullable=False)
     technologien = db.Column(db.String(255), nullable=False)
@@ -72,6 +76,7 @@ class Skill(db.Model):
     info = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(255), nullable=False)
     link = db.Column(db.String(255), nullable=False)
+    category = db.Column(db.String(255), nullable=False, default="tools")
 
 
 class Certification(db.Model):
@@ -83,13 +88,66 @@ class Certification(db.Model):
     image = db.Column(db.String(255), nullable=False)
 
 
-class AccessRequest(db.Model):
-    """Anfragen für Zugriff auf die Portfolio-Projekte"""
+class TimelineItem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    position = db.Column(db.Integer, nullable=False, default=0)  # Sortierung
+    period_start = db.Column(db.String(50), nullable=False)  # z.B. "2020"
+    period_end = db.Column(db.String(50), nullable=False)  # z.B. "Heute"
+    title = db.Column(db.String(255), nullable=False)  # z.B. "Senior Consultant"
+    company = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    badge = db.Column(db.String(100), nullable=True)  # z.B. "Aktuell"
+    badge_color = db.Column(
+        db.String(50), nullable=True, default="success"
+    )  # primary, accent, success, warning
+    icon_type = db.Column(
+        db.String(50), nullable=True, default="microsoft"
+    )  # microsoft, code, briefcase
+    tags = db.Column(
+        db.String(500), nullable=True
+    )  # Komma-getrennt: "Dynamics 365,C#,Power Platform"
+    is_active = db.Column(db.Boolean, nullable=False, default=True)
+
+
+class AccessRequest(db.Model, UserMixin):
+    """Anfragen für Zugriff auf die Portfolio-Projekte - mit Login-Funktionalität"""
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
-    email = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(255), nullable=False, unique=True)
     message = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.now())
-    status = db.Column(db.String(50), nullable=False, default='pending')  # pending, approved, rejected
+    status = db.Column(
+        db.String(50), nullable=False, default="pending"
+    )  # pending, approved, rejected
     token = db.Column(db.String(64), nullable=True, unique=True)
     token_expires = db.Column(db.DateTime, nullable=True)
+
+    # Login-Felder
+    password_hash = db.Column(db.String(256), nullable=True)  # Verschlüsseltes Passwort
+    is_active = db.Column(db.Boolean, nullable=False, default=False)  # Account aktiv?
+    last_login = db.Column(db.DateTime, nullable=True)  # Letzter Login
+
+    def is_access_valid(self):
+        """Prüft ob der Zugriff noch gültig ist (für Projektzugriff)"""
+        from datetime import datetime
+
+        # Status muss approved sein
+        if self.status != "approved":
+            return False
+        # Wenn Token-Ablaufdatum gesetzt ist, muss es in der Zukunft liegen
+        if self.token_expires and self.token_expires < datetime.now():
+            return False
+        return True
+
+    def is_token_expired(self):
+        """Prüft ob der Token abgelaufen ist"""
+        from datetime import datetime
+
+        if not self.token_expires:
+            return False
+        return self.token_expires < datetime.now()
+
+    def get_id(self):
+        """Flask-Login: User-ID zurückgeben (mit Präfix um von Admin zu unterscheiden)"""
+        return f"portfolio_{self.id}"

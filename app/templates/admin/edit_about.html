@@ -4,78 +4,165 @@
 {% block main_class %}flex items-center justify-center{% endblock %}
 
 {% block content %}
-<div class="w-full max-w-2xl bg-white/80 shadow-md rounded-lg p-6">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold">Bio bearbeiten</h1>
-        <a href="{{ url_for('admin.access_requests') }}" 
-           class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition text-sm">
-            Zugriffsanfragen
-        </a>
+<div class="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-primary to-accent rounded-2xl shadow-2xl p-8 mb-8">
+        <div class="flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Bio bearbeiten</h1>
+                <p class="text-white/80">Verwalten Sie Ihre persönlichen Informationen</p>
+            </div>
+            <div class="flex gap-3">
+                <a href="{{ url_for('admin.edit_timeline') }}"
+                    class="px-6 py-3 bg-white text-success rounded-lg hover:shadow-xl transform hover:scale-105 transition-all font-semibold flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Timeline
+                </a>
+                <a href="{{ url_for('admin.access_requests') }}"
+                    class="px-6 py-3 bg-white text-primary rounded-lg hover:shadow-xl transform hover:scale-105 transition-all font-semibold flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    Zugriffe
+                </a>
+            </div>
+        </div>
     </div>
 
-    <!-- Formular zum Erstellen/Aktualisieren der Bio -->
+    <!-- Formular -->
     <form method="POST" action="{{ url_for('admin.edit_about') }}">
         {{ form.hidden_tag() }}
 
-        <div class="mb-4">
-            <label for="greeting" class="block text-sm font-medium text-gray-700">Begrüßung</label>
-            {{ form.greeting(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-accent
-            focus:border-accent") }}
-        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <!-- Linke Spalte -->
+            <div class="space-y-6">
+                <!-- Begrüßung -->
+                <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-6 border-l-4 border-primary">
+                    <label for="greeting"
+                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                        </svg>
+                        Begrüßung
+                    </label>
+                    {{ form.greeting(class="mt-1 block w-full rounded-lg border-2 border-gray-300 shadow-sm focus:ring-2
+                    focus:ring-primary focus:border-primary transition-all px-4 py-3", placeholder="z.B. Hallo, ich bin
+                    Sebastian!") }}
+                    <p class="mt-2 text-xs text-gray-500">Dies wird als große Überschrift angezeigt</p>
+                </div>
 
-        <div class="mb-4">
-            <label for="bio" class="block text-sm font-medium text-gray-700">Bio</label>
-            {{ form.bio(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-accent
-            focus:border-accent", rows="5") }}
-        </div>
-
-        <div class="mb-4">
-            <label for="role" class="block text-sm font-medium text-gray-700">Rolle</label>
-            {{ form.role(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-accent
-            focus:border-accent") }}
-        </div>
-
-        <div class="flex items-center justify-center">
-            {{ form.submit(class="w-full py-2 px-4 bg-black text-white font-semibold rounded-lg hover:bg-black/80
-            transition") }}
-        </div>
-    </form>
-
-    {% if about %}
-    <!-- Alpine-Komponente für den Lösch-Popup -->
-    <div x-data="{ showConfirm: false }" class="flex items-center justify-center mt-4">
-        <!-- Löschen-Button: öffnet den Bestätigungsdialog -->
-        <button type="button" @click="showConfirm = true"
-            class="w-full py-2 px-4 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition">
-            Löschen
-        </button>
-
-        <!-- Bestätigungs-Popup -->
-        <template x-if="showConfirm">
-            <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                <div class="bg-white p-6 rounded-lg max-w-md mx-auto">
-                    <p class="text-center text-lg font-semibold mb-4">Möchten Sie diese Bio wirklich löschen?</p>
-                    <div class="flex justify-center space-x-4">
-                        <!-- Abbrechen-Button -->
-                        <button type="button" @click="showConfirm = false"
-                            class="py-2 px-4 bg-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-400 transition">
-                            Abbrechen
-                        </button>
-                        <!-- Löschen-Button: sendet das Formular -->
-                        <button type="button" @click="$refs.deleteForm.submit()"
-                            class="py-2 px-4 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition">
-                            Löschen
-                        </button>
-                    </div>
+                <!-- Rolle -->
+                <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-6 border-l-4 border-accent">
+                    <label for="role" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        Rolle / Berufsbezeichnung
+                    </label>
+                    {{ form.role(class="mt-1 block w-full rounded-lg border-2 border-gray-300 shadow-sm focus:ring-2
+                    focus:ring-accent focus:border-accent transition-all px-4 py-3", placeholder="z.B. Microsoft
+                    Dynamics 365 Professional") }}
+                    <p class="mt-2 text-xs text-gray-500">Ihre berufliche Position oder Spezialisierung</p>
                 </div>
             </div>
-        </template>
 
-        <!-- Unsichtbares Formular zum Löschen -->
-        <form method="POST" action="{{ url_for('admin.delete_about') }}" x-ref="deleteForm" class="hidden">
-            {{ form.hidden_tag() }}
-        </form>
-    </div>
-    {% endif %}
+            <!-- Rechte Spalte -->
+            <div class="space-y-6">
+                <!-- Kurzbeschreibung -->
+                <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-6 border-l-4 border-success">
+                    <label for="short_description"
+                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Kurzbeschreibung
+                    </label>
+                    {{ form.short_description(class="mt-1 block w-full rounded-lg border-2 border-gray-300 shadow-sm
+                    focus:ring-2 focus:ring-success focus:border-success transition-all px-4 py-3", rows="4",
+                    placeholder="Eine kurze Zusammenfassung Ihrer Expertise...") }}
+                    <p class="mt-2 text-xs text-gray-500">Kurze Beschreibung unterhalb der Überschrift (2-3 Sätze)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detaillierte Bio (volle Breite) -->
+        <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-6 mb-6 border-l-4 border-warning">
+            <label for="bio" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                <svg class="w-5 h-5 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Detaillierte Biografie
+            </label>
+            {{ form.bio(class="mt-1 block w-full rounded-lg border-2 border-gray-300 shadow-sm focus:ring-2
+            focus:ring-warning focus:border-warning transition-all px-4 py-3", rows="8", placeholder="Ihre vollständige
+            Biografie mit allen Details...") }}
+            <p class="mt-2 text-xs text-gray-500">Vollständige Beschreibung Ihrer Erfahrung und Expertise</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-4">
+            {{ form.submit(class="flex-1 py-4 px-6 bg-gradient-to-r from-primary to-accent text-white font-bold text-lg
+            rounded-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all flex items-center justify-center
+            gap-2") }}
+
+            {% if about %}
+            <!-- Löschen Button inline -->
+            <button type="button" @click="showConfirm = true"
+                class="px-6 py-4 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold text-lg rounded-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
+                x-data="{ showConfirm: false }">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                Löschen
+
+                <!-- Bestätigungs-Popup -->
+                <template x-if="showConfirm">
+                    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+                        @click.self="showConfirm = false">
+                        <div class="bg-white p-8 rounded-2xl max-w-md mx-4 shadow-2xl transform scale-100" @click.stop>
+                            <div class="text-center mb-6">
+                                <div
+                                    class="mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                                    <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-2">Bio löschen?</h3>
+                                <p class="text-gray-600">Möchten Sie diese Bio wirklich löschen? Diese Aktion kann nicht
+                                    rückgängig gemacht werden.</p>
+                            </div>
+                            <div class="flex gap-3">
+                                <button type="button" @click="showConfirm = false"
+                                    class="flex-1 py-3 px-4 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-all">
+                                    Abbrechen
+                                </button>
+                                <button type="button" @click="$refs.deleteForm.submit()"
+                                    class="flex-1 py-3 px-4 bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all">
+                                    Löschen
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </button>
+
+            <!-- Unsichtbares Formular zum Löschen -->
+            <form method="POST" action="{{ url_for('admin.delete_about') }}" x-ref="deleteForm" class="hidden">
+                {{ form.hidden_tag() }}
+            </form>
+            {% endif %}
+        </div>
+    </form>
 </div>
 {% endblock %}

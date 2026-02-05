@@ -1,21 +1,364 @@
 {# templates/components/bio_components.html #}
 
-{% macro bio_section(contact, about) %}
-<header id="hero" class="py-12 bg-white/30">
-    <div class="bg-black bg-opacity-50 p-10 rounded flex flex-col md:flex-row items-center gap-4 mx-auto">
-        <!-- Profilbild -->
-        <div class="flex-shrink-0">
-            <img src="{{ contact.profile_image }}" alt="Profilbild von {{ about.name }}"
-                class="rounded-full w-32 h-32 md:w-48 md:h-48 object-cover">
+{% macro bio_section(contact, about, stats, timeline_items=[], show_timeline=False) %}
+<header id="hero" class="relative py-20 md:py-32 animate-section overflow-hidden">
+    <!-- Gradient Overlay Background -->
+    <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-success/10"></div>
+
+    <!-- Decorative Shapes -->
+    <div
+        class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2">
+    </div>
+    <div
+        class="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-success/20 to-warning/20 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2">
+    </div>
+
+    <div class="relative max-w-6xl mx-auto text-center">
+        <!-- Profilbild mit Ring-Animation -->
+        <div class="flex justify-center mb-8 stagger-item">
+            <div class="relative">
+                <!-- Animated Rings -->
+                <div class="absolute -inset-4 rounded-full border-2 border-primary/30 animate-ping-slow"></div>
+                <div class="absolute -inset-8 rounded-full border-2 border-accent/20 animate-ping-slow"
+                    style="animation-delay: 0.5s;"></div>
+                <div class="absolute -inset-12 rounded-full border-2 border-success/10 animate-ping-slow"
+                    style="animation-delay: 1s;"></div>
+
+                <!-- Gradient Border -->
+                <div
+                    class="absolute -inset-2 bg-gradient-to-r from-primary via-accent via-success to-warning rounded-full opacity-75 blur-md">
+                </div>
+
+                <!-- Profilbild -->
+                <div class="relative bg-white rounded-full p-3 shadow-2xl">
+                    <img src="{{ contact.profile_image }}" alt="Profilbild von {{ contact.get_full_name() }}"
+                        class="rounded-full w-40 h-40 md:w-56 md:h-56 object-cover">
+                </div>
+
+                <!-- Status Badge -->
+                <div
+                    class="absolute -bottom-2 -right-2 bg-gradient-to-r from-success to-green-400 text-white px-4 py-2 rounded-full shadow-lg flex items-center space-x-2">
+                    <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                    <span class="text-sm font-bold">Available</span>
+                </div>
+            </div>
         </div>
-        <!-- Textbereich -->
-        <div class="text-center md:text-left">
-            <h1 class="text-3xl md:text-4xl font-bold mb-2 text-gray">{{ about.greeting }}</h1>
-            <p class="text-xl mb-2 text-gray">{{ about.role }}</p>
-            <blockquote class="text-lg text-gray md:text-xl italic font-light border-l-4 pl-4 border-accent">
-                {{ about.bio }}
-            </blockquote>
+
+        <!-- Greeting & Role -->
+        <div class="mb-6 stagger-item">
+            <h1 class="text-5xl md:text-7xl font-bold mb-4">
+                <span class="bg-gradient-to-r from-primary via-accent to-success bg-clip-text text-transparent">
+                    {{ about.greeting }}
+                </span>
+            </h1>
+            <p class="text-2xl md:text-3xl text-gray-700 font-semibold mb-4">{{ about.role }}</p>
+            <div class="flex justify-center">
+                <div class="h-1.5 w-32 bg-gradient-to-r from-primary via-accent to-success rounded-full"></div>
+            </div>
+        </div>
+
+        <!-- Bio Text (kurz) -->
+        <div class="max-w-3xl mx-auto mb-12 stagger-item">
+            <p class="text-lg md:text-xl text-gray-600 leading-relaxed">
+                {{ about.short_description or "Spezialisiert auf Microsoft Dynamics 365, moderne Web-Entwicklung und
+                digitale Transformation. Ich helfe Unternehmen dabei, komplexe Geschäftsprozesse zu automatisieren und
+                zukunftsfähige Lösungen zu entwickeln." }}
+            </p>
+        </div>
+
+        <!-- Statistik Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 stagger-item">
+            <!-- Stat 1: Dynamics 365 -->
+            <div
+                class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-t-4 border-primary">
+                <div class="flex items-center justify-center mb-4">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-primary to-blue-400 rounded-xl flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M0 0h11.377v11.372H0zm12.623 0H24v11.372H12.623zM0 12.623h11.377V24H0zm12.623 0H24V24H12.623" />
+                        </svg>
+                    </div>
+                </div>
+                <h3 class="text-4xl font-bold text-primary mb-2">{{ stats.years_dynamics }}+</h3>
+                <p class="text-gray-600 font-semibold">Jahre Dynamics 365</p>
+            </div>
+
+            <!-- Stat 2: Software Development -->
+            <div
+                class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-t-4 border-warning">
+                <div class="flex items-center justify-center mb-4">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-warning to-yellow-400 rounded-xl flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                </div>
+                <h3 class="text-4xl font-bold text-warning mb-2">{{ stats.years_software }}+</h3>
+                <p class="text-gray-600 font-semibold">Jahre Softwareentwicklung</p>
+            </div>
+
+            <!-- Stat 3: Projekte -->
+            <div
+                class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-t-4 border-accent">
+                <div class="flex items-center justify-center mb-4">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-accent to-orange-400 rounded-xl flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                </div>
+                <h3 class="text-4xl font-bold text-accent mb-2">{{ stats.total_projects }}+</h3>
+                <p class="text-gray-600 font-semibold">Erfolgreiche Projekte</p>
+            </div>
+
+            <!-- Stat 4: Technologien -->
+            <div
+                class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-t-4 border-success">
+                <div class="flex items-center justify-center mb-4">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-success to-green-400 rounded-xl flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                    </div>
+                </div>
+                <h3 class="text-4xl font-bold text-success mb-2">{{ stats.total_skills }}+</h3>
+                <p class="text-gray-600 font-semibold">Technologien & Skills</p>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row justify-center gap-4 stagger-item">
+            <a href="#projects"
+                class="group px-8 py-4 bg-gradient-to-r from-primary to-accent text-white font-semibold rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
+                <span class="flex items-center justify-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span>Projekte ansehen</span>
+                    <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </span>
+            </a>
+            <a href="#contact"
+                class="px-8 py-4 bg-white/90 backdrop-blur-sm text-gray-700 font-semibold rounded-xl shadow-lg hover:shadow-2xl border-2 border-gray-200 hover:border-primary transform hover:scale-105 transition-all duration-300">
+                <span class="flex items-center justify-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <span>Kontakt aufnehmen</span>
+                </span>
+            </a>
+        </div>
+
+        <!-- Werdegang (expandierbar) -->
+        {% if show_timeline %}
+        <div class="mt-16 max-w-5xl mx-auto stagger-item" x-data="{ showTimeline: false }">
+            <button @click="showTimeline = !showTimeline"
+                class="mx-auto bg-gradient-to-r from-accent to-warning text-white px-8 py-4 rounded-xl font-bold flex items-center gap-3 shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Beruflicher Werdegang</span>
+                <svg class="w-5 h-5 transition-transform" :class="showTimeline ? 'rotate-180' : ''" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+
+            <div x-show="showTimeline" x-collapse>
+                <div class="mt-8 relative">
+                    <!-- Vertical Line (Desktop) -->
+                    <div
+                        class="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1 bg-gradient-to-b from-primary via-accent to-success h-full rounded-full">
+                    </div>
+
+                    <!-- Timeline Items -->
+                    <div class="space-y-12">
+                        {% for item in timeline_items %}
+                        <!-- Timeline Item {{ loop.index }} -->
+                        <div class="relative">
+                            <div class="md:flex md:items-center">
+                                {% if loop.index % 2 == 1 %}
+                                <!-- Ungerade: Links -->
+                                <div class="md:w-1/2 md:pr-12 mb-4 md:mb-0 md:text-right">
+                                    <div
+                                        class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-6 border-l-4 md:border-l-0 md:border-r-4 
+                                        {% if item.badge_color == 'success' %}border-success
+                                        {% elif item.badge_color == 'primary' %}border-primary
+                                        {% elif item.badge_color == 'accent' %}border-accent
+                                        {% elif item.badge_color == 'warning' %}border-warning
+                                        {% else %}border-gray-400{% endif %} transform hover:scale-105 transition-all duration-300">
+                                        <div class="flex items-center justify-between md:flex-row-reverse mb-3">
+                                            {% if item.badge %}
+                                            <span
+                                                class="px-4 py-1.5 bg-gradient-to-r 
+                                                {% if item.badge_color == 'success' %}from-success to-green-400
+                                                {% elif item.badge_color == 'primary' %}from-primary to-blue-400
+                                                {% elif item.badge_color == 'accent' %}from-accent to-purple-400
+                                                {% elif item.badge_color == 'warning' %}from-warning to-orange-400
+                                                {% else %}from-gray-400 to-gray-500{% endif %} text-white text-sm font-bold rounded-full">{{
+                                                item.badge }}</span>
+                                            {% endif %}
+                                            <span class="text-gray-500 text-sm font-semibold">{{ item.period_start }} -
+                                                {{ item.period_end }}</span>
+                                        </div>
+                                        <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ item.title }}</h3>
+                                        <p class="text-accent font-semibold mb-3">{{ item.company }}</p>
+                                        <p class="text-gray-600 leading-relaxed">{{ item.description }}</p>
+                                        {% if item.tags %}
+                                        <div class="mt-4 flex flex-wrap gap-2 md:justify-end">
+                                            {% for tag in item.tags.split(',') %}
+                                            <span
+                                                class="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">{{
+                                                tag.strip() }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% else %}
+                                <!-- Gerade: Rechts -->
+                                <div class="md:w-1/2 md:pr-12"></div>
+                                {% endif %}
+
+                                <div
+                                    class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-br 
+                                    {% if item.badge_color == 'success' %}from-success to-green-400
+                                    {% elif item.badge_color == 'primary' %}from-primary to-blue-400
+                                    {% elif item.badge_color == 'accent' %}from-accent to-purple-400
+                                    {% elif item.badge_color == 'warning' %}from-warning to-orange-400
+                                    {% else %}from-gray-400 to-gray-500{% endif %} rounded-full items-center justify-center shadow-2xl z-10 border-4 border-white">
+                                    {% if item.icon_type == 'microsoft' %}
+                                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M0 0h11.377v11.372H0zm12.623 0H24v11.372H12.623zM0 12.623h11.377V24H0zm12.623 0H24V24H12.623" />
+                                    </svg>
+                                    {% elif item.icon_type == 'code' %}
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    {% elif item.icon_type == 'briefcase' %}
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                    {% endif %}
+                                </div>
+
+                                {% if loop.index % 2 == 0 %}
+                                <!-- Gerade: Rechts Content -->
+                                <div class="md:w-1/2 md:pl-12">
+                                    <div
+                                        class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-6 border-l-4 
+                                        {% if item.badge_color == 'success' %}border-success
+                                        {% elif item.badge_color == 'primary' %}border-primary
+                                        {% elif item.badge_color == 'accent' %}border-accent
+                                        {% elif item.badge_color == 'warning' %}border-warning
+                                        {% else %}border-gray-400{% endif %} transform hover:scale-105 transition-all duration-300">
+                                        <div class="flex items-center justify-between mb-3">
+                                            <span class="text-gray-500 text-sm font-semibold">{{ item.period_start }} -
+                                                {{ item.period_end }}</span>
+                                            {% if item.badge %}
+                                            <span
+                                                class="px-4 py-1.5 bg-gradient-to-r 
+                                                {% if item.badge_color == 'success' %}from-success to-green-400
+                                                {% elif item.badge_color == 'primary' %}from-primary to-blue-400
+                                                {% elif item.badge_color == 'accent' %}from-accent to-purple-400
+                                                {% elif item.badge_color == 'warning' %}from-warning to-orange-400
+                                                {% else %}from-gray-400 to-gray-500{% endif %} text-white text-sm font-bold rounded-full">{{
+                                                item.badge }}</span>
+                                            {% endif %}
+                                        </div>
+                                        <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ item.title }}</h3>
+                                        <p class="text-accent font-semibold mb-3">{{ item.company }}</p>
+                                        <p class="text-gray-600 leading-relaxed">{{ item.description }}</p>
+                                        {% if item.tags %}
+                                        <div class="mt-4 flex flex-wrap gap-2">
+                                            {% for tag in item.tags.split(',') %}
+                                            <span
+                                                class="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">{{
+                                                tag.strip() }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="md:w-1/2 md:pl-12"></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Vollständige Bio (optional expandierbar) -->
+        <div class="mt-16 max-w-4xl mx-auto stagger-item" x-data="{ showFullBio: false }">
+            <button @click="showFullBio = !showFullBio"
+                class="text-primary hover:text-accent font-semibold flex items-center mx-auto space-x-2 mb-4 transition-colors">
+                <span>Mehr über mich erfahren</span>
+                <svg class="w-5 h-5 transition-transform" :class="showFullBio ? 'rotate-180' : ''" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+            <div x-show="showFullBio" x-collapse>
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border-l-4 border-primary">
+                    <p class="text-gray-700 text-lg leading-relaxed">{{ about.bio }}</p>
+                </div>
+            </div>
         </div>
     </div>
 </header>
+
+<style>
+    @keyframes ping-slow {
+
+        0%,
+        100% {
+            transform: scale(1);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: scale(1.3);
+            opacity: 0;
+        }
+    }
+
+    .animate-ping-slow {
+        animation: ping-slow 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+</style>
+
+<script>
+    // Hero-Section Stagger-Animation aktivieren
+    document.addEventListener('DOMContentLoaded', function () {
+        const heroItems = document.querySelectorAll('#hero .stagger-item');
+        heroItems.forEach((item, index) => {
+            setTimeout(() => {
+                item.classList.add('revealed');
+            }, 200 + (index * 150));
+        });
+    });
+</script>
 {% endmacro %}

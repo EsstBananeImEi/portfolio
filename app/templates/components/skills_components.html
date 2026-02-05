@@ -1,60 +1,131 @@
 {# templates/components/skills_components.html #}
 
-{% macro skill_tile(skill, index, openSkill) %}
-<div class="bg-white rounded-lg shadow-lg p-4 flex flex-col items-center transform transition hover:scale-105 cursor-pointer"
-    @click="openSkill = (openSkill === {{ index }} ? null : {{ index }})">
-    {% if skill.icon.startswith("static") %}
-    <img src="{{ url_for('static', filename=skill.icon.replace('static/', '')) }}" alt="{{ skill.name }} Icon"
-        class="w-10 h-10 md:w-16 md:h-16 mb-2 object-contain">
-    {% else %}
-    <i class="{{ skill.icon }} text-3xl md:text-6xl mb-2 text-accent"></i>
-    {% endif %}
-    <!-- Dieser Block wird nur oberhalb von 1025px angezeigt -->
-    <div class="skill-text">
-        <h3 class="text-lg font-bold text-primary">{{ skill.name }}</h3>
-        <p class="text-xs text-neutral mt-1">{{ skill.level }}</p>
+{% macro skill_tile(skill, index, openSkill, searchTerm='', activeCategory='all') %}
+<div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center transform hover:scale-110 hover:shadow-2xl transition-all duration-300 border-t-4 cursor-pointer stagger-item
+    {% if skill.category == 'frontend' %}border-primary
+    {% elif skill.category == 'backend' %}border-accent
+    {% elif skill.category == 'cloud' %}border-success
+    {% else %}border-warning{% endif %}" @click="openSkill = (openSkill === {{ index }} ? null : {{ index }})" x-show="(activeCategory === 'all' || activeCategory === '{{ skill.category }}') && 
+            (searchTerm === '' || '{{ skill.name }}'.toLowerCase().includes(searchTerm.toLowerCase()))" x-cloak
+    x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95"
+    x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
+
+    <!-- Icon -->
+    <div class="w-16 h-16 mb-3 flex items-center justify-center">
+        {% if skill.icon.startswith("static") %}
+        <img src="{{ url_for('static', filename=skill.icon.replace('static/', '')) }}" alt="{{ skill.name }} Icon"
+            class="w-full h-full object-contain">
+        {% else %}
+        {% set svg_path = skill.icon | devicon_svg %}
+        {% if svg_path %}
+        <img src="{{ url_for('static', filename=svg_path) }}" alt="{{ skill.name }} Icon"
+            class="w-full h-full object-contain">
+        {% else %}
+        <i class="{{ skill.icon }} text-5xl 
+            {% if skill.category == 'frontend' %}text-primary
+            {% elif skill.category == 'backend' %}text-accent
+            {% elif skill.category == 'cloud' %}text-success
+            {% else %}text-warning{% endif %}"></i>
+        {% endif %}
+        {% endif %}
+    </div>
+
+    <!-- Name -->
+    <h4 class="font-bold text-gray-800 text-center text-sm mb-2">{{ skill.name }}</h4>
+
+    <!-- Star Rating based on level -->
+    <div class="flex gap-0.5 text-lg">
+        {% set level_lower = skill.level.strip().lower() %}
+        {% if level_lower == 'expert' %}
+        <span class="text-yellow-400">★★★★★</span>
+        {% elif level_lower == 'advanced' %}
+        <span class="text-yellow-400">★★★★</span><span class="text-yellow-400 opacity-40">★</span>
+        {% elif level_lower == 'intermediate' %}
+        <span class="text-yellow-400">★★★</span><span class="text-yellow-400 opacity-40">★★</span>
+        {% else %}
+        <span class="text-yellow-400">★★</span><span class="text-yellow-400 opacity-40">★★★</span>
+        {% endif %}
     </div>
 </div>
 {% endmacro %}
 
 {% macro skill_modal(skills, openSkill) %}
-<div x-show="openSkill !== null" x-cloak x-transition.opacity.duration.300ms
-    x-init="$watch('openSkill', value => { document.body.style.overflow = value !== null ? 'hidden' : '' })"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 fix-height"
-    @click="openSkill = null">
-    <div class="bg-white p-6 rounded-lg max-w-md w-full relative">
-        {% for skill in skills %}
-        <div x-show="openSkill === {{ loop.index }}" x-transition.duration.300ms>
-            {% if skill.icon.startswith("static") %}
-            <img src="{{ url_for('static', filename=skill.icon.replace('static/', '')) }}" alt="{{ skill.name }} Icon"
-                class="w-16 h-16 mx-auto mb-4 object-contain">
-            {% else %}
-            <i class="{{ skill.icon }} text-6xl mx-auto mb-4 text-accent"></i>
-            {% endif %}
-            <h3 class="text-2xl font-bold text-primary text-center">{{ skill.name }}</h3>
-            <p class="text-center text-neutral mt-1">Level: {{ skill.level }}</p>
-            <!-- Erweiterte Informationen -->
-            <div class="mt-4 text-center">
-                <p class="text-sm text-gray-600">{{ skill.info }}</p>
-                {% if skill.description %}
-                <div class="mt-2">
-                    <strong>Beschreibung:</strong>
-                    <p class="text-sm text-gray-600">{{ skill.description }}</p>
-                </div>
+<div x-show="openSkill !== null" x-cloak class="fixed inset-0 z-50" @click="openSkill = null">
+
+    <!-- Backdrop with no transition for instant blur -->
+    <div class="absolute inset-0 bg-gradient-to-br from-primary/20 via-black/50 to-accent/20 backdrop-blur-sm"
+        x-show="openSkill !== null" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"></div>
+
+    <div class="fixed left-0 right-0 top-0 bottom-0 md:left-auto md:right-0 md:top-0 md:bottom-0 md:w-[500px] md:max-w-[90vw]
+                bg-white shadow-2xl overflow-y-auto
+                md:rounded-l-2xl" @click.self="openSkill = null"
+        x-transition:enter="transition ease-out duration-300 transform"
+        x-transition:enter-start="md:translate-x-full translate-y-full"
+        x-transition:enter-end="md:translate-x-0 translate-y-0"
+        x-transition:leave="transition ease-in duration-300 transform"
+        x-transition:leave-start="md:translate-x-0 translate-y-0"
+        x-transition:leave-end="md:translate-x-full translate-y-full">
+
+        <div class="p-6 md:p-8">
+            {% for skill in skills %}
+            <div x-show="openSkill === {{ loop.index }}">
+                {% if skill.icon.startswith("static") %}
+                <img src="{{ url_for('static', filename=skill.icon.replace('static/', '')) }}"
+                    alt="{{ skill.name }} Icon" class="w-20 h-20 mx-auto mb-6 object-contain">
+                {% else %}
+                {% set svg_path = skill.icon | devicon_svg %}
+                {% if svg_path %}
+                <img src="{{ url_for('static', filename=svg_path) }}" alt="{{ skill.name }} Icon"
+                    class="w-20 h-20 mx-auto mb-6 object-contain">
+                {% else %}
+                <i class="{{ skill.icon }} text-7xl mx-auto mb-6 text-accent block text-center"></i>
                 {% endif %}
-                {% if skill.link %}
-                <div class="mt-2">
-                    <a href="{{ skill.link }}" target="_blank"
-                        class="inline-block bg-primary text-white py-1 px-3 rounded hover:bg-opacity-90">
-                        Mehr erfahren
-                    </a>
-                </div>
                 {% endif %}
+                <h3 class="text-3xl font-bold text-primary text-center mb-2">{{ skill.name }}</h3>
+                <p class="text-center text-neutral text-lg mb-6">Level: {{ skill.level }}</p>
+
+                <div class="space-y-4">
+                    <div class="border-l-4 border-accent pl-4">
+                        <p class="text-gray-600">{{ skill.info }}</p>
+                    </div>
+
+                    {% if skill.description %}
+                    <div class="border-l-4 border-accent pl-4">
+                        <strong class="text-sm uppercase tracking-wide text-gray-500">Beschreibung</strong>
+                        <p class="mt-1 text-gray-600">{{ skill.description }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if skill.link %}
+                    <div class="pt-4">
+                        <a href="{{ skill.link }}" target="_blank"
+                            class="inline-flex items-center gap-2 bg-white border-2 border-accent text-accent hover:bg-accent hover:text-white py-3 px-6 rounded-lg hover:shadow-lg transition-all duration-200 font-semibold">
+                            <span>Mehr erfahren</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
+                                </path>
+                            </svg>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
+            {% endfor %}
+
+            <button
+                class="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-20"
+                @click="openSkill = null" aria-label="Schließen">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
         </div>
-        {% endfor %}
-        <!-- Schließen-Button -->
-        <button class="absolute top-2 right-2 text-2xl leading-none" @click="openSkill = null">&times;</button>
     </div>
 </div>
 {% endmacro %}

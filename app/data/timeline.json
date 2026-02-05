@@ -1,0 +1,93 @@
+[
+    {
+        "position": 1,
+        "period_start": "Feb. 2026",
+        "period_end": "heute",
+        "title": "Lead Fullstack Developer Microsoft Dynamics 365",
+        "company": "WECOYA UNDERWRITING GmbH",
+        "description": "Technische Gesamtverantwortung für Dynamics-365-Lösungen mit Fokus auf Fullstack-Entwicklung, Systemintegration und Architektur. Enge Zusammenarbeit mit Stakeholdern bei der Umsetzung fachlicher Anforderungen sowie Sicherstellung von Stabilität und Performance im Produktivbetrieb. Mentoring und technische Unterstützung des Entwicklungsteams.",
+        "badge": "Aktuell",
+        "badge_color": "success",
+        "icon_type": "microsoft",
+        "tags": "Dynamics 365,CSS,Unit Testing,Power Platform, Architektur, Fullstack",
+        "is_active": true
+    },
+    {
+        "position": 2,
+        "period_start": "Sept. 2023",
+        "period_end": "Feb. 2026",
+        "title": "Professional Microsoft Dynamics 365 Consultant/Developer",
+        "company": "ilum:e informatik AG",
+        "description": "Beratung, Realisierung und Entwicklung von Softwarelösungen im Bereich interaktiver Informationssysteme sowie Schulung von Kunden in diesen Geschäftsfeldern. Schwerpunkt auf Microsoft Dynamics 365 mit umfassender Expertise in modernen Entwicklungstechnologien.",
+        "badge": "Aktuell",
+        "badge_color": "success",
+        "icon_type": "microsoft",
+        "tags": "Dynamics 365,CSS,Unit Testing,Power Platform",
+        "is_active": true
+    },
+    {
+        "position": 3,
+        "period_start": "Jan. 2022",
+        "period_end": "Sept. 2023",
+        "title": "Junior Microsoft Dynamics 365 Consultant/Developer",
+        "company": "ilum:e informatik AG",
+        "description": "Beratung, Realisierung und Entwicklung von Softwarelösungen im Bereich interaktiver Informationssysteme, Schulung von Kunden sowie Handel mit Hard- und Software. Weiterentwicklung der Expertise im Microsoft Dynamics 365 Umfeld.",
+        "badge": "1.5 Jahre",
+        "badge_color": "primary",
+        "icon_type": "microsoft",
+        "tags": "Dynamics 365,CSS,Unit Testing",
+        "is_active": true
+    },
+    {
+        "position": 4,
+        "period_start": "Nov. 2021",
+        "period_end": "Jan. 2022",
+        "title": "Trainee Microsoft Dynamics 365 Consultant/Developer",
+        "company": "ilum:e informatik AG",
+        "description": "Durchlaufen des Trainee Programms zur optimalen Einarbeitung in Microsoft Dynamics 365. Vorbereitung und erfolgreicher Abschluss der Zertifizierung 'Microsoft Certified Dynamics 365 Fundamentals'.",
+        "badge": "Trainee",
+        "badge_color": "warning",
+        "icon_type": "microsoft",
+        "tags": "Dynamics 365,Zertifizierung",
+        "is_active": true
+    },
+    {
+        "position": 5,
+        "period_start": "Feb. 2021",
+        "period_end": "Juli 2021",
+        "title": "IT Specialist",
+        "company": "meta Trennwandanlagen GmbH & Co. KG",
+        "description": "Vollzeit IT-Support und Systemberatung für interne IT-Infrastruktur. Wartung und Optimierung der bestehenden Systeme sowie Support für Mitarbeiter.",
+        "badge": "6 Monate",
+        "badge_color": "accent",
+        "icon_type": "briefcase",
+        "tags": "CSS,Python,IT-Support",
+        "is_active": true
+    },
+    {
+        "position": 6,
+        "period_start": "Feb. 2019",
+        "period_end": "Feb. 2021",
+        "title": "Softwareentwickler",
+        "company": "SCHOTTEL Industries GmbH",
+        "description": "Entwicklung eines HMI (Human Machine Interface) zur Anzeige, Weiterleitung und Parametrisierung einer angeschlossenen SPS. Erweiterung und Erstellung von Schnittstellen zwischen SPS, HMI und Angular Frontend sowie Entwicklung von Modulen (Microservices) und Frontend-Arbeiten.",
+        "badge": "2 Jahre",
+        "badge_color": "primary",
+        "icon_type": "code",
+        "tags": "Python,Angular,CSS,Microservices,SPS",
+        "is_active": true
+    },
+    {
+        "position": 7,
+        "period_start": "Dez. 2016",
+        "period_end": "Feb. 2019",
+        "title": "Ausbildung zum Fachinformatiker",
+        "company": "GFN AG",
+        "description": "Ausbildung zum Fachinformatiker mit Schwerpunkt Anwendungsentwicklung. Erlernen von grundlegenden Programmier- und Entwicklungskompetenzen sowie praktische Anwendung in verschiedenen Projekten.",
+        "badge": "Anfang der Karriere",
+        "badge_color": "warning",
+        "icon_type": "briefcase",
+        "tags": "CSS,Python,Anwendungsentwicklung",
+        "is_active": true
+    }
+]

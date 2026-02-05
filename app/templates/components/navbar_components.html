@@ -13,11 +13,19 @@
 {% macro mobile_nav_link() -%}
 {% for link in nav_links %}
 {% if request.endpoint == 'main.index' %}
-<a href="#{{ link.anchor }}" class="block text-base hover:bg-gray-700 px-3 py-2" @click="mobileOpen = false">{{
-    link.text }}</a>
+<a href="#{{ link.anchor }}"
+    class="flex items-center space-x-3 px-4 py-3 text-gray-700 font-semibold rounded-lg hover:bg-gradient-to-r hover:from-primary/10 hover:to-accent/10 hover:text-primary transition-all group"
+    @click="mobileOpen = false">
+    <div class="w-1 h-6 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+    <span>{{ link.text }}</span>
+</a>
 {% else %}
-<a href="{{ url_for('main.index', _anchor=link.anchor) }}" class="block text-base hover:bg-gray-700 px-3 py-2"
-    @click="mobileOpen = false">{{ link.text }}</a>
+<a href="{{ url_for('main.index', _anchor=link.anchor) }}"
+    class="flex items-center space-x-3 px-4 py-3 text-gray-700 font-semibold rounded-lg hover:bg-gradient-to-r hover:from-primary/10 hover:to-accent/10 hover:text-primary transition-all group"
+    @click="mobileOpen = false">
+    <div class="w-1 h-6 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+    <span>{{ link.text }}</span>
+</a>
 {% endif %}
 {% endfor %}
 {% endmacro %}
@@ -26,10 +34,19 @@
 {% macro nav_link() -%}
 {% for link in nav_links %}
 {% if request.endpoint == 'main.index' %}
-<a href="#{{ link.anchor }}" class="text-base hover:underline">{{
-    link.text }}</a>
+<a href="#{{ link.anchor }}"
+    class="px-4 py-2 text-gray-700 font-semibold rounded-lg hover:bg-primary/10 hover:text-primary transition-all relative group">
+    {{ link.text }}
+    <span
+        class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300"></span>
+</a>
 {% else %}
-<a href="{{ url_for('main.index', _anchor=link.anchor) }}" class="text-base hover:underline">{{ link.text }}</a>
+<a href="{{ url_for('main.index', _anchor=link.anchor) }}"
+    class="px-4 py-2 text-gray-700 font-semibold rounded-lg hover:bg-primary/10 hover:text-primary transition-all relative group">
+    {{ link.text }}
+    <span
+        class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300"></span>
+</a>
 {% endif %}
 {% endfor %}
 {% endmacro %}
@@ -38,24 +55,202 @@
 {% macro user_dropdown(current_user) %}
 {% if current_user.is_authenticated %}
 <div class="relative" x-data="{ userOpen: false }">
-    <button @click="userOpen = !userOpen" type="button" class="flex items-center focus:outline-none">
+    <button @click="userOpen = !userOpen" type="button"
+        class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-primary/10 hover:bg-primary/20 transition-all focus:outline-none focus:ring-2 focus:ring-primary group">
         <img src="{{ url_for('static', filename='images/' + (current_user.image or 'default.png')) }}"
-            alt="Profilbild von {{ current_user.username }}" class="w-8 h-8 rounded-full ">
+            alt="Profilbild von {{ current_user.username }}"
+            class="w-8 h-8 rounded-full ring-2 ring-primary/50 group-hover:ring-primary transition-all">
+        <svg class="w-4 h-4 text-primary transition-transform" :class="userOpen ? 'rotate-180' : ''" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
     </button>
-    <div x-show="userOpen" x-cloak @click.away="userOpen = false" x-transition
-        class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg">
-        <div class="py-1">
+    <div x-show="userOpen" x-cloak @click.away="userOpen = false" x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100"
+        x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-2xl border-2 border-primary/10 overflow-hidden">
+        <div class="bg-gradient-to-r from-primary to-accent p-3 text-white">
+            {% if current_user.get_id() == "1" %}
+            <p class="text-sm font-semibold">{{ current_user.username }}</p>
+            <p class="text-xs opacity-80">Administrator</p>
+            {% else %}
+            <p class="text-sm font-semibold">{{ current_user.name }}</p>
+            <p class="text-xs opacity-80">Portfolio-Zugang</p>
+            {% if current_user.token_expires %}
+            {% if current_user.is_token_expired() %}
+            <p class="text-xs opacity-90 mt-1 font-semibold bg-red-500/20 px-2 py-0.5 rounded">⚠ Token abgelaufen</p>
+            {% else %}
+            <p class="text-xs opacity-90 mt-1">Gültig bis: {{ current_user.token_expires.strftime('%d.%m.%Y') }}</p>
+            {% endif %}
+            {% else %}
+            <p class="text-xs opacity-90 mt-1">∞ Unbegrenzt gültig</p>
+            {% endif %}
+            {% endif %}
+        </div>
+        <div class="py-2">
+            {% if current_user.get_id() == "1" %}
             <a href="{{ url_for('admin.edit_about') }}"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Bio bearbeiten</a>
+                class="flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-primary/10 hover:text-primary transition-all group">
+                <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                <span>Bio bearbeiten</span>
+            </a>
             <a href="{{ url_for('admin.access_requests') }}"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Zugriffsanfragen</a>
+                class="flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-primary/10 hover:text-primary transition-all group">
+                <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span>Zugriffsanfragen</span>
+            </a>
+            <div class="border-t border-gray-100 my-1"></div>
+            {% endif %}
+
+            {% if current_user.get_id() != "1" %}
+            <!-- Portfolio-User: Token-Status und Aktionen -->
+            {% if current_user.token_expires %}
+            {% set is_expired = current_user.is_token_expired() %}
+
+            {% if is_expired %}
+            <!-- Token abgelaufen: Verlängern -->
+            <a href="{{ url_for('main.renew_token') }}"
+                class="flex items-center space-x-3 px-4 py-3 text-sm font-medium text-white bg-gradient-to-r from-success to-green-400 hover:shadow-lg transition-all group">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span>Token verlängern (3 Tage)</span>
+            </a>
+            {% else %}
+            <!-- Token gültig: Verlängern optional -->
+            <a href="{{ url_for('main.renew_token') }}"
+                class="flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-primary/10 hover:text-primary transition-all group">
+                <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span>Token verlängern</span>
+            </a>
+            {% endif %}
+            {% endif %}
+
+            <div class="border-t border-gray-100 my-1"></div>
+
+            <!-- Zugriff widerrufen (Account behalten) -->
+            <button
+                onclick="if(confirm('Möchten Sie Ihren Zugriff widerrufen? Ihr Account bleibt erhalten, Sie verlieren aber den Zugang zu den Projekten.')) { document.getElementById('revokeAccessForm').submit(); }"
+                class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-medium text-orange-600 hover:bg-orange-50 transition-all group">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+                <span>Zugriff widerrufen</span>
+            </button>
+            <form id="revokeAccessForm" method="POST" action="{{ url_for('main.revoke_access_keep_account') }}"
+                class="hidden"></form>
+
+            <!-- Abmelden -->
             <a href="{{ url_for('auth.logout') }}"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                class="flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all group">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                <span>Abmelden</span>
+            </a>
+            {% endif %}
+
+            {% if current_user.get_id() == "1" %}
+            <!-- Admin: Logout -->
+            <a href="{{ url_for('auth.logout') }}"
+                class="flex items-center space-x-3 px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 transition-all group">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                <span>Logout</span>
+            </a>
+            {% else %}
+            <!-- Portfolio-User: Account löschen -->
+            <button
+                onclick="if(confirm('Möchten Sie Ihren Account wirklich unwiderruflich löschen? Alle Ihre Daten werden entfernt.')) { document.getElementById('deleteAccountForm').submit(); }"
+                class="w-full flex items-center space-x-3 px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 transition-all group">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                <span>Account löschen</span>
+            </button>
+            <form id="deleteAccountForm" method="POST" action="{{ url_for('main.delete_account') }}" class="hidden">
+            </form>
+            {% endif %}
         </div>
     </div>
 </div>
 {% else %}
-<a href="{{ url_for('auth.login') }}"
-    class="px-4 py-2 bg-black/50 text-gray rounded-lg hover:bg-opacity-90 transition">Login</a>
+<!-- Login Dropdown für nicht eingeloggte Benutzer -->
+<div class="relative" x-data="{ loginOpen: false }">
+    <button @click="loginOpen = !loginOpen" type="button"
+        class="px-5 py-2.5 bg-gradient-to-r from-primary to-accent text-white font-semibold rounded-lg hover:shadow-lg transform hover:scale-105 transition-all focus:outline-none focus:ring-2 focus:ring-primary flex items-center space-x-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+        </svg>
+        <span>Login</span>
+        <svg class="w-4 h-4 transition-transform" :class="loginOpen ? 'rotate-180' : ''" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+    </button>
+
+    <div x-show="loginOpen" x-cloak @click.away="loginOpen = false"
+        x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95"
+        x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-100"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+        class="absolute right-0 mt-3 w-64 bg-white rounded-xl shadow-2xl border-2 border-primary/10 overflow-hidden z-50">
+
+        <!-- Admin Login -->
+        <a href="{{ url_for('auth.login') }}"
+            class="flex items-center space-x-3 px-4 py-4 hover:bg-gradient-to-r hover:from-primary/10 hover:to-accent/10 transition-all group border-b border-gray-100">
+            <div class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+            </div>
+            <div>
+                <p class="text-sm font-semibold text-gray-800">Administrator</p>
+                <p class="text-xs text-gray-500">Portfolio verwalten</p>
+            </div>
+            <svg class="w-5 h-5 text-gray-400 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+        </a>
+
+        <!-- Portfolio User Login -->
+        <a href="{{ url_for('auth.portfolio_login') }}"
+            class="flex items-center space-x-3 px-4 py-4 hover:bg-gradient-to-r hover:from-success/10 hover:to-green-400/10 transition-all group">
+            <div
+                class="w-10 h-10 bg-gradient-to-br from-success to-green-400 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+            </div>
+            <div>
+                <p class="text-sm font-semibold text-gray-800">Portfolio-Zugang</p>
+                <p class="text-xs text-gray-500">Projekte ansehen</p>
+            </div>
+            <svg class="w-5 h-5 text-gray-400 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+        </a>
+    </div>
+</div>
 {% endif %}
 {% endmacro %}
