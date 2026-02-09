@@ -12,6 +12,9 @@ class Config:
     SESSION_COOKIE_SECURE = False  # Für HTTPS auf True setzen
     SESSION_TYPE = "sqlalchemy"  # Sessions in der Datenbank statt im Dateisystem
     PERMANENT_SESSION_LIFETIME = 86400  # Session läuft nach 24 Stunden ab
+    DATABASE_URI = os.getenv(
+        "DATABASE_URI", "sqlite:////mnt/d/Projects/portfolio/portfolio.db"
+    )  # Standard-Datenbank, kann in __init__.py überschrieben werden
 
     # E-Mail-Konfiguration für automatische Benachrichtigungen
     MAIL_SERVER = os.getenv("MAIL_SERVER", "smtp.gmail.com")

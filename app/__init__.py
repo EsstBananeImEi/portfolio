@@ -6,10 +6,10 @@ from .extensions import db, login_manager
 def create_app():
     app = Flask(__name__)
     app.config.from_object("config.Config")
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///portfolio.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = app.config.get("DATABASE_URI")
     # SECRET_KEY wird bereits aus config.Config geladen, nicht überschreiben
     # Falls Sie eine Umgebungsvariable verwenden möchten, wird sie in config.py mit Fallback geladen
-
+    print(app.config["SQLALCHEMY_DATABASE_URI"])  # Debug-Ausgabe der Datenbank-URI
     db.init_app(app)
     login_manager.init_app(app)
 

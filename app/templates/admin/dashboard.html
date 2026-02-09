@@ -26,6 +26,8 @@
             </div>
         </div>
 
+
+
         <!-- Tab Navigation -->
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg mb-6 transition-colors duration-300"
             x-data="{ activeTab: '{{ active_tab | default('bio') }}' }">
@@ -112,40 +114,47 @@
                 </nav>
             </div>
 
-            <!-- Tab Content -->
+            <!--Tab Content -->
             <div class="p-6 dark:bg-gray-800 transition-colors duration-300">
                 <!-- Bio Tab Content -->
-                <div x-show="activeTab === 'bio'" x-cloak>
+                <div x-show="activeTab === 'bio'" style="display: none;"
+                    :style="activeTab === 'bio' ? 'display: block' : 'display: none'">
                     {% include 'admin/tabs/bio_tab.html' %}
                 </div>
 
                 <!-- Timeline Tab Content -->
-                <div x-show="activeTab === 'timeline'" x-cloak>
+                <div x-show="activeTab === 'timeline'" style="display: none;"
+                    :style="activeTab === 'timeline' ? 'display: block' : 'display: none'">
                     {% include 'admin/tabs/timeline_tab.html' %}
                 </div>
 
                 <!-- Access Tab Content -->
-                <div x-show="activeTab === 'access'" x-cloak>
+                <div x-show="activeTab === 'access'" style="display: none;"
+                    :style="activeTab === 'access' ? 'display: block' : 'display: none'">
                     {% include 'admin/tabs/access_tab.html' %}
                 </div>
 
                 <!-- Projects Tab Content -->
-                <div x-show="activeTab === 'projects'" x-cloak>
+                <div x-show="activeTab === 'projects'" style="display: none;"
+                    :style="activeTab === 'projects' ? 'display: block' : 'display: none'">
                     {% include 'admin/tabs/projects_tab.html' %}
                 </div>
 
                 <!-- Skills Tab Content -->
-                <div x-show="activeTab === 'skills'" x-cloak>
+                <div x-show="activeTab === 'skills'" style="display: none;"
+                    :style="activeTab === 'skills' ? 'display: block' : 'display: none'">
                     {% include 'admin/tabs/skills_tab.html' %}
                 </div>
 
                 <!-- Certs Tab Content -->
-                <div x-show="activeTab === 'certs'" x-cloak>
+                <div x-show="activeTab === 'certs'" style="display: none;"
+                    :style="activeTab === 'certs' ? 'display: block' : 'display: none'">
                     {% include 'admin/tabs/certs_tab.html' %}
                 </div>
 
                 <!-- Backup Tab Content -->
-                <div x-show="activeTab === 'backup'" x-cloak>
+                <div x-show="activeTab === 'backup'" style="display: none;"
+                    :style="activeTab === 'backup' ? 'display: block' : 'display: none'">
                     {% include 'admin/tabs/backup_tab.html' %}
                 </div>
             </div>

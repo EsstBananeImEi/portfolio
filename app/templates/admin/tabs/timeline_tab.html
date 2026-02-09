@@ -1,109 +1,164 @@
 {# Timeline Tab Content #}
-<div class="space-y-6">
-    {% for item in timeline_items %}
-    <div class="bg-white dark:bg-gray-700 rounded-2xl shadow-xl p-6 border-l-4 transition-colors duration-300
-        {% if item.badge_color == 'success' %}border-success
-        {% elif item.badge_color == 'primary' %}border-primary
-        {% elif item.badge_color == 'accent' %}border-accent
-        {% elif item.badge_color == 'warning' %}border-warning
-        {% else %}border-gray-400{% endif %}">
+<div x-data="{
+    editingItemId: null,
+    showAddForm: false
+}">
+    <!-- Header with Add Button -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+        <div class="flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800">📅 Berufliche Stationen</h2>
+                <p class="text-gray-600">{{ timeline_items|length }} Einträge</p>
+            </div>
+            <button @click="showAddForm = !showAddForm; editingItemId = null"
+                class="px-6 py-3 bg-gradient-to-r from-success to-green-400 text-white rounded-lg hover:shadow-lg transition-all font-semibold flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                <span x-text="showAddForm ? 'Abbrechen' : 'Position hinzufügen'"></span>
+            </button>
+        </div>
+    </div>
 
-        <form method="POST" action="{{ url_for('admin.update_timeline_item', item_id=item.id) }}" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Period Start -->
+    <!-- Add Form -->
+    <div x-show="showAddForm && editingItemId === null" x-cloak
+        class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 mb-6 shadow-lg">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">✨ Neue Position hinzufügen</h3>
+        <form method="POST" action="{{ url_for('admin.add_timeline_item') }}" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                    <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-                        <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        Von
-                    </label>
-                    <input type="text" name="period_start" value="{{ item.period_start }}" required
-                        class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Position *</label>
+                    <input type="text" name="title" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-success focus:border-transparent">
                 </div>
-
-                <!-- Period End -->
                 <div>
-                    <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-                        <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        Bis
-                    </label>
-                    <input type="text" name="period_end" value="{{ item.period_end }}" required
-                        class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Unternehmen *</label>
+                    <input type="text" name="company" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-success focus:border-transparent">
                 </div>
-
-                <!-- Title -->
-                <div class="md:col-span-2">
-                    <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-                        <svg class="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                        Position
-                    </label>
-                    <input type="text" name="title" value="{{ item.title }}" required
-                        class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Von *</label>
+                        <input type="text" name="period_start" placeholder="2020" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-success focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Bis *</label>
+                        <input type="text" name="period_end" placeholder="2022" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-success focus:border-transparent">
+                    </div>
                 </div>
-
-                <!-- Company -->
-                <div class="md:col-span-2">
-                    <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-                        <svg class="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                        </svg>
-                        Unternehmen
-                    </label>
-                    <input type="text" name="company" value="{{ item.company }}" required
-                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
-                </div>
-
-                <!-- Description -->
-                <div class="md:col-span-2">
-                    <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-                        </svg>
-                        Beschreibung
-                    </label>
-                    <textarea name="description" rows="3" required
-                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">{{ item.description }}</textarea>
-                </div>
-
-                <!-- Badge & Color -->
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Beschreibung *</label>
+                <textarea name="description" rows="3" required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-success focus:border-transparent"></textarea>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
-                    <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-                        Badge Text
-                    </label>
-                    <input type="text" name="badge" value="{{ item.badge or '' }}"
-                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Badge Text</label>
+                    <input type="text" name="badge"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-success focus:border-transparent">
                 </div>
-
                 <div>
-                    <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-                        Badge Farbe
-                    </label>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Badge Farbe</label>
                     <select name="badge_color"
-                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-success focus:border-transparent">
+                        <option value="success">Grün</option>
+                        <option value="primary">Blau</option>
+                        <option value="accent">Orange</option>
+                        <option value="warning">Gelb</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Icon</label>
+                    <select name="icon_type"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-success focus:border-transparent">
+                        <option value="microsoft">Microsoft</option>
+                        <option value="code">Code</option>
+                        <option value="briefcase">Aktentasche</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Position</label>
+                    <input type="number" name="position" value="1" min="1"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-success focus:border-transparent">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Tags (kommagetrennt)</label>
+                <input type="text" name="tags" placeholder="Dynamics 365, C#, Power Platform"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-success focus:border-transparent">
+            </div>
+            <div class="flex gap-3">
+                <button type="submit"
+                    class="px-6 py-3 bg-success text-white rounded-lg hover:bg-green-600 transition-all font-semibold">
+                    Position speichern
+                </button>
+                <button type="button" @click="showAddForm = false"
+                    class="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all font-semibold">
+                    Abbrechen
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Edit Forms -->
+    {% for item in timeline_items %}
+    <div x-show="editingItemId === {{ item.id }}" x-cloak
+        class="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-6 mb-6 shadow-lg">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">✏️ {{ item.title }} bearbeiten</h3>
+        <form method="POST" action="{{ url_for('admin.update_timeline_item', item_id=item.id) }}" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Position *</label>
+                    <input type="text" name="title" value="{{ item.title }}" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Unternehmen *</label>
+                    <input type="text" name="company" value="{{ item.company }}" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Von *</label>
+                        <input type="text" name="period_start" value="{{ item.period_start }}" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Bis *</label>
+                        <input type="text" name="period_end" value="{{ item.period_end }}" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Beschreibung *</label>
+                <textarea name="description" rows="3" required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">{{ item.description }}</textarea>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Badge Text</label>
+                    <input type="text" name="badge" value="{{ item.badge or '' }}"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Badge Farbe</label>
+                    <select name="badge_color"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                         <option value="success" {% if item.badge_color=='success' %}selected{% endif %}>Grün</option>
                         <option value="primary" {% if item.badge_color=='primary' %}selected{% endif %}>Blau</option>
                         <option value="accent" {% if item.badge_color=='accent' %}selected{% endif %}>Orange</option>
                         <option value="warning" {% if item.badge_color=='warning' %}selected{% endif %}>Gelb</option>
                     </select>
                 </div>
-
-                <!-- Icon & Position -->
                 <div>
-                    <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-                        Icon
-                    </label>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Icon</label>
                     <select name="icon_type"
-                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                         <option value="microsoft" {% if item.icon_type=='microsoft' %}selected{% endif %}>Microsoft
                         </option>
                         <option value="code" {% if item.icon_type=='code' %}selected{% endif %}>Code</option>
@@ -111,50 +166,135 @@
                         </option>
                     </select>
                 </div>
-
                 <div>
-                    <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-                        Sortierung
-                    </label>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Position</label>
                     <input type="number" name="position" value="{{ item.position }}" required min="1"
-                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
-                </div>
-
-                <!-- Tags -->
-                <div class="md:col-span-2">
-                    <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-                        Tags (kommagetrennt)
-                    </label>
-                    <input type="text" name="tags" value="{{ item.tags or '' }}"
-                        placeholder="Dynamics 365,C#,Power Platform"
-                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                 </div>
             </div>
-
-            <!-- Actions -->
-            <div class="flex gap-3 pt-4 border-t-2 border-gray-100">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Tags (kommagetrennt)</label>
+                <input type="text" name="tags" value="{{ item.tags or '' }}"
+                    placeholder="Dynamics 365, C#, Power Platform"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+            <div class="flex gap-3">
                 <button type="submit"
-                    class="flex-1 bg-gradient-to-r from-primary to-accent text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all">
-                    Speichern
+                    class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-blue-600 transition-all font-semibold">
+                    Änderungen speichern
                 </button>
-                <a href="{{ url_for('admin.delete_timeline_item', item_id=item.id) }}"
-                    onclick="return confirm('Wirklich löschen?')"
-                    class="px-6 py-3 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-colors">
-                    Löschen
-                </a>
+                <button type="button" @click="editingItemId = null"
+                    class="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all font-semibold">
+                    Abbrechen
+                </button>
             </div>
         </form>
     </div>
     {% endfor %}
 
-    <!-- Add New Button -->
-    <div class="mt-6">
-        <a href="{{ url_for('admin.add_timeline_item') }}"
-            class="inline-flex items-center gap-2 bg-gradient-to-r from-success to-green-400 text-white px-8 py-4 rounded-xl font-bold shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+    <!-- Timeline Items as Cards -->
+    <div class="space-y-3">
+        {% for item in timeline_items %}
+        <div class="group relative bg-gradient-to-r 
+            {% if item.badge_color == 'success' %}from-success/5 to-green-50 border-l-4 border-success
+            {% elif item.badge_color == 'primary' %}from-primary/5 to-blue-50 border-l-4 border-primary
+            {% elif item.badge_color == 'accent' %}from-accent/5 to-orange-50 border-l-4 border-accent
+            {% elif item.badge_color == 'warning' %}from-warning/5 to-yellow-50 border-l-4 border-warning
+            {% else %}from-gray-50 to-gray-100 border-l-4 border-gray-400{% endif %} 
+            rounded-xl p-4 shadow hover:shadow-xl transition-all">
+
+            <!-- Action Buttons -->
+            <div class="absolute top-3 right-3 flex gap-1">
+                <button @click="editingItemId = {{ item.id }}; showAddForm = false"
+                    class="opacity-0 group-hover:opacity-100 transition-opacity p-2 bg-primary text-white rounded-lg hover:bg-blue-600"
+                    title="Bearbeiten">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                </button>
+                <a href="{{ url_for('admin.delete_timeline_item', item_id=item.id) }}"
+                    onclick="return confirm('{{ item.title }} wirklich löschen?')"
+                    class="opacity-0 group-hover:opacity-100 transition-opacity p-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                    title="Löschen">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Content -->
+            <div class="pr-20">
+                <div class="flex items-start gap-3 mb-2">
+                    <!-- Icon -->
+                    <div class="w-10 h-10 rounded-lg 
+                        {% if item.badge_color == 'success' %}bg-success/10 text-success
+                        {% elif item.badge_color == 'primary' %}bg-primary/10 text-primary
+                        {% elif item.badge_color == 'accent' %}bg-accent/10 text-accent
+                        {% elif item.badge_color == 'warning' %}bg-warning/10 text-warning
+                        {% else %}bg-gray-200 text-gray-600{% endif %}
+                        flex items-center justify-center flex-shrink-0">
+                        {% if item.icon_type == 'microsoft' %}
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zm12.6 0H12.6V0H24v11.4z" />
+                        </svg>
+                        {% elif item.icon_type == 'code' %}
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                        {% else %}
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        {% endif %}
+                    </div>
+
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                            <h4 class="text-lg font-bold text-gray-800">{{ item.title }}</h4>
+                            {% if item.badge %}
+                            <span class="px-2 py-0.5 text-xs font-semibold rounded-full
+                                {% if item.badge_color == 'success' %}bg-success text-white
+                                {% elif item.badge_color == 'primary' %}bg-primary text-white
+                                {% elif item.badge_color == 'accent' %}bg-accent text-white
+                                {% elif item.badge_color == 'warning' %}bg-warning text-white
+                                {% else %}bg-gray-400 text-white{% endif %}">
+                                {{ item.badge }}
+                            </span>
+                            {% endif %}
+                        </div>
+                        <p class="text-sm font-semibold text-gray-700">{{ item.company }}</p>
+                        <p class="text-sm text-gray-500">{{ item.period_start }} - {{ item.period_end }}</p>
+                        <p class="text-sm text-gray-600 mt-2">{{ item.description }}</p>
+
+                        {% if item.tags %}
+                        <div class="flex flex-wrap gap-1 mt-2">
+                            {% for tag in item.tags.split(',') %}
+                            <span class="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded">{{ tag.strip() }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% if not timeline_items %}
+        <div class="text-center py-12 bg-gray-50 rounded-xl">
+            <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            Neuen Eintrag hinzufügen
-        </a>
+            <p class="text-gray-500 text-lg mb-4">Noch keine Timeline-Einträge vorhanden</p>
+            <button @click="showAddForm = true" class="px-6 py-2 bg-success text-white rounded-lg hover:bg-green-600">
+                Ersten Eintrag hinzufügen
+            </button>
+        </div>
+        {% endif %}
     </div>
 </div>
