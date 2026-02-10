@@ -126,7 +126,7 @@ def index():
     # Timeline-Daten laden
     timeline_items = (
         TimelineItem.query.filter_by(is_active=True)
-        .order_by(TimelineItem.position)
+        .order_by(getattr(TimelineItem, "position"))
         .all()
     )
 
@@ -158,40 +158,6 @@ def request_access():
 
     if not name or not email:
         flash("Bitte geben Sie Name und E-Mail-Adresse an.", "error")
-        return redirect(url_for("main.index"))
-
-    # Prüfen, ob bereits eine Anfrage mit dieser E-Mail existiert
-    existing_request = AccessRequest.query.filter_by(email=email).first()
-
-    if existing_request:
-        # Anfrage existiert bereits
-        if existing_request.status == "approved":
-            flash("Sie haben bereits Zugriff. Bitte loggen Sie sich ein.", "info")
-        elif existing_request.status == "pending":
-            flash(
-                "Ihre Anfrage wurde bereits gesendet und wird bearbeitet. Bitte haben Sie etwas Geduld.",
-                "info",
-            )
-        elif existing_request.status == "rejected":
-            # Abgelehnte Anfrage - erneute Anfrage erlauben
-            existing_request.name = name
-            existing_request.message = message
-            existing_request.status = "pending"
-            existing_request.created_at = datetime.now()
-            db.session.commit()
-
-            # E-Mail an Admin senden
-            try:
-                from app.email_utils import send_admin_notification
-
-                send_admin_notification(existing_request)
-            except Exception as e:
-                print(f"E-Mail konnte nicht gesendet werden: {e}")
-
-            flash("Ihre erneute Anfrage wurde erfolgreich gesendet.", "success")
-        else:
-            flash("Für diese E-Mail-Adresse existiert bereits eine Anfrage.", "info")
-
         return redirect(url_for("main.index"))
 
     # Neue Anfrage erstellen

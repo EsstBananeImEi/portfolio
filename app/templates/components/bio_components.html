@@ -1,7 +1,7 @@
 {# templates/components/bio_components.html #}
 
 {% macro bio_section(contact, about, stats, timeline_items=[], show_timeline=False) %}
-<header id="hero" class="relative py-20 md:py-32 animate-section overflow-hidden">
+<header id="hero" class="relative py-10 md:py-16 animate-section overflow-hidden">
     <!-- Gradient Overlay Background -->
     <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-success/10"></div>
 
@@ -164,7 +164,7 @@
 
         <!-- Werdegang (expandierbar) -->
         {% if show_timeline %}
-        <div class="mt-16 max-w-5xl mx-auto stagger-item" x-data="{ showTimeline: false }">
+        <div class="mt-10 max-w-5xl mx-auto stagger-item" x-data="{ showTimeline: false }">
             <button @click="showTimeline = !showTimeline"
                 class="mx-auto bg-gradient-to-r from-accent to-warning text-white px-8 py-4 rounded-xl font-bold flex items-center gap-3 shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -312,7 +312,7 @@
         {% endif %}
 
         <!-- Vollständige Bio (optional expandierbar) -->
-        <div class="mt-16 max-w-4xl mx-auto stagger-item" x-data="{ showFullBio: false }">
+        <div class="mt-10 max-w-4xl mx-auto stagger-item" x-data="{ showFullBio: false }">
             <button @click="showFullBio = !showFullBio"
                 class="text-primary hover:text-accent font-semibold flex items-center mx-auto space-x-2 mb-4 transition-colors">
                 <span>Mehr über mich erfahren</span>

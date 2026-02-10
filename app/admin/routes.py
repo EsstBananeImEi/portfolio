@@ -62,7 +62,7 @@ def dashboard():
 
     timeline_items = (
         TimelineItem.query.filter_by(is_active=True)
-        .order_by(TimelineItem.position)
+        .order_by(getattr(TimelineItem, "position"))
         .all()
     )
 
@@ -73,6 +73,7 @@ def dashboard():
     portfolio_projects = []
     github_projects = []
     skills = []
+    certs = []
 
     try:
         with open(data_dir / "projects.json", "r", encoding="utf-8") as f:
@@ -92,8 +93,25 @@ def dashboard():
     except Exception as e:
         flash(f"Fehler beim Laden der Skills: {str(e)}", "error")
 
+    try:
+        with open(data_dir / "certs.json", "r", encoding="utf-8") as f:
+            certs = json.load(f)
+    except Exception as e:
+        flash(f"Fehler beim Laden der Zertifikate: {str(e)}", "error")
+
     # Certifications laden
-    certifications = Certification.query.order_by(Certification.date.desc()).all()
+    certifications = Certification.query.order_by(
+        getattr(Certification, "date").desc()
+    ).all()
+
+    # Backup-Tab: Statistiken
+    bio_count = 1 if about else 0
+    timeline_count = len(timeline_items)
+    access_count = len(requests)
+    projects_count = len(portfolio_projects)
+    github_count = len(github_projects)
+    skills_count = len(skills)
+    certs_count = len(certs)
 
     active_tab = request.args.get("active_tab", "bio")
 
@@ -110,6 +128,14 @@ def dashboard():
         github_projects=github_projects,
         skills=skills,
         certifications=certifications,
+        # Backup-Tab Statistiken
+        bio_count=bio_count,
+        timeline_count=timeline_count,
+        access_count=access_count,
+        projects_count=projects_count,
+        github_count=github_count,
+        skills_count=skills_count,
+        certs_count=certs_count,
     )
 
 
@@ -331,7 +357,9 @@ def add_timeline_item():
 
     # GET: Formular anzeigen
     # Nächste Position ermitteln
-    max_position = db.session.query(db.func.max(TimelineItem.position)).scalar() or 0
+    max_position = (
+        db.session.query(db.func.max(getattr(TimelineItem, "position"))).scalar() or 0
+    )
     next_position = max_position + 1
 
     return render_template(
@@ -1028,7 +1056,7 @@ def import_projects():
         return redirect(url_for("admin.dashboard", active_tab="projects"))
 
     file = request.files["file"]
-    if file.filename == "":
+    if file.filename == "" or file.filename is None:
         flash("Keine Datei ausgewählt.", "error")
         return redirect(url_for("admin.dashboard", active_tab="projects"))
 
@@ -1120,7 +1148,7 @@ def import_github_projects():
         return redirect(url_for("admin.dashboard", active_tab="projects"))
 
     file = request.files["file"]
-    if file.filename == "":
+    if file.filename == "" or file.filename is None:
         flash("Keine Datei ausgewählt.", "error")
         return redirect(url_for("admin.dashboard", active_tab="projects"))
 
@@ -1198,7 +1226,7 @@ def import_skills():
         return redirect(url_for("admin.dashboard", active_tab="backup"))
 
     file = request.files["file"]
-    if file.filename == "":
+    if file.filename == "" or file.filename is None:
         flash("Keine Datei ausgewählt.", "error")
         return redirect(url_for("admin.dashboard", active_tab="backup"))
 
@@ -1248,7 +1276,7 @@ def import_certs():
         return redirect(url_for("admin.dashboard", active_tab="backup"))
 
     file = request.files["file"]
-    if file.filename == "":
+    if file.filename == "" or file.filename is None:
         flash("Keine Datei ausgewählt.", "error")
         return redirect(url_for("admin.dashboard", active_tab="backup"))
 
@@ -1310,25 +1338,27 @@ def export_all_data():
     about = About.query.first()
     if about:
         data["bio"] = {
-            "name": about.name,
-            "title": about.title,
-            "description": about.description,
-            "image": about.image,
+            "name": getattr(about, "name", None),
+            "title": getattr(about, "title", None),
+            "description": getattr(about, "description", None),
+            "image": getattr(about, "image", None),
         }
 
     # Timeline
-    timeline_items = TimelineItem.query.order_by(TimelineItem.position).all()
+    timeline_items = TimelineItem.query.order_by(
+        getattr(TimelineItem, "position")
+    ).all()
     for item in timeline_items:
         data["timeline"].append(
             {
-                "id": item.id,
-                "title": item.title,
-                "organization": item.organization,
-                "date": item.date,
-                "description": item.description,
-                "icon": item.icon,
-                "position": item.position,
-                "is_active": item.is_active,
+                "id": getattr(item, "id", None),
+                "title": getattr(item, "title", None),
+                "organization": getattr(item, "organization", None),
+                "date": getattr(item, "date", None),
+                "description": getattr(item, "description", None),
+                "icon": getattr(item, "icon", None),
+                "position": getattr(item, "position", None),
+                "is_active": getattr(item, "is_active", None),
             }
         )
 
@@ -1336,12 +1366,12 @@ def export_all_data():
     contact = Contact.query.first()
     if contact:
         data["contact"] = {
-            "email": contact.email,
-            "phone": contact.phone,
-            "location": contact.location,
-            "github": contact.github,
-            "linkedin": contact.linkedin,
-            "twitter": contact.twitter,
+            "vorname": getattr(contact, "vorname", None),
+            "nachname": getattr(contact, "nachname", None),
+            "email": getattr(contact, "email", None),
+            "linkedin": getattr(contact, "linkedin", None),
+            "github": getattr(contact, "github", None),
+            "profile_image": getattr(contact, "profile_image", None),
         }
 
     # Access Requests
@@ -1349,11 +1379,20 @@ def export_all_data():
     for req in requests:
         data["access_requests"].append(
             {
-                "id": req.id,
-                "email": req.email,
-                "created_at": req.created_at.isoformat() if req.created_at else None,
-                "expires_at": req.expires_at.isoformat() if req.expires_at else None,
-                "is_used": req.is_used,
+                "id": getattr(req, "id", None),
+                "email": getattr(req, "email", None),
+                "created_at": (
+                    req.created_at.isoformat()
+                    if getattr(req, "created_at", None)
+                    else None
+                ),
+                "token_expires": (
+                    req.token_expires.isoformat()
+                    if getattr(req, "token_expires", None)
+                    else None
+                ),
+                "is_active": getattr(req, "is_active", None),
+                "status": getattr(req, "status", None),
             }
         )
 
@@ -1374,9 +1413,15 @@ def export_all_data():
         if file_path.exists():
             try:
                 with open(file_path, "r", encoding="utf-8") as f:
-                    data[key] = json.load(f)
+                    file_content = f.read().strip()
+                    if file_content:
+                        data[key] = json.loads(file_content)
+                    else:
+                        data[key] = []
             except Exception as e:
                 data[key] = {"error": str(e)}
+        else:
+            data[key] = []
 
     # JSON erstellen
     json_data = json.dumps(data, ensure_ascii=False, indent=2)
@@ -1411,28 +1456,34 @@ def export_data(data_type):
         about = About.query.first()
         if about:
             data["data"] = {
-                "name": about.name,
-                "title": about.title,
-                "description": about.description,
-                "image": about.image,
+                "greeting": about.greeting,
+                "shortDescription": about.short_description,
+                "bio": about.bio,
+                "role": about.role,
+                "dynamics365Since": about.dynamics365_since,
             }
+        else:
+            data["data"] = {}
 
     elif data_type == "timeline":
-        timeline_items = TimelineItem.query.order_by(TimelineItem.position).all()
+        timeline_items = TimelineItem.query.order_by(
+            getattr(TimelineItem, "position")
+        ).all()
         data["data"] = []
         for item in timeline_items:
             data["data"].append(
                 {
                     "id": item.id,
                     "title": item.title,
-                    "organization": item.organization,
-                    "date": item.date,
+                    "organization": getattr(item, "organization", None),
+                    "date": getattr(item, "date", None),
                     "description": item.description,
-                    "icon": item.icon,
+                    "icon": getattr(item, "icon", None),
                     "position": item.position,
                     "is_active": item.is_active,
                 }
             )
+        # Falls keine Timeline-Items vorhanden, bleibt data["data"] leeres Array
 
     elif data_type == "contact":
         contact = Contact.query.first()
@@ -1445,6 +1496,8 @@ def export_data(data_type):
                 "linkedin": contact.linkedin,
                 "twitter": contact.twitter,
             }
+        else:
+            data["data"] = {}
 
     elif data_type == "access_requests":
         requests = AccessRequest.query.all()
@@ -1460,9 +1513,10 @@ def export_data(data_type):
                     "expires_at": (
                         req.expires_at.isoformat() if req.expires_at else None
                     ),
-                    "is_used": req.is_used,
+                    "is_used": getattr(req, "is_used", None),
                 }
             )
+        # Falls keine Requests vorhanden, bleibt data["data"] leeres Array
 
     elif data_type in ["projects", "github_projects", "skills", "certs"]:
         # JSON-Datei lesen

@@ -46,6 +46,10 @@
                 <input type="password" name="password" id="password" required x-model="password"
                     class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-success focus:border-success transition-all"
                     placeholder="••••••••">
+                <div class="text-right mt-2">
+                    <a href="{{ url_for('reset.forgot_password') }}"
+                        class="text-xs text-accent hover:underline font-semibold">Passwort vergessen?</a>
+                </div>
             </div>
             <button type="submit" :disabled="email === '' || password === ''"
                 :class="(email === '' || password === '')

@@ -111,7 +111,8 @@
                 </label>
                 <form method="POST" action="{{ url_for('admin.import_projects') }}" enctype="multipart/form-data"
                     style="display: none;">
-                    <input type="file" id="import-projects" name="file" accept=".json" onchange="this.form.submit()">
+                    <input type="file" id="import-projects" name="file" accept=".json"
+                        onchange="showImportSpinner(); this.form.submit();">
                 </form>
             </div>
 
@@ -137,7 +138,7 @@
                 <form method="POST" action="{{ url_for('admin.import_github_projects') }}" enctype="multipart/form-data"
                     style="display: none;">
                     <input type="file" id="import-github-projects" name="file" accept=".json"
-                        onchange="this.form.submit()">
+                        onchange="showImportSpinner(); this.form.submit();">
                 </form>
             </div>
 
@@ -163,7 +164,8 @@
                 </label>
                 <form method="POST" action="{{ url_for('admin.import_skills') }}" enctype="multipart/form-data"
                     style="display: none;">
-                    <input type="file" id="import-skills" name="file" accept=".json" onchange="this.form.submit()">
+                    <input type="file" id="import-skills" name="file" accept=".json"
+                        onchange="showImportSpinner(); this.form.submit();">
                 </form>
             </div>
 
@@ -189,62 +191,96 @@
                 </label>
                 <form method="POST" action="{{ url_for('admin.import_certs') }}" enctype="multipart/form-data"
                     style="display: none;">
-                    <input type="file" id="import-certs" name="file" accept=".json" onchange="this.form.submit()">
+                    <input type="file" id="import-certs" name="file" accept=".json"
+                        onchange="showImportSpinner(); this.form.submit();">
                 </form>
             </div>
-        </div>
-
-        <!-- Info Box -->
-        <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 mt-6">
-            <div class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <div class="text-sm text-gray-700">
-                    <p class="font-semibold mb-1">💡 Import-Hinweise:</p>
-                    <ul class="list-disc list-inside space-y-1 text-gray-600">
-                        <li>JSON-Dateien müssen ein Array oder ein Export-Format mit "data"-Key enthalten</li>
-                        <li>Der Import überschreibt die vorhandenen Daten - vorher Backup erstellen!</li>
-                        <li>Die Datei wird automatisch nach dem Auswählen hochgeladen</li>
-                    </ul>
+            <!-- Import Spinner Overlay -->
+            <div id="import-spinner-overlay"
+                style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(255,255,255,0.7); z-index:9999; align-items:center; justify-content:center;">
+                <div class="flex flex-col items-center justify-center h-full">
+                    <svg class="animate-spin h-12 w-12 text-primary mb-4" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                    </svg>
+                    <span class="text-primary text-lg font-semibold">Import läuft...</span>
                 </div>
             </div>
+            <script>
+                function showImportSpinner() {
+                    document.getElementById('import-spinner-overlay').style.display = 'flex';
+                }
+            </script>
         </div>
     </div>
 
-    <!-- Database Info -->
-    <div
-        class="bg-white dark:bg-gray-700 rounded-2xl shadow-xl p-8 border-l-4 border-success transition-colors duration-300">
-        <div class="flex items-center gap-3 mb-6">
-            <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <!-- Info Box -->
+    <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 mt-6">
+        <div class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <div>
-                <h3 class="text-2xl font-bold text-gray-900">Datenbank-Informationen</h3>
-                <p class="text-gray-600 text-sm">Übersicht über gespeicherte Daten</p>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-primary/10 rounded-lg p-4 text-center">
-                <div class="text-3xl font-bold text-primary mb-1">1</div>
-                <div class="text-sm text-gray-600">Bio-Einträge</div>
-            </div>
-            <div class="bg-success/10 rounded-lg p-4 text-center">
-                <div class="text-3xl font-bold text-success mb-1">{{ timeline_items|length }}</div>
-                <div class="text-sm text-gray-600">Timeline-Items</div>
-            </div>
-            <div class="bg-accent/10 rounded-lg p-4 text-center">
-                <div class="text-3xl font-bold text-accent mb-1">{{ requests|length }}</div>
-                <div class="text-sm text-gray-600">Zugriffsanfragen</div>
-            </div>
-            <div class="bg-warning/10 rounded-lg p-4 text-center">
-                <div class="text-3xl font-bold text-warning mb-1">∞</div>
-                <div class="text-sm text-gray-600">Projekte (JSON)</div>
+            <div class="text-sm text-gray-700">
+                <p class="font-semibold mb-1">💡 Import-Hinweise:</p>
+                <ul class="list-disc list-inside space-y-1 text-gray-600">
+                    <li>JSON-Dateien müssen ein Array oder ein Export-Format mit "data"-Key enthalten</li>
+                    <li>Der Import überschreibt die vorhandenen Daten - vorher Backup erstellen!</li>
+                    <li>Die Datei wird automatisch nach dem Auswählen hochgeladen</li>
+                </ul>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Database Info -->
+
+<div class="mt-10"></div>
+<div
+    class="bg-white dark:bg-gray-700 rounded-2xl shadow-xl p-8 border-l-4 border-success transition-colors duration-300">
+    <div class="flex items-center gap-3 mb-6">
+        <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+        </svg>
+        <div>
+            <h3 class="text-2xl font-bold text-gray-900">Datenbank-Informationen</h3>
+            <p class="text-gray-600 text-sm">Übersicht über gespeicherte Daten</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
+        <div class="bg-primary/10 rounded-lg p-4 text-center">
+            <div class="text-3xl font-bold text-primary mb-1">{{ bio_count }}</div>
+            <div class="text-sm text-gray-600">Bio-Einträge</div>
+        </div>
+        <div class="bg-success/10 rounded-lg p-4 text-center">
+            <div class="text-3xl font-bold text-success mb-1">{{ timeline_count }}</div>
+            <div class="text-sm text-gray-600">Timeline-Items</div>
+        </div>
+        <div class="bg-accent/10 rounded-lg p-4 text-center">
+            <div class="text-3xl font-bold text-accent mb-1">{{ access_count }}</div>
+            <div class="text-sm text-gray-600">Zugriffsanfragen</div>
+        </div>
+        <div class="bg-warning/10 rounded-lg p-4 text-center">
+            <div class="text-3xl font-bold text-warning mb-1">{{ projects_count }}</div>
+            <div class="text-sm text-gray-600">Portfolio-Projekte</div>
+        </div>
+        <div class="bg-orange-200 rounded-lg p-4 text-center">
+            <div class="text-3xl font-bold text-orange-600 mb-1">{{ github_count }}</div>
+            <div class="text-sm text-gray-600">GitHub-Projekte</div>
+        </div>
+        <div class="bg-green-200 rounded-lg p-4 text-center">
+            <div class="text-3xl font-bold text-green-600 mb-1">{{ skills_count }}</div>
+            <div class="text-sm text-gray-600">Skills</div>
+        </div>
+        <div class="bg-yellow-100 rounded-lg p-4 text-center">
+            <div class="text-3xl font-bold text-yellow-600 mb-1">{{ certs_count }}</div>
+            <div class="text-sm text-gray-600">Zertifikate</div>
+        </div>
+    </div>
+</div>
 </div>

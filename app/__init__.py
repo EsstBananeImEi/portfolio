@@ -45,9 +45,11 @@ def create_app():
     from app.main.routes import main
     from app.auth.routes import auth
     from app.admin.routes import admin
+    from app.auth.reset_password import reset
 
     app.register_blueprint(main)
     app.register_blueprint(auth, url_prefix="/auth")
     app.register_blueprint(admin)
+    app.register_blueprint(reset, url_prefix="/auth")
 
     return app

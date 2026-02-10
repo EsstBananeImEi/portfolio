@@ -67,6 +67,26 @@ class GitHubProject(db.Model):
     logo = db.Column(db.String(255), nullable=False)
     wip = db.Column(db.Boolean, nullable=False)
 
+    def __init__(
+        self,
+        title,
+        shortDescription,
+        description,
+        link,
+        technologien,
+        logo,
+        wip=False,
+        types=None,
+    ):
+        self.title = title
+        self.shortDescription = shortDescription
+        self.description = description
+        self.link = link
+        self.technologien = technologien
+        self.logo = logo
+        self.wip = wip
+        self.types = types
+
 
 class Skill(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -78,6 +98,15 @@ class Skill(db.Model):
     link = db.Column(db.String(255), nullable=False)
     category = db.Column(db.String(255), nullable=False, default="tools")
 
+    def __init__(self, name, level, icon, info, description, link, category="tools"):
+        self.name = name
+        self.level = level
+        self.icon = icon
+        self.info = info
+        self.description = description
+        self.link = link
+        self.category = category
+
 
 class Certification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -86,6 +115,13 @@ class Certification(db.Model):
     date = db.Column(db.String(255), nullable=False)
     link = db.Column(db.String(255), nullable=True)
     image = db.Column(db.String(255), nullable=False)
+
+    def __init__(self, name, description, date, image, link=None):
+        self.name = name
+        self.description = description
+        self.date = date
+        self.link = link
+        self.image = image
 
 
 class TimelineItem(db.Model):
@@ -108,6 +144,32 @@ class TimelineItem(db.Model):
     )  # Komma-getrennt: "Dynamics 365,C#,Power Platform"
     is_active = db.Column(db.Boolean, nullable=False, default=True)
 
+    def __init__(
+        self,
+        position,
+        period_start,
+        period_end,
+        title,
+        company,
+        description,
+        badge=None,
+        badge_color=None,
+        icon_type=None,
+        tags=None,
+        is_active=True,
+    ):
+        self.position = position
+        self.period_start = period_start
+        self.period_end = period_end
+        self.title = title
+        self.company = company
+        self.description = description
+        self.badge = badge
+        self.badge_color = badge_color
+        self.icon_type = icon_type
+        self.tags = tags
+        self.is_active = is_active
+
 
 class AccessRequest(db.Model, UserMixin):
     """Anfragen für Zugriff auf die Portfolio-Projekte - mit Login-Funktionalität"""
@@ -127,6 +189,13 @@ class AccessRequest(db.Model, UserMixin):
     password_hash = db.Column(db.String(256), nullable=True)  # Verschlüsseltes Passwort
     is_active = db.Column(db.Boolean, nullable=False, default=False)  # Account aktiv?
     last_login = db.Column(db.DateTime, nullable=True)  # Letzter Login
+
+    def __init__(self, name, email, message=None, status="pending"):
+        self.name = name
+        self.email = email
+        self.message = message
+        self.status = status
+        super().__init__()
 
     def is_access_valid(self):
         """Prüft ob der Zugriff noch gültig ist (für Projektzugriff)"""
