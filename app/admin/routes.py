@@ -159,6 +159,59 @@ def delete_about():
     return redirect(url_for("admin.dashboard", active_tab="bio"))
 
 
+@admin.route("/contact/profile-image", methods=["POST"])
+@login_required
+def update_contact_profile_image():
+    """Profilbild-Pfad fuer Contact aktualisieren (DB + contact.json)."""
+    from flask_login import current_user
+    from pathlib import Path
+
+    if not (hasattr(current_user, "get_id") and current_user.get_id() == "1"):
+        flash("Zugriff verweigert.", "error")
+        return redirect(url_for("main.index"))
+
+    profile_image = (request.form.get("profile_image") or "").strip()
+    if not profile_image:
+        flash("Bitte einen gueltigen Bildpfad angeben.", "error")
+        return redirect(url_for("admin.dashboard", active_tab="bio"))
+
+    try:
+        contact = Contact.query.first()
+        if not contact:
+            flash("Kein Contact-Datensatz gefunden.", "error")
+            return redirect(url_for("admin.dashboard", active_tab="bio"))
+
+        contact.profile_image = profile_image
+        db.session.commit()
+
+        # JSON als sekundaere Quelle synchron halten.
+        data_dir = Path(__file__).parent.parent / "data"
+        contact_file = data_dir / "contact.json"
+        try:
+            with open(contact_file, "r", encoding="utf-8") as f:
+                contact_data = json.load(f)
+        except Exception:
+            contact_data = {
+                "vorname": contact.vorname,
+                "nachname": contact.nachname,
+                "email": contact.email,
+                "linkedin": contact.linkedin,
+                "github": contact.github,
+            }
+
+        contact_data["profile_image"] = profile_image
+
+        with open(contact_file, "w", encoding="utf-8") as f:
+            json.dump(contact_data, f, ensure_ascii=False, indent=2)
+
+        flash("Profilbild wurde aktualisiert.", "success")
+    except Exception as e:
+        db.session.rollback()
+        flash(f"Fehler beim Aktualisieren des Profilbilds: {str(e)}", "error")
+
+    return redirect(url_for("admin.dashboard", active_tab="bio"))
+
+
 @admin.route("/access-requests")
 @login_required
 def access_requests():
