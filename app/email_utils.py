@@ -1,45 +1,47 @@
 """
-E-Mail Utilities via Resend API
+E-Mail Utilities via SMTP (Strato)
 """
 
 import os
-import requests
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from flask import current_app
-
-RESEND_API_KEY = os.getenv("RESEND_API_KEY")
-FROM_EMAIL = os.getenv("MAIL_FROM", "portfolio@meinedevpath.de")
 
 
 def _send_email(to, subject, html, text=None):
-    """Sendet eine E-Mail über die Resend API"""
-    if not RESEND_API_KEY:
-        print("⚠ RESEND_API_KEY nicht konfiguriert")
+    """Sendet eine E-Mail über SMTP"""
+    smtp_host = os.getenv("MAIL_SERVER", "smtp.strato.de")
+    smtp_port = int(os.getenv("MAIL_PORT", "465"))
+    smtp_user = os.getenv("MAIL_USERNAME")
+    smtp_pass = os.getenv("MAIL_PASSWORD")
+    from_email = os.getenv("MAIL_FROM", smtp_user)
+
+    if not smtp_user or not smtp_pass:
+        print("⚠ MAIL_USERNAME oder MAIL_PASSWORD nicht konfiguriert")
         return False
 
-    payload = {
-        "from": FROM_EMAIL,
-        "to": [to] if isinstance(to, str) else to,
-        "subject": subject,
-        "html": html,
-    }
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"] = from_email
+    msg["To"] = to if isinstance(to, str) else ", ".join(to)
+
     if text:
-        payload["text"] = text
+        msg.attach(MIMEText(text, "plain"))
+    msg.attach(MIMEText(html, "html"))
 
     try:
-        resp = requests.post(
-            "https://api.resend.com/emails",
-            headers={
-                "Authorization": f"Bearer {RESEND_API_KEY}",
-                "Content-Type": "application/json",
-            },
-            json=payload,
-        )
-        if resp.status_code == 200:
-            print(f"✓ E-Mail an {to} gesendet")
-            return True
+        if smtp_port == 465:
+            server = smtplib.SMTP_SSL(smtp_host, smtp_port)
         else:
-            print(f"✗ Resend-Fehler: {resp.status_code} {resp.text}")
-            return False
+            server = smtplib.SMTP(smtp_host, smtp_port)
+            server.starttls()
+        server.login(smtp_user, smtp_pass)
+        recipients = [to] if isinstance(to, str) else to
+        server.sendmail(from_email, recipients, msg.as_string())
+        server.quit()
+        print(f"✓ E-Mail an {to} gesendet")
+        return True
     except Exception as e:
         print(f"✗ Fehler beim Senden: {e}")
         return False
