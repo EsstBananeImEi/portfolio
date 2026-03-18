@@ -2,10 +2,12 @@
     <img src="/app/static/images/LOGONEU.svg" width="256"/>
 </p>
 
+
+
 # Portfolio Webanwendung
 
 Diese moderne und interaktive Portfolio-Webanwendung wurde mit Flask und Jinja2 entwickelt und bietet Entwicklern eine ansprechende Plattform, um Projekte, Fähigkeiten und Kontaktinformationen professionell zu präsentieren. Dank eines responsiven Designs mit Tailwind CSS und interaktiven Komponenten via Alpine.js überzeugt die Anwendung durch ihre klare Struktur und Benutzerfreundlichkeit. Ideal für den Einsatz auf modernen Deployment-Plattformen wie Render oder Heroku, ermöglicht sie eine unkomplizierte Bereitstellung und Wartung.
-
+ 
 ## ✨ Highlights
 
 - Entwickelt mit **Flask** und **Jinja2 Templates**  
