@@ -160,13 +160,30 @@ def request_access():
         flash("Bitte geben Sie Name und E-Mail-Adresse an.", "error")
         return redirect(url_for("main.index"))
 
+    # Prüfen ob E-Mail bereits existiert
+    existing = AccessRequest.query.filter_by(email=email).first()
+    if existing:
+        if existing.status == "approved":
+            flash("Diese E-Mail-Adresse hat bereits Zugriff.", "info")
+        else:
+            flash(
+                "Für diese E-Mail-Adresse liegt bereits eine Anfrage vor.",
+                "info",
+            )
+        return redirect(url_for("main.index"))
+
     # Neue Anfrage erstellen
     access_request = AccessRequest(
         name=name, email=email, message=message, status="pending"
     )
 
-    db.session.add(access_request)
-    db.session.commit()
+    try:
+        db.session.add(access_request)
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        flash("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.", "error")
+        return redirect(url_for("main.index"))
 
     # E-Mail an Admin senden
     try:
