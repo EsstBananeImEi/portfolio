@@ -2,19 +2,20 @@ import os
 
 
 class Config:
-    DEBUG = True
+    DEBUG = os.getenv("FLASK_DEBUG", "true").lower() == "true"
     TEMPLATES_AUTO_RELOAD = True
 
     # Session-Konfiguration (für Token-Speicherung)
     SECRET_KEY = os.getenv("SECRET_KEY", "123")
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
-    SESSION_COOKIE_SECURE = False  # Für HTTPS auf True setzen
+    SESSION_COOKIE_SECURE = os.getenv("SESSION_COOKIE_SECURE", "false").lower() == "true"
     SESSION_TYPE = "sqlalchemy"  # Sessions in der Datenbank statt im Dateisystem
     PERMANENT_SESSION_LIFETIME = 86400  # Session läuft nach 24 Stunden ab
     DATABASE_URI = os.getenv(
         "DATABASE_URI", "sqlite:////mnt/d/Projects/portfolio/portfolio.db"
     )  # Standard-Datenbank, kann in __init__.py überschrieben werden
+    # Für Vercel/Supabase: postgresql://postgres.loderdjtedudehvmpbjr:PASSWORD@aws-0-eu-central-1.pooler.supabase.com:6543/postgres
 
     # E-Mail-Konfiguration für automatische Benachrichtigungen
     MAIL_SERVER = os.getenv("MAIL_SERVER", "smtp.gmail.com")
